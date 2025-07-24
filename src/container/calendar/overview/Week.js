@@ -409,22 +409,22 @@ function WeekCalendar() {
       </div>
       <table className="table-event event-week table-responsive" width="100%">
         <thead>
-          <tr>
-            <th>&nbsp;</th>
-            {daysOfWeek().map(day => {
-              return (
-                <th key={day}>
-                  <p className="week-dayName">{moment(day).format('dddd')}</p>
-                  <p className={moment().format('MM/DD/YYYY') === day ? 'week-date primary' : 'week-date deactivate'}>
-                    {moment(day).format('DD MMM')}
-                  </p>
-                </th>
-              );
-            })}
-          </tr>
+        <tr>
+          <th aria-hidden="true">&nbsp;</th>
+          {daysOfWeek().map(day => {
+            return (
+              <th key={day}>
+                <p className="week-dayName">{moment(day).format('dddd')}</p>
+                <p className={moment().format('MM/DD/YYYY') === day ? 'week-date primary' : 'week-date deactivate'}>
+                  {moment(day).format('DD MMM')}
+                </p>
+              </th>
+            );
+          })}
+        </tr>
         </thead>
         <tbody>
-          {eventTimes.map(time => {
+        {eventTimes.map(time => {
             return (
               <tr key={time}>
                 <td>{time}</td>

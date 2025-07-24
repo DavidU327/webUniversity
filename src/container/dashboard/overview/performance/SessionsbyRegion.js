@@ -214,7 +214,7 @@ function SessionsbyRegion() {
               </ComposableMap>
 
               <div className="controls">
-                <button type="button" onClick={handleZoomIn}>
+                <button type="button" onClick={handleZoomIn} aria-label="Zoom In">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -227,7 +227,7 @@ function SessionsbyRegion() {
                     <line x1="5" y1="12" x2="19" y2="12" />
                   </svg>
                 </button>
-                <button type="button" onClick={handleZoomOut}>
+                <button type="button" onClick={handleZoomOut} aria-label="Zoom Out">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

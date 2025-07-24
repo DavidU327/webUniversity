@@ -162,7 +162,7 @@ function Posts({ postId, from, time, img, like, comment, content, author }) {
                     {img.map((src, key) => {
                       return (
                         key <= 1 && (
-                          <a key={key + 1} href={require(`../../../../../${src}`)} data-attribute="SRL">
+                          <a key={key + 1} href={require(`../../../../../${src}`)} data-attribute="SRL" aria-label={`Image-${key}`}>
                             <img
                               key={key + 1}
                               style={{ width: '100%' }}
@@ -183,7 +183,7 @@ function Posts({ postId, from, time, img, like, comment, content, author }) {
                       {img.map((src, key) => {
                         return (
                           key > 1 && (
-                            <a key={key + 1} href={require(`../../../../../${src}`)} data-attribute="SRL">
+                            <a key={key + 1} href={require(`../../../../../${src}`)} data-attribute="SRL" aria-label={`Other Image-${key}`}>
                               <img
                                 key={key + 1}
                                 style={{ width: '100%' }}

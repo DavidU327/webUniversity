@@ -168,15 +168,15 @@ function DayCalendar() {
       </div>
       <table className="table-event" width="100%">
         <thead>
-          <tr>
-            <th>&nbsp;</th>
-            <th>
-              <p>{moment(defaultValue).format('dddd')}</p>
-            </th>
-          </tr>
+        <tr>
+          <th aria-hidden="true">&nbsp;</th>
+          <th>
+            <p>{moment(defaultValue).format('dddd')}</p>
+          </th>
+        </tr>
         </thead>
         <tbody>
-          {eventTimes.map((time, key) => {
+        {eventTimes.map((time, key) => {
             return (
               <tr key={key + 1}>
                 <td style={{ width: '60px' }}>{time}</td>
