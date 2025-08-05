@@ -2,13 +2,13 @@
 
 Estructura del proyecto
 
-src 
-    Views
-        Login
-            Login.js
-        Dashboard
-            componentes
-                ...js
+src \
+    Views\
+        Login\
+            Login.js\
+        Dashboard\
+            componentes\
+                ...js\
             Dashboard.js
 
 Variables y carpetas en ingles y usar CamelCase
