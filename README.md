@@ -1,3 +1,19 @@
+# Recomendaciones
+
+Estructura del proyecto
+
+src 
+    Views
+        Login
+            Login.js
+        Dashboard
+            componentes
+                ...js
+            Dashboard.js
+
+Variables y carpetas en ingles y usar CamelCase
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
