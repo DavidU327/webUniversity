@@ -7,8 +7,8 @@ import { FacebookOutlined, TwitterOutlined } from '@ant-design/icons';
 import { Auth0Lock } from 'auth0-lock';
 import { AuthWrapper } from './style';
 import { login } from '../../../../redux/authentication/actionCreator';
-import { Checkbox } from '../../../../components/checkbox/checkbox';
-import Heading from '../../../../components/heading/heading';
+import { Checkbox } from '../../../../componentsDelete/checkbox/checkbox';
+import Heading from '../../../../componentsDelete/heading/heading';
 import { auth0options } from '../../../../config/auth0';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;

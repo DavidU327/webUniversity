@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { Upload, message } from 'antd';
 import { MailBox } from './style';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 function MailComposer({ onChange, onSend, defaultTag, replay, text }) {
   const [state, setState] = useState({

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, Input, Button } from 'antd';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { BasicFormWrapper } from '../../styled';
 
 function MultiColumnForm() {

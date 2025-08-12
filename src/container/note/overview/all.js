@@ -5,8 +5,8 @@ import { SortableContainer, SortableElement, sortableHandle } from 'react-sortab
 import arrayMove from 'array-move';
 import FeatherIcon from 'feather-icons-react';
 import { NoteCardWrap } from '../style';
-import NoteCard from '../../../components/note/Card';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import NoteCard from '../../../componentsDelete/note/Card';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { noteDragData } from '../../../redux/note/actionCreator';
 
 const DragHandle = sortableHandle(() => <FeatherIcon icon="move" size={16} />);

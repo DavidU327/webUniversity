@@ -3,10 +3,10 @@ import { Progress } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useSelector } from 'react-redux';
 import { OverviewCard } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { Button } from '../../../../components/buttons/buttons';
-import { Dropdown } from '../../../../components/dropdown/dropdown';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
+import { Dropdown } from '../../../../componentsDelete/dropdown/dropdown';
 
 function DailyOverview() {
   const { rtl } = useSelector(state => {

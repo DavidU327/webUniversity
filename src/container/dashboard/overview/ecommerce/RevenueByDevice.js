@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import { RevenueChartWrapper } from '../../style';
-import { ChartjsDonutChart2 } from '../../../../components/charts/chartjs';
+import { ChartjsDonutChart2 } from '../../../../componentsDelete/charts/chartjs';
 import { deviceGetData, deviceFilterData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function RevenueByDevice() {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../styled';
 import gChart from '../../demoData/google-charts.json';
 import {
@@ -15,7 +15,7 @@ import {
   GoogleMultiLineChart,
   GoogleBasicPieChart,
   Google3dPieChart,
-} from '../../components/charts/google-chart';
+} from '../../componentsDelete/charts/google-chart';
 
 const {
   barChartData,

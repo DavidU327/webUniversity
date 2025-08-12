@@ -3,8 +3,8 @@ import FeatherIcon from 'feather-icons-react';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router-dom';
 import { UserBioBox } from './style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { Button } from '../../../../components/buttons/buttons';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
 
 function UserBio() {
   return (

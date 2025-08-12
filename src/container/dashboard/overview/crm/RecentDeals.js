@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Table } from 'antd';
 import { RecentDealsWrapper } from '../../style';
 import { recentDealGetData, recentDealFilterData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function RecentDeals() {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function RecentDeals() {
   if (recentDealState !== null) {
     recentDealState.map(value => {
       const { key, name, date, price, img } = value;
-      
+
       return sellingData.push({
         key,
         name: (

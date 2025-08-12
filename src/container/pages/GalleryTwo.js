@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 import Masonry from 'react-masonry-css';
 import { GalleryNav } from './style';
 import { Main } from '../styled';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { galleryFilter } from '../../redux/gallary/actionCreator';
-import { Button } from '../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 
 function GalleryTwo() {
   const dispatch = useDispatch();

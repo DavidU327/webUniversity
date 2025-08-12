@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Skeleton } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, CardToolbox } from '../styled';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 
 function Team() {
   const { searchData, team } = useSelector((state) => {

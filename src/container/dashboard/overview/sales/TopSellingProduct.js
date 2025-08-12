@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Table } from 'antd';
 import { TopSellerWrap } from '../../style';
 import { topSaleGetData, topSaleFilterData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function TopSellingProduct() {
   const dispatch = useDispatch();

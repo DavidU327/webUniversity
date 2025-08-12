@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Badge } from 'antd';
 import { BlockSpan } from '../style';
-import { textRefactor } from '../../../components/utilities/utilities';
+import { textRefactor } from '../../../componentsDelete/utilities/utilities';
 import { filterSinglePage } from '../../../redux/chat/actionCreator';
 
 function PrivateChat({ match }) {

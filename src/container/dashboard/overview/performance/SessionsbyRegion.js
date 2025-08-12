@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from 'react-simple-maps';
 import ReactTooltip from 'react-tooltip';
 import { RegionList, RegionMap } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 import { regionFilterData, regionGetData } from '../../../../redux/chartContent/actionCreator';
 
 const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"

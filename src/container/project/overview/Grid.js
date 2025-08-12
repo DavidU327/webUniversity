@@ -1,8 +1,8 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Row, Col, Pagination, Skeleton } from 'antd';
 import { useSelector } from 'react-redux';
-import Heading from '../../../components/heading/heading';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { ProjectPagination } from '../style';
 
 const GridCard = lazy(() => import('./GridCard'));

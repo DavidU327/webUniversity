@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import UpdateEvent from './UpdateEvent';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { UpdatePopup } from '../Style';
-import { Modal } from '../../../components/modals/antd-modals';
+import { Modal } from '../../../componentsDelete/modals/antd-modals';
 
 function ProjectUpdate({ title, id, description, label, onEventDelete, time, date, type }) {
   const data = { title, id, description, label, onEventDelete, time, date, type };

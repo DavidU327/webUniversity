@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { CasCaderStyleWrapper } from './ui-elements-styled';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main } from '../styled';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import { Cascader } from '../../components/cascader/cascader';
-import { Button } from '../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
+import { Cascader } from '../../componentsDelete/cascader/cascader';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 
 const options = [
   {

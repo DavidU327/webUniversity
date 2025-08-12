@@ -5,9 +5,9 @@ import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderSummary } from '../Style';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import Heading from '../../../components/heading/heading';
-import { Button } from '../../../components/buttons/buttons';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { cartGetData } from '../../../redux/cart/actionCreator';
 
 function Ordersummary({ subtotal, isExact, path }) {

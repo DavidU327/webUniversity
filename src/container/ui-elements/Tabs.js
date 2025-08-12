@@ -1,14 +1,14 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main } from '../styled';
-import { Tab } from '../../components/tabs/tabs';
+import { Tab } from '../../componentsDelete/tabs/tabs';
 import tabData from '../../demoData/tab-data.json';
-import { Button } from '../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 
 const { data, dataIcon, icon } = tabData;
 function Tabs() {

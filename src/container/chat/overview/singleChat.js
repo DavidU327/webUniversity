@@ -11,11 +11,11 @@ import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Picker from 'emoji-picker-react';
 import { SingleChatWrapper, MessageList, Footer, BackShadowEmoji } from '../style';
-import Heading from '../../../components/heading/heading';
-import { Button } from '../../../components/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { updatePrivetChat } from '../../../redux/chat/actionCreator';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 
 function SingleChat({ match }) {
   const dispatch = useDispatch();

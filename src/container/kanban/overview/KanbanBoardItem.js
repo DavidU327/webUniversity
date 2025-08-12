@@ -6,7 +6,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { Input } from 'antd';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 const KanbanBoardItem = ({
   task,

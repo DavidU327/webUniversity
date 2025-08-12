@@ -2,8 +2,8 @@ import React, { useState, useLayoutEffect } from 'react';
 import { Row, Col } from 'antd';
 import { PieChart, Pie, Sector, Cell, Tooltip } from 'recharts';
 import PropTypes from 'prop-types';
-import { PageHeader } from '../../../components/page-headers/page-headers';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../../styled';
 import rechartdata from '../../../demoData/recharts.json';
 

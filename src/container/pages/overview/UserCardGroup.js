@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Progress } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { UserCard } from '../style';
-import Heading from '../../../components/heading/heading';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 
 function UserCardGroup({ user }) {
   const { title, company, img, icon, content } = user;

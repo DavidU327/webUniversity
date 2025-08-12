@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Row, Col, Form, Input, DatePicker, Radio } from 'antd';
 import { Link } from 'react-router-dom';
 import { BasicFormWrapper } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
-import Heading from '../../../components/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
 
 const dateFormat = 'MM/DD/YYYY';
 

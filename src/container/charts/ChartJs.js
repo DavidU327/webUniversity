@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../styled';
 import {
   ChartjsBarChart,
@@ -12,7 +12,7 @@ import {
   ChartjsBarChartTransparent,
   ChartjsDonutChart,
   ChartjsPieChart,
-} from '../../components/charts/chartjs';
+} from '../../componentsDelete/charts/chartjs';
 
 function ChartJs() {
   return (

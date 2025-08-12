@@ -4,8 +4,8 @@ import { FacebookOutlined, TwitterOutlined } from '@ant-design/icons';
 import { Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthWrapper } from './style';
-import { Checkbox } from '../../../../components/checkbox/checkbox';
-import Heading from '../../../../components/heading/heading';
+import { Checkbox } from '../../../../componentsDelete/checkbox/checkbox';
+import Heading from '../../../../componentsDelete/heading/heading';
 import {
   fbAuthSignUp,
   fbAuthLoginWithGoogle,

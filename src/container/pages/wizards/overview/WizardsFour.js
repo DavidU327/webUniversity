@@ -3,9 +3,9 @@ import { Row, Col, Form, Input, Checkbox } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch } from 'react-redux';
 import { WizardWrapper, WizardFour } from '../Style';
-import { Steps } from '../../../../components/steps/steps';
-import Heading from '../../../../components/heading/heading';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Steps } from '../../../../componentsDelete/steps/steps';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 import { BasicFormWrapper } from '../../../styled';
 import { cartGetData } from '../../../../redux/cart/actionCreator';
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, Input, Select } from 'antd';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { Button } from '../../../../components/buttons/buttons';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
 import { BasicFormWrapper, TagInput } from '../../../styled';
-import Heading from '../../../../components/heading/heading';
-import { Tag } from '../../../../components/tags/tags';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Tag } from '../../../../componentsDelete/tags/tags';
 
 const { Option } = Select;
 function Profile() {

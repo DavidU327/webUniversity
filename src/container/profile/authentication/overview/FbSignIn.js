@@ -11,8 +11,8 @@ import {
   fbAuthLoginWithGoogle,
   fbAuthLoginWithFacebook,
 } from '../../../../redux/firebase/auth/actionCreator';
-import { Checkbox } from '../../../../components/checkbox/checkbox';
-import Heading from '../../../../components/heading/heading';
+import { Checkbox } from '../../../../componentsDelete/checkbox/checkbox';
+import Heading from '../../../../componentsDelete/heading/heading';
 
 const SignIn = () => {
   const history = useHistory();

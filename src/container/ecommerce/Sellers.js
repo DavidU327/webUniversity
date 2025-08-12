@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { Row, Col, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { TopToolBox } from './Style';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, TableWrapper } from '../styled';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 
 function Sellers() {
   const { searchData, sellers } = useSelector(state => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { VerticalFormStyleWrap } from './Style';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { BasicFormWrapper } from '../../styled';
 
 function VerticalForm() {

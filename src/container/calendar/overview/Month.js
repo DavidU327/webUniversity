@@ -9,12 +9,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProjectUpdate from './ProjectUpdate';
 import AddNewEvent from './AddNewEvent';
 import { BlockViewCalendarWrapper } from '../Style';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Button } from '../../../components/buttons/buttons';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import './style.css';
 import { calendarDeleteData, eventVisible, addNewEvents } from '../../../redux/calendar/actionCreator';
-import { Modal } from '../../../components/modals/antd-modals';
+import { Modal } from '../../../componentsDelete/modals/antd-modals';
 
 function MonthCalendar() {
   const dispatch = useDispatch();

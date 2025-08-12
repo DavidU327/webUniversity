@@ -3,11 +3,11 @@ import { Row, Col, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { ChartjsLineChart } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { ChartjsLineChart } from '../../../../componentsDelete/charts/chartjs';
 import { instagramOverviewGetData, instagramOverviewFilterData } from '../../../../redux/chartContent/actionCreator';
-import { customTooltips } from '../../../../components/utilities/utilities';
+import { customTooltips } from '../../../../componentsDelete/utilities/utilities';
 import { ChartContainer, LineChartWrapper } from '../../style';
 
 function InstagramOverview() {

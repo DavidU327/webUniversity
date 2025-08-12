@@ -4,8 +4,8 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import propTypes from 'prop-types';
 import { AddUser } from './style';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../styled';
 
 const Info = lazy(() => import('./overview/info'));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { Main, FormGroupWrapper } from '../styled';
 import SignIn from '../profile/authentication/overview/FbSignIn';
 import Signup from '../profile/authentication/overview/FbSignup';

@@ -4,9 +4,9 @@ import { Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { UserTableStyleWrapper } from '../style';
 import { TableWrapper } from '../../styled';
-import Heading from '../../../components/heading/heading';
-import { Button } from '../../../components/buttons/buttons';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 
 function UserListTable() {
   const { users } = useSelector((state) => {

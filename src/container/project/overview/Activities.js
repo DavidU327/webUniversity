@@ -1,7 +1,7 @@
 import React from 'react';
 import FeatherIcon from 'feather-icons-react';
 import { Col, Row } from 'antd';
-import Heading from '../../../components/heading/heading';
+import Heading from '../../../componentsDelete/heading/heading';
 import { ActivitiesWrapper } from '../style';
 
 function Activities() {

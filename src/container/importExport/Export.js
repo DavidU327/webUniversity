@@ -5,16 +5,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CSVLink } from 'react-csv';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, ExportStyleWrap } from '../styled';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import { Button } from '../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
 import { contactSearchData } from '../../redux/contact/actionCreator';
-import { alertModal } from '../../components/modals/antd-modals';
+import { alertModal } from '../../componentsDelete/modals/antd-modals';
 
 function Import() {
   const dispatch = useDispatch();

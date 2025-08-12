@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { UserCard } from '../style';
-import Heading from '../../../components/heading/heading';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Button } from '../../../components/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 function UserCardList({ user }) {
   const { name, designation, img, content } = user;

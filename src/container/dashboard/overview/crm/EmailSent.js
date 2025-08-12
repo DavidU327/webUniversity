@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import { SentEmailWrapper } from '../../style';
-import { ChartjsDonut } from '../../../../components/charts/chartjs';
+import { ChartjsDonut } from '../../../../componentsDelete/charts/chartjs';
 import { deviceGetData, deviceFilterData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function EmailSent() {
   const dispatch = useDispatch();

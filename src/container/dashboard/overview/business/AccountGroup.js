@@ -2,8 +2,8 @@ import React from 'react';
 import { Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { NavLink } from 'react-router-dom';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { ChartjsLineChart } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { ChartjsLineChart } from '../../../../componentsDelete/charts/chartjs';
 
 function AccountGroup() {
   const moreContent = (

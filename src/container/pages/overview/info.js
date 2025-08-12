@@ -3,8 +3,8 @@ import { Row, Col, Form, Input, Upload, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { BasicFormWrapper } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
-import Heading from '../../../components/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
 
 const { Option } = Select;
 function Info() {

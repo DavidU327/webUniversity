@@ -5,8 +5,8 @@ import FeatherIcon from 'feather-icons-react';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { EmailNav } from './style';
-import { Button } from '../../../components/buttons/buttons';
-import Title from '../../../components/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import Title from '../../../componentsDelete/heading/heading';
 
 function EmailNavbar({ path, toggleCollapsed }) {
   const [state, setState] = useState({

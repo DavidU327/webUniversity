@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Pagination, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import ProductCardsList from './ProductCardList';
-import Heading from '../../../../components/heading/heading';
+import Heading from '../../../../componentsDelete/heading/heading';
 import { PaginationWrapper } from '../../Style';
 
 function List() {

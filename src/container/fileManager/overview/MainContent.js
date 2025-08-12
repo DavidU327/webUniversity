@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch } from 'react-redux';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import { deleteAddActiveClass } from '../../../redux/fileManager/actionCreator';
 
 function MainContent({ folder }) {

@@ -4,7 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { AddEventWrap } from '../Style';
 import { BasicFormWrapper } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 const dateFormat = 'YYYY/MM/DD';
 const { Option } = Select;

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { Col, Row } from 'antd';
 import ModalVideo from 'react-modal-video';
 import { RightAsideWrapper } from './style';
-import { Button } from '../../../../components/buttons/buttons';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 import { profileFriendsChangeStatus } from '../../../../redux/profile/actionCreator';
 import './video-modal.css';
 

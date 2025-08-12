@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { SessionChartWrapper, SessionState } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { ChartjsDonutChart } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { ChartjsDonutChart } from '../../../../componentsDelete/charts/chartjs';
 
 import { deviceFilterData, deviceGetData } from '../../../../redux/chartContent/actionCreator';
 

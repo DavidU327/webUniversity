@@ -4,11 +4,11 @@ import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import UserListTable from './overview/UserTable';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, CardToolbox } from '../styled';
-import Heading from '../../components/heading/heading';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
+import Heading from '../../componentsDelete/heading/heading';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
 
 function UserList() {
   const { searchData, users } = useSelector((state) => {

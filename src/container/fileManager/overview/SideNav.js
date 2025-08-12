@@ -4,9 +4,9 @@ import FeatherIcon from 'feather-icons-react';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
 import { Tree, Progress, Modal, Form, Input } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
-import { Button } from '../../../components/buttons/buttons';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { fmAddActiveClass, fmReadAllFileFolder } from '../../../redux/fileManager/actionCreator';
 import { SidebarNav } from '../Style';
 

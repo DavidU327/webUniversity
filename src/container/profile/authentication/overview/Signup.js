@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import { FacebookOutlined, TwitterOutlined } from '@ant-design/icons';
 import { Form, Input, Button } from 'antd';
 import { AuthWrapper } from './style';
-import { Checkbox } from '../../../../components/checkbox/checkbox';
-import Heading from '../../../../components/heading/heading';
+import { Checkbox } from '../../../../componentsDelete/checkbox/checkbox';
+import Heading from '../../../../componentsDelete/heading/heading';
 
 function SignUp() {
   const [state, setState] = useState({

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, Table } from 'antd';
 import DragAndDropTable from './DragTable';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../styled';
 import SocialTrafficMetrics from '../dashboard/overview/index/SocialTrafficMetrics';
 import TrafficChannel from '../dashboard/overview/performance/TrafficChannel';

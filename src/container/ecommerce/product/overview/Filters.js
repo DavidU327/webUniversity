@@ -3,10 +3,10 @@ import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { Rate } from 'antd';
 import { useDispatch } from 'react-redux';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { Slider } from '../../../../components/slider/slider';
-import { CheckboxGroup } from '../../../../components/checkbox/checkbox';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Slider } from '../../../../componentsDelete/slider/slider';
+import { CheckboxGroup } from '../../../../componentsDelete/checkbox/checkbox';
 import { Sidebar, SidebarSingle } from '../../Style';
 import {
   filterByPriceRange,

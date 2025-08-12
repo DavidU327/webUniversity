@@ -8,8 +8,8 @@ import FeatherIcon from 'feather-icons-react';
 import propTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import KanbanBoardItem from './KanbanBoardItem';
-import { Button } from '../../../components/buttons/buttons';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 
 const BoardTitleUpdate = ({ editTitle, setEditTitle, boardId, onBlur }) => {
   const onBoardTitleChange = event => {

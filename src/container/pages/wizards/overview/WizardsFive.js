@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FigureWizards, WizardWrapper, ProductTable, OrderSummary, WizardFive } from '../Style';
-import { Modal } from '../../../../components/modals/antd-modals';
-import { Steps } from '../../../../components/steps/steps';
-import Heading from '../../../../components/heading/heading';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { Button } from '../../../../components/buttons/buttons';
+import { Modal } from '../../../../componentsDelete/modals/antd-modals';
+import { Steps } from '../../../../componentsDelete/steps/steps';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
 import { BasicFormWrapper } from '../../../styled';
 import { cartGetData, cartUpdateQuantity, cartDelete } from '../../../../redux/cart/actionCreator';
 
@@ -372,7 +372,7 @@ function WizardsFive() {
                                         </div>
                                       </Form.Item>
                                       {/* <Form.Item name="year" initialValue="">
-                                        
+
                                       </Form.Item> */}
                                       <Form.Item name="cvv" label="CVV">
                                         <div className="cvv-wrap">

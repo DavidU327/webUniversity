@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import { Form, Input, Button } from 'antd';
 import { AuthWrapper } from './style';
-import Heading from '../../../../components/heading/heading';
+import Heading from '../../../../componentsDelete/heading/heading';
 
 function ForgotPassword() {
   const [state, setState] = useState({

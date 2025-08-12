@@ -3,10 +3,10 @@ import { Row, Col, Table, Progress, Pagination, Tag } from 'antd';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
-import Heading from '../../../components/heading/heading';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { ProjectPagination, ProjectListTitle, ProjectListAssignees, ProjectList } from '../style';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 
 function ProjectLists() {
   const project = useSelector((state) => state.projects.data);

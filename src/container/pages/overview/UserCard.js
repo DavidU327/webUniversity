@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Col, Row } from 'antd';
 import { UserCard } from '../style';
-import Heading from '../../../components/heading/heading';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Button } from '../../../components/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 function UserCards({ user }) {
   const { name, designation, img } = user;

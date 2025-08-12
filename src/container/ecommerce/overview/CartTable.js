@@ -3,8 +3,8 @@ import { Row, Col, Table, Form, Input, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FigureCart, ProductTable, CouponForm } from '../Style';
-import Heading from '../../../components/heading/heading';
-import { Button } from '../../../components/buttons/buttons';
+import Heading from '../../../componentsDelete/heading/heading';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { cartGetData, cartUpdateQuantity, cartDelete } from '../../../redux/cart/actionCreator';
 
 function CartTable() {

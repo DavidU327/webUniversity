@@ -2,8 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ErrorWrapper } from './style';
 import { Main } from '../styled';
-import Heading from '../../components/heading/heading';
-import { Button } from '../../components/buttons/buttons';
+import Heading from '../../componentsDelete/heading/heading';
+import { Button } from '../../componentsDelete/buttons/buttons';
 
 function NotFound() {
   return (

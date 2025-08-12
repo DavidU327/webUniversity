@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { RecordViewWrapper } from './Style';
 import { Main, TableWrapper } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { PageHeader } from '../../../components/page-headers/page-headers';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { PageHeader } from '../../../componentsDelete/page-headers/page-headers';
 import {
   axiosDataRead,
   axiosDataSearch,

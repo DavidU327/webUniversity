@@ -13,8 +13,8 @@ import FontAwesome from 'react-fontawesome';
 import MenueItems from './MenueItems';
 import TopMenu from './TopMenu';
 import { Div, SmallScreenAuthInfo, SmallScreenSearch, TopMenuSearch } from './style';
-import HeaderSearch from '../components/header-search/header-search';
-import AuthInfo from '../components/utilities/auth-info/info';
+import HeaderSearch from '../componentsDelete/header-search/header-search';
+import AuthInfo from '../componentsDelete/utilities/auth-info/info';
 import { changeRtlMode, changeLayoutMode, changeMenuMode } from '../redux/themeLayout/actionCreator';
 
 const { darkTheme } = require('../config/theme/themeVariables');
@@ -29,7 +29,7 @@ const ThemeLayout = (WrappedComponent) => {
       this.state = {
         collapsed: false,
         hide: true,
-        searchHide: true,        
+        searchHide: true,
         activeSearch: false,
         customizerAction: false
       };

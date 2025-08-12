@@ -10,12 +10,12 @@ import { KanvanBoardWrap, BackShadow } from './style';
 import UpdateTask from './overview/UpdateTask';
 import KanbanColumn from './overview/KanbanColumn';
 import { Main } from '../styled';
-import { PageHeader } from '../../components/page-headers/page-headers';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import { Button } from '../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 
 import kanbanData from '../../demoData/kanbanBoard';
 
@@ -45,7 +45,7 @@ BoardTitleUpdate.propTypes = {
   onBlur: propTypes.func,
 };
 
-/* 
+/*
   @Todo Remove unnecessary Code and variable
 */
 

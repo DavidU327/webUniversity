@@ -8,14 +8,14 @@ import { arrayMove } from 'array-move';
 import PropTypes from 'prop-types';
 import { Span, TodoStyleWrapper } from './style';
 import { Main, TableWrapper, BasicFormWrapper } from '../styled';
-import { Modal } from '../../components/modals/antd-modals';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { Modal } from '../../componentsDelete/modals/antd-modals';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 
-import { ShareButtonPageHeader } from '../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../components/buttons/calendar-button/calendar-button';
+import { ShareButtonPageHeader } from '../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../componentsDelete/buttons/calendar-button/calendar-button';
 import { ToDoAddData, ToDoDeleteData, onStarUpdate } from '../../redux/todo/actionCreator';
 
 const DragHandle = sortableHandle(() => (

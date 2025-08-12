@@ -4,16 +4,16 @@ import { Row, Col, Table, Form, Input } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Action, ContactPageheaderStyle } from './style';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, TableWrapper, CardToolbox, BasicFormWrapper } from '../styled';
-import Heading from '../../components/heading/heading';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import Heading from '../../componentsDelete/heading/heading';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { AddUser, UserTableStyleWrapper } from '../pages/style';
 import { onStarUpdate, contactDeleteData, contactSearchData, contactAddData } from '../../redux/contact/actionCreator';
-import { Dropdown } from '../../components/dropdown/dropdown';
-import { Modal } from '../../components/modals/antd-modals';
+import { Dropdown } from '../../componentsDelete/dropdown/dropdown';
+import { Modal } from '../../componentsDelete/modals/antd-modals';
 
 function ContactTable() {
   const dispatch = useDispatch();

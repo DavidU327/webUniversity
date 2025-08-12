@@ -11,8 +11,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
 import { AllPosts, BackShadowEmoji, Title } from './style';
-import { Cards } from '../../../../../components/cards/frame/cards-frame';
-import { Button } from '../../../../../components/buttons/buttons';
+import { Cards } from '../../../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../../../componentsDelete/buttons/buttons';
 import { likeUpdate, commentUpdate, postDelete } from '../../../../../redux/profile/actionCreator';
 
 function ExampleComment({ children, replay }) {

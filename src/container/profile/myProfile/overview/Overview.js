@@ -4,12 +4,12 @@ import FeatherIcon from 'feather-icons-react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ProductOverviewTable } from './style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
 import { CardBarChart2, EChartCard, PerformanceChartWrapper } from '../../../dashboard/style';
-import { ChartjsBarChartTransparent, ChartjsAreaChart } from '../../../../components/charts/chartjs';
+import { ChartjsBarChartTransparent, ChartjsAreaChart } from '../../../../componentsDelete/charts/chartjs';
 import { performanceGetData } from '../../../../redux/chartContent/actionCreator';
-import { chartLinearGradient, customTooltips } from '../../../../components/utilities/utilities';
+import { chartLinearGradient, customTooltips } from '../../../../componentsDelete/utilities/utilities';
 
 const chartOptions = {
   legend: {

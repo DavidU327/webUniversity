@@ -7,10 +7,10 @@ import moment from 'moment';
 import propTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import { MailDetailsWrapper, MessageAction, MessageDetails, ReplyList, MessageReply, MailRightAction } from './style';
-import { Dropdown } from '../../../components/dropdown/dropdown';
-import Heading from '../../../components/heading/heading';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
+import Heading from '../../../componentsDelete/heading/heading';
 import { filterSinglePage, onStarUpdate } from '../../../redux/email/actionCreator';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 
 const MailComposer = lazy(() => import('./MailComposer'));
 

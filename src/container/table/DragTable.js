@@ -6,9 +6,9 @@ import { sortableContainer, sortableElement, sortableHandle } from 'react-sortab
 import arrayMove from 'array-move';
 import PropTypes from 'prop-types';
 import { TableWrapper, DragDropStyle } from '../styled';
-import Heading from '../../components/heading/heading';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import Heading from '../../componentsDelete/heading/heading';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 
 const DragHandle = sortableHandle(() => <FeatherIcon style={{ cursor: 'pointer', color: '#999' }} icon="move" />);
 

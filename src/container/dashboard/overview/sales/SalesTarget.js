@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { SalesTargetWrap } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import HalfProgressBar from '../../../../components/utilities/progressBar';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import HalfProgressBar from '../../../../componentsDelete/utilities/progressBar';
 
 const moreContent = (
   <>

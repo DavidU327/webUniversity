@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { AddEventWrap } from '../Style';
 import { BasicFormWrapper } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { updateCurrentEvent } from '../../../redux/calendar/actionCreator';
 
 const dateFormat = 'YYYY/MM/DD';

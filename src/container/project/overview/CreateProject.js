@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Select, Col, Row, DatePicker } from 'antd';
 import propTypes from 'prop-types';
-import { Button } from '../../../components/buttons/buttons';
-import { Modal } from '../../../components/modals/antd-modals';
-import { CheckboxGroup } from '../../../components/checkbox/checkbox';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Modal } from '../../../componentsDelete/modals/antd-modals';
+import { CheckboxGroup } from '../../../componentsDelete/checkbox/checkbox';
 import { BasicFormWrapper } from '../../styled';
 
 const { Option } = Select;

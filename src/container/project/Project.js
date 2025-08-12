@@ -6,11 +6,11 @@ import FeatherIcon from 'feather-icons-react';
 import propTypes from 'prop-types';
 import CreateProject from './overview/CreateProject';
 import { ProjectHeader, ProjectSorting } from './style';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
 import { filterProjectByStatus, sortingProjectByCategory } from '../../redux/project/actionCreator';
 import { Main } from '../styled';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 
 const Grid = lazy(() => import('./overview/Grid'));
 const List = lazy(() => import('./overview/List'));

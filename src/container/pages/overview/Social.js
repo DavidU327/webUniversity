@@ -3,7 +3,7 @@ import { Row, Col, Form, Input, Button } from 'antd';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router-dom';
 import { BasicFormWrapper } from '../../styled';
-import Heading from '../../../components/heading/heading';
+import Heading from '../../../componentsDelete/heading/heading';
 
 function SocialProfile() {
   const [form] = Form.useForm();

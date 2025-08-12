@@ -5,9 +5,9 @@ import { Link, NavLink } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { Table } from 'antd';
 import { RevenueTableWrapper } from '../../style';
-import { ChartjsLineChart } from '../../../../components/charts/chartjs';
+import { ChartjsLineChart } from '../../../../componentsDelete/charts/chartjs';
 import { generatedFilterData, generatedGetData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function RevenueGenerated() {
   const dispatch = useDispatch();

@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import FeatherIcon from 'feather-icons-react';
 import { ChecklistWrap } from '../style';
-import { Dropdown } from '../../../components/dropdown/dropdown';
-import { Checkbox } from '../../../components/checkbox/checkbox';
-import { Button } from '../../../components/buttons/buttons';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
+import { Checkbox } from '../../../componentsDelete/checkbox/checkbox';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 const UpdateTask = ({
   data,

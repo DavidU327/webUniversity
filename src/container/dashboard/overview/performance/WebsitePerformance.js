@@ -4,10 +4,10 @@ import { NavLink, Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PerformanceChartWrapper, Pstates } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { ChartjsAreaChart } from '../../../../components/charts/chartjs';
-import { chartLinearGradient, customTooltips } from '../../../../components/utilities/utilities';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { ChartjsAreaChart } from '../../../../componentsDelete/charts/chartjs';
+import { chartLinearGradient, customTooltips } from '../../../../componentsDelete/utilities/utilities';
 import { performanceFilterData, performanceGetData, setIsLoading } from '../../../../redux/chartContent/actionCreator';
 
 const moreContent = (

@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react';
 import FontAwesome from 'react-fontawesome';
 import { Collapse, Row, Col, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
-import { Button } from '../../../../../components/buttons/buttons';
+import { Button } from '../../../../../componentsDelete/buttons/buttons';
 import { KnowledgeDetailsWrap } from '../../style';
 
 const { Panel } = Collapse;

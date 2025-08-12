@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 
 function FileListCard() {
   return (

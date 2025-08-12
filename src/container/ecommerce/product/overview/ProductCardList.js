@@ -4,8 +4,8 @@ import FeatherIcon from 'feather-icons-react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Heading from '../../../../components/heading/heading';
-import { Button } from '../../../../components/buttons/buttons';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
 import { ProductCard } from '../../Style';
 import { updateWishList } from '../../../../redux/product/actionCreator';
 

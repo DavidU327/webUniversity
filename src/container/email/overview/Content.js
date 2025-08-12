@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome from 'react-fontawesome';
 import { Style, EmailAuthor, EmailHeader } from './style';
 import Topbar from './Topbar';
-import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import Heading from '../../../components/heading/heading';
-import { textRefactor } from '../../../components/utilities/utilities';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { AutoComplete } from '../../../componentsDelete/autoComplete/autoComplete';
+import Heading from '../../../componentsDelete/heading/heading';
+import { textRefactor } from '../../../componentsDelete/utilities/utilities';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import { onStarUpdate, onSortingAscending, onSortingDescending } from '../../../redux/email/actionCreator';
 
 function Content({ searchData, email }) {

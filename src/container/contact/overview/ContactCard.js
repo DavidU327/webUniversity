@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ContactCardWrapper } from '../style';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import { contactDeleteData } from '../../../redux/contact/actionCreator';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 function ContactCard({ user, showEditModal }) {
   const dispatch = useDispatch();

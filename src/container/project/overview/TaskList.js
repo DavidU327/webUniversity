@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import FeatherIcon from 'feather-icons-react';
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
-import { Button } from '../../../components/buttons/buttons';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import { TasklistAction } from '../style';
 
 function TaskList() {

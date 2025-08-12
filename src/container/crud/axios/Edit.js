@@ -6,12 +6,12 @@ import FeatherIcon from 'feather-icons-react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { RecordFormWrapper } from './Style';
-import { PageHeader } from '../../../components/page-headers/page-headers';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Button } from '../../../components/buttons/buttons';
+import { PageHeader } from '../../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import { Main, BasicFormWrapper } from '../../styled';
 import { axiosDataUpdate, axiosFileUploder, axiosDataSingle } from '../../../redux/crud/axios/actionCreator';
-import Heading from '../../../components/heading/heading';
+import Heading from '../../../componentsDelete/heading/heading';
 
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';

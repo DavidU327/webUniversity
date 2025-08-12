@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LadingPages } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 import { landingPageFilterData, landingPageGetData } from '../../../../redux/chartContent/actionCreator';
 

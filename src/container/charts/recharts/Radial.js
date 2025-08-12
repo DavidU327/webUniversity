@@ -2,13 +2,13 @@ import React, { useLayoutEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { RadialBarChart, RadialBar, Legend } from 'recharts';
-import { PageHeader } from '../../../components/page-headers/page-headers';
-import { Cards } from '../../../components/cards/frame/cards-frame';
+import { PageHeader } from '../../../componentsDelete/page-headers/page-headers';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
 import { Main } from '../../styled';
-import { Button } from '../../../components/buttons/buttons';
-import { ShareButtonPageHeader } from '../../../components/buttons/share-button/share-button';
-import { ExportButtonPageHeader } from '../../../components/buttons/export-button/export-button';
-import { CalendarButtonPageHeader } from '../../../components/buttons/calendar-button/calendar-button';
+import { Button } from '../../../componentsDelete/buttons/buttons';
+import { ShareButtonPageHeader } from '../../../componentsDelete/buttons/share-button/share-button';
+import { ExportButtonPageHeader } from '../../../componentsDelete/buttons/export-button/export-button';
+import { CalendarButtonPageHeader } from '../../../componentsDelete/buttons/calendar-button/calendar-button';
 
 const style = {
   top: 0,

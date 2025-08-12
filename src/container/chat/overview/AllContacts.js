@@ -6,9 +6,9 @@ import FeatherIcon from 'feather-icons-react';
 import PropTypes from 'prop-types';
 import { Badge } from 'antd';
 import { BlockSpan, ChatWrapper } from '../style';
-import { textRefactor } from '../../../components/utilities/utilities';
+import { textRefactor } from '../../../componentsDelete/utilities/utilities';
 import { filterSinglePage } from '../../../redux/chat/actionCreator';
-import { Button } from '../../../components/buttons/buttons';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 
 function AllContacts({ match }) {
   const dispatch = useDispatch();

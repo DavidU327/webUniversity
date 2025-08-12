@@ -4,9 +4,9 @@ import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardBarChart } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { ChartjsBarChartTransparent } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { ChartjsBarChartTransparent } from '../../../../componentsDelete/charts/chartjs';
 
 import { youtubeSubscribeFilterData, youtubeSubscribeGetData } from '../../../../redux/chartContent/actionCreator';
 
@@ -56,7 +56,7 @@ function YoutubeSubscribers() {
     dispatch(youtubeSubscribeFilterData(value));
   };
 
-  return (    
+  return (
       youtubeSubscribeState !== null && (
         <Cards
           isbutton={
@@ -190,7 +190,7 @@ function YoutubeSubscribers() {
             </CardBarChart>
           )}
         </Cards>
-      )    
+      )
   );
 }
 

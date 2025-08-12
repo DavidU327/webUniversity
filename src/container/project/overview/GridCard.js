@@ -3,9 +3,9 @@ import { Progress, Tag } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Dropdown } from '../../../components/dropdown/dropdown';
-import { textRefactor } from '../../../components/utilities/utilities';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
+import { textRefactor } from '../../../componentsDelete/utilities/utilities';
 import { ProjectCard } from '../style';
 
 function GridCard({ value }) {

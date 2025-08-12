@@ -4,8 +4,8 @@ import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardBarChart } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import { ChartjsBarChartTransparent } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import { ChartjsBarChartTransparent } from '../../../../componentsDelete/charts/chartjs';
 import { closeDealFilterData, closeDealGetData } from '../../../../redux/chartContent/actionCreator';
 
 function ClosedDeals() {

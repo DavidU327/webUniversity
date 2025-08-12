@@ -6,7 +6,7 @@ import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from 're
 import ReactTooltip from 'react-tooltip';
 import { LocationMapWrapper } from '../../style';
 import { locationGetData } from '../../../../redux/chartContent/actionCreator';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
 

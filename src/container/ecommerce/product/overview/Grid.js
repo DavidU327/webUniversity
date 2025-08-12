@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Pagination, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import ProductCards from './ProductCards';
-import Heading from '../../../../components/heading/heading';
+import Heading from '../../../../componentsDelete/heading/heading';
 import { PaginationWrapper, NotFoundWrapper } from '../../Style';
 
 function Grid() {

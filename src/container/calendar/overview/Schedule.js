@@ -5,11 +5,11 @@ import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { Col, Row } from 'antd';
 import AddNewEvent from './AddNewEvent';
-import { Cards } from '../../../components/cards/frame/cards-frame';
-import { Button } from '../../../components/buttons/buttons';
+import { Cards } from '../../../componentsDelete/cards/frame/cards-frame';
+import { Button } from '../../../componentsDelete/buttons/buttons';
 import './style.css';
 import { eventVisible, addNewEvents } from '../../../redux/calendar/actionCreator';
-import { Modal } from '../../../components/modals/antd-modals';
+import { Modal } from '../../../componentsDelete/modals/antd-modals';
 
 function ScheduleCalendar() {
   const dispatch = useDispatch();

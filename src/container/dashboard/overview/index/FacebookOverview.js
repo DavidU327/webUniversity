@@ -3,11 +3,11 @@ import { Row, Col, Radio, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Focard, CardGroup } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { ChartjsAreaChart } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { ChartjsAreaChart } from '../../../../componentsDelete/charts/chartjs';
 import { forcastOverviewGetData, forcastOverviewFilterData } from '../../../../redux/chartContent/actionCreator';
-import { chartLinearGradient } from '../../../../components/utilities/utilities';
+import { chartLinearGradient } from '../../../../componentsDelete/utilities/utilities';
 
 function FacebookOverview() {
   const dispatch = useDispatch();

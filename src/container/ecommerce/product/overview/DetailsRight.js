@@ -5,9 +5,9 @@ import FeatherIcon from 'feather-icons-react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
-import Heading from '../../../../components/heading/heading';
+import Heading from '../../../../componentsDelete/heading/heading';
 import { updateWishList } from '../../../../redux/product/actionCreator';
-import { Button } from '../../../../components/buttons/buttons';
+import { Button } from '../../../../componentsDelete/buttons/buttons';
 
 function DetailsRight({ product }) {
   const dispatch = useDispatch();

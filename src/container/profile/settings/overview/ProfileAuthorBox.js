@@ -4,8 +4,8 @@ import FeatherIcon from 'feather-icons-react';
 import { Link, NavLink, useRouteMatch } from 'react-router-dom';
 
 import { ProfileAuthorBox } from './style';
-import Heading from '../../../../components/heading/heading';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
 
 function AuthorBox() {
   const { path } = useRouteMatch();

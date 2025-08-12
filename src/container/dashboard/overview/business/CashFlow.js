@@ -4,9 +4,9 @@ import FeatherIcon from 'feather-icons-react';
 import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CardBarChart } from '../../style';
-import { Cards } from '../../../../components/cards/frame/cards-frame';
-import Heading from '../../../../components/heading/heading';
-import { ChartjsBarChartTransparent } from '../../../../components/charts/chartjs';
+import { Cards } from '../../../../componentsDelete/cards/frame/cards-frame';
+import Heading from '../../../../componentsDelete/heading/heading';
+import { ChartjsBarChartTransparent } from '../../../../componentsDelete/charts/chartjs';
 
 import { cashFlowGetData, cashFlowFilterData } from '../../../../redux/chartContent/actionCreator';
 
@@ -80,7 +80,7 @@ function CashFlow() {
     },
   ];
 
-  return (    
+  return (
       cashFlowState !== null && (
         <Cards
           isbutton={
@@ -221,7 +221,7 @@ function CashFlow() {
             </CardBarChart>
           )}
         </Cards>
-      )   
+      )
   );
 }
 

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
-import { Dropdown } from '../../../components/dropdown/dropdown';
+import { Dropdown } from '../../../componentsDelete/dropdown/dropdown';
 import { RecentFIleTableWrap } from '../Style';
 
 function RecentFileTable({ folder }) {

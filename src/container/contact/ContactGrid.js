@@ -4,14 +4,14 @@ import { Row, Col, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { ContactPageheaderStyle } from './style';
 import ContactCard from './overview/ContactCard';
-import { PageHeader } from '../../components/page-headers/page-headers';
+import { PageHeader } from '../../componentsDelete/page-headers/page-headers';
 import { Main, CardToolbox, BasicFormWrapper } from '../styled';
-import { AutoComplete } from '../../components/autoComplete/autoComplete';
-import { Button } from '../../components/buttons/buttons';
-import { Cards } from '../../components/cards/frame/cards-frame';
+import { AutoComplete } from '../../componentsDelete/autoComplete/autoComplete';
+import { Button } from '../../componentsDelete/buttons/buttons';
+import { Cards } from '../../componentsDelete/cards/frame/cards-frame';
 import { AddUser } from '../pages/style';
 import { contactSearchData, contactAddData } from '../../redux/contact/actionCreator';
-import { Modal } from '../../components/modals/antd-modals';
+import { Modal } from '../../componentsDelete/modals/antd-modals';
 
 function ContactGrid() {
   const dispatch = useDispatch();
