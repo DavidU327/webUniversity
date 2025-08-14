@@ -1,16 +1,19 @@
 import React, { useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import { AuthWrapper } from './style';
 import Heading from '../../components/heading';
 import { Checkbox } from '../../components/checkbox';
 
 function Login(){
+
+  const history = useHistory();
+
   const [form] = Form.useForm();
 
   const handleSubmit = useCallback(() => {
-    console.log('hola')
-  }, []);
+    history.push('/admin');
+  }, [history]);
 
   const onChange = () => {
 

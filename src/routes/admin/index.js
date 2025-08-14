@@ -10,7 +10,7 @@ import Widgets from './widgets';
 import Features from './features';
 import Axios from './axios';
 import Gallery from './gallery';
-import withAdminLayout from '../../layout/withAdminLayout';
+import adminLayout from '../../components/adminLayout';
 
 const Projects = lazy(() => import('./projects'));
 const Calendars = lazy(() => import('../../container/Calendar'));
@@ -48,7 +48,7 @@ function Admin() {
         <Route path={`${path}/users`} component={Users} />
         <Route path={`${path}/gallery`} component={Gallery} />
         <Route path={`${path}/project`} component={Projects} />
-        <Route path={`${path}/calendar`} component={Calendars} />        
+        <Route path={`${path}/calendar`} component={Calendars} />
         <Route path={`${path}/app/kanban`} component={Kanban} />
         <Route path={`${path}/email/:page`} component={Inbox} />
         <Route path={`${path}/firestore`} component={Firebase} />
@@ -67,4 +67,4 @@ function Admin() {
   );
 }
 
-export default withAdminLayout(Admin);
+export default adminLayout(Admin);
