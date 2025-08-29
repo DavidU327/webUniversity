@@ -41,123 +41,107 @@ function MenuItems({ toggleCollapsed }) {
     >
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/dashboard`}>
             <FeatherIcon icon="home" />
           </NavLink>
         }
         key="home"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/dashboard`}>
           Dashboard
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/collectors`}>
             <FeatherIcon icon="truck" />
           </NavLink>
         }
         key="truck"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/collectors`}>
           Recolectores
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/users`}>
             <FeatherIcon icon="users" />
           </NavLink>
         }
         key="user"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/users`}>
           Usuarios
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/levels`}>
             <FeatherIcon icon="layers" />
           </NavLink>
         }
         key="level"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/levels`}>
           Niveles
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/orders`}>
             <FeatherIcon icon="shopping-cart" />
           </NavLink>
         }
         key="shopping"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/orders`}>
           Ordenes
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/wastes`}>
             <FeatherIcon icon="trash-2" />
           </NavLink>
         }
         key="trash"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/wastes`}>
           Residuos
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/blogs`}>
             <FeatherIcon icon="layout" />
           </NavLink>
         }
         key="layout"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/blogs`}>
           Blogs
         </NavLink>
       </Menu.Item>
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to="">
+          <NavLink className="menuItem-iocn" to={`${path}/tips`}>
             <FeatherIcon icon="folder" />
           </NavLink>
         }
         key="folder"
       >
-        <NavLink onClick={toggleCollapsed} to="">
+        <NavLink onClick={toggleCollapsed} to={`${path}/tips`}>
           Tips
         </NavLink>
       </Menu.Item>
-      {/*
-      <Menu.Item
-        icon={
-          !topMenu && (
-            <NavLink className="menuItem-iocn" to={`${path}/main/chat/private/rofiq@gmail.com`}>
-              <FeatherIcon icon="message-square" />
-            </NavLink>
-          )
-        }
-        key="chat"
-      >
-        <NavLink onClick={toggleCollapsed} to={`${path}/main/chat/private/rofiq@gmail.com`}>
-          Chat
-        </NavLink>
-      </Menu.Item>
-      */}
     </Menu>
   );
 }

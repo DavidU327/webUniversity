@@ -12,7 +12,7 @@ function Login(){
   const [form] = Form.useForm();
 
   const handleSubmit = useCallback(() => {
-    history.push('/admin');
+    history.push('/admin/dashboard');
   }, [history]);
 
   const onChange = () => {
