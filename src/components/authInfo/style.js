@@ -179,10 +179,4 @@ const UserDropDwon = Styled.div`
     }
 `;
 
-const NavAuth = Styled.span`
-    i, svg, img {
-        ${({ theme }) => (theme.rtl ? 'margin-left' : 'margin-right')}: 8px;
-    }
-`;
-
-export { InfoWraper, UserDropDwon, NavAuth };
+export { InfoWraper, UserDropDwon };

@@ -10,25 +10,20 @@ import store, { rrfProps } from './redux/store';
 import Admin from './routes/admin';
 import Auth from './routes/auth';
 import './static/css/style.css';
-import config from './config/config';
 import 'antd/dist/antd.less';
-
-const { theme } = config;
+import { theme } from './config/theme/themeVariables';
 
 const ProviderConfig = () => {
-  const { rtl, topMenu, darkMode } = useSelector(state => {
+ useSelector(state => {
     return {
-      darkMode: state.ChangeLayoutMode.data,
-      rtl: state.ChangeLayoutMode.rtlData,
-      topMenu: state.ChangeLayoutMode.topMenu,
       isLoggedIn: state.auth.login,
       auth: state.fb.auth,
     };
   });
 
   return (
-    <ConfigProvider direction={rtl ? 'rtl' : 'ltr'}>
-      <ThemeProvider theme={{ ...theme, rtl, topMenu, darkMode }}>
+    <ConfigProvider direction="ltr">
+      <ThemeProvider theme={{ ...theme}}>
         <ReactReduxFirebaseProvider {...rrfProps}>
           <Router basename={process.env.PUBLIC_URL}>
             <Route path="/" exact component={Auth} />

@@ -1,29 +1,12 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Layout, Button, Row, Col } from 'antd';
-import FeatherIcon from 'feather-icons-react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { ThemeProvider } from 'styled-components';
-import FontAwesome from 'react-fontawesome';
-import {
-  Div,
-  SmallScreenAuthInfo,
-  SmallScreenSearch,
-  TopMenuSearch,
-} from './style';
-import TopMenu from '../topMenu';
-import HeaderSearch from '../headerSearch';
+import { Div } from './style';
 import AuthInfo from '../authInfo';
 import MenuItems from '../menuItems';
-import { darkTheme } from '../../config/theme/themeVariables';
-
-import {
-  changeLayoutMode,
-  changeMenuMode,
-  changeRtlMode,
-} from '../../redux/themeLayout/actionCreator';
+import { theme } from '../../config/theme/themeVariables';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -33,10 +16,6 @@ const ThemeLayout = (WrappedComponent) => {
       super(props);
       this.state = {
         collapsed: false,
-        hide: true,
-        searchHide: true,
-        activeSearch: false,
-        customizerAction: false
       };
       this.updateDimensions = this.updateDimensions.bind(this);
     }
@@ -57,11 +36,8 @@ const ThemeLayout = (WrappedComponent) => {
     }
 
     render() {
-      const { collapsed, hide, searchHide, activeSearch, customizerAction } = this.state;
-      const { ChangeLayoutMode, rtl, topMenu, changeRtl, changeLayout, changeMenuMode } = this.props;
+      const { collapsed } = this.state;
 
-      const left = !rtl ? 'left' : 'right';
-      const darkMode = ChangeLayoutMode;
       const toggleCollapsed = () => {
         this.setState({
           collapsed: !collapsed,
@@ -74,33 +50,6 @@ const ThemeLayout = (WrappedComponent) => {
             collapsed: !collapsed,
           });
         }
-      };
-
-      const showCustomizer = () => {
-        this.setState({
-          customizerAction: !customizerAction,
-        });
-      };
-
-      const onShowHide = () => {
-        this.setState({
-          hide: !hide,
-          searchHide: true,
-        });
-      };
-
-      const toggleSearch = () => {
-        this.setState({
-          activeSearch: !activeSearch,
-        });
-      };
-
-      const handleSearchHide = (e) => {
-        e.preventDefault();
-        this.setState({
-          searchHide: !searchHide,
-          hide: true,
-        });
       };
 
       const footerStyle = {
@@ -118,24 +67,20 @@ const ThemeLayout = (WrappedComponent) => {
         overflowY: 'auto',
         height: '100vh',
         position: 'fixed',
-        [left]: 0,
         zIndex: 998,
       };
 
       const renderView = ({ style, ...props }) => {
         const customStyle = {
           marginRight: 'auto',
-          [rtl ? 'marginLeft' : 'marginRight']: '-17px',
         };
         return <div {...props} style={{ ...style, ...customStyle }} />;
       };
 
       const renderThumbVertical = ({ style, ...props }) => {
-        const { ChangeLayoutMode } = this.props;
         const thumbStyle = {
           borderRadius: 6,
-          backgroundColor: ChangeLayoutMode ? '#ffffff16' : '#F1F2F6',
-          [left]: '2px',
+          backgroundColor: '#F1F2F6',
         };
         return <div style={{ ...style, ...thumbStyle }} {...props} />;
       };
@@ -146,7 +91,7 @@ const ThemeLayout = (WrappedComponent) => {
           width: '6px',
           transition: 'opacity 200ms ease 0s',
           opacity: 0,
-          [rtl ? 'left' : 'right']: '2px',
+          right: '2px',
           bottom: '2px',
           top: '2px',
           borderRadius: '3px',
@@ -155,184 +100,75 @@ const ThemeLayout = (WrappedComponent) => {
       };
 
       const renderThumbHorizontal = ({ style, ...props }) => {
-        const { ChangeLayoutMode } = this.props;
         const thumbStyle = {
           borderRadius: 6,
-          backgroundColor: ChangeLayoutMode ? '#ffffff16' : '#F1F2F6',
+          backgroundColor: '#F1F2F6',
         };
         return <div style={{ ...style, ...thumbStyle }} {...props} />;
       };
 
-      const onRtlChange = () => {
-        const html = document.querySelector('html');
-        html.setAttribute('dir', 'rtl');
-        changeRtl(true);
-      };
-
-      const onLtrChange = () => {
-        const html = document.querySelector('html');
-        html.setAttribute('dir', 'ltr');
-        changeRtl(false);
-      };
-
-      const modeChangeDark = () => {
-        changeLayout(true);
-      };
-
-      const modeChangeLight = () => {
-        changeLayout(false);
-      };
-
-      const modeChangeTopNav = () => {
-        changeMenuMode(true);
-      };
-
-      const modeChangeSideNav = () => {
-        changeMenuMode(false);
-      };
-
-      const onEventChange = {
-        onRtlChange,
-        onLtrChange,
-        modeChangeDark,
-        modeChangeLight,
-        modeChangeTopNav,
-        modeChangeSideNav,
-      };
+      const mobile = window.innerWidth <= 991;
 
       return (
-        <Div darkMode={darkMode}>
+        <Div >
           <Layout className="layout">
             <Header
               style={{
                 position: 'fixed',
                 width: '100%',
                 top: 0,
-                [!rtl ? 'left' : 'right']: 0,
+                right: 0,
               }}
             >
               <Row>
-                <Col lg={!topMenu ? 4 : 3} sm={6} xs={12} className="align-center-v navbar-brand">
-                  {!topMenu || window.innerWidth <= 991 ? (
-                    <Button type="link" onClick={toggleCollapsed}>
-                      <img src={require(`../../static/img/icon/${collapsed ? 'right.svg' : 'left.svg'}`)} alt="menu" />
-                    </Button>
-                  ) : null}
-                  <Link
-                    className={topMenu && window.innerWidth > 991 ? 'striking-logo top-menu' : 'striking-logo'}
-                    to="/"
-                  >
-                    <img
-                      src={
-                        !darkMode
-                          ? require(`../../static/img/Logo_Dark.svg`).default
-                          : require(`../../static/img/Logo_white.png`).default
-                      }
-                      alt=""
-                    />
-                  </Link>
-                </Col>
-
-                <Col lg={!topMenu ? 14 : 15} md={8} sm={0} xs={0}>
-                  {topMenu && window.innerWidth > 991 ? <TopMenu /> : <HeaderSearch rtl={rtl} darkMode={darkMode} />}
-                </Col>
-
-                <Col lg={6} md={10} sm={0} xs={0}>
-                  {topMenu && window.innerWidth > 991 ? (
-                    <TopMenuSearch>
-                      <div className="top-right-wrap d-flex">
-                        <Link
-                          className={`${activeSearch ? 'search-toggle active' : 'search-toggle'}`}
-                          onClick={() => {
-                            toggleSearch();
-                          }}
-                          to="#"
-                        >
-                          <FeatherIcon icon="search" />
-                          <FeatherIcon icon="x" />
-                        </Link>
-                        <div className={`${activeSearch ? 'topMenu-search-form show' : 'topMenu-search-form'}`}>
-                          <form action="">
-                            <span className="search-icon">
-                              <FeatherIcon icon="search" />
-                            </span>
-                            <input type="text" name="search" />
-                          </form>
-                        </div>
-                        <AuthInfo />
-                      </div>
-                    </TopMenuSearch>
-                  ) : (
-                    <AuthInfo />
+                <Col lg={4} sm={6} xs={12} className="align-center-v navbar-brand">
+                  <Button type="link" onClick={toggleCollapsed}>
+                    <img src={require(`../../assets/svg/${collapsed ? 'right.svg' : 'left.svg'}`)} alt="menu" />
+                  </Button>
+                  {!mobile && (
+                    <Link
+                      className="striking-logo top-menu"
+                      to="/"
+                    >
+                      <img
+                        src={require(`../../assets/svg/Logo_Dark.svg`).default}
+                        alt=""
+                      />
+                    </Link>
                   )}
                 </Col>
-
-                <Col md={0} sm={18} xs={12}>
-                  <div className="mobile-action">
-                    <Link className="btn-search" onClick={handleSearchHide} to="#">
-                      {searchHide ? <FeatherIcon icon="search" /> : <FeatherIcon icon="x" />}
-                    </Link>
-                    <Link className="btn-auth" onClick={onShowHide} to="#">
-                      <FeatherIcon icon="more-vertical" />
-                    </Link>
-                  </div>
+                <Col flex="auto" className="align-right">
+                  <AuthInfo />
                 </Col>
               </Row>
             </Header>
-            <div className="header-more">
-              <Row>
-                <Col md={0} sm={24} xs={24}>
-                  <div className="small-screen-headerRight">
-                    <SmallScreenSearch hide={searchHide} darkMode={darkMode}>
-                      <HeaderSearch rtl={rtl} />
-                    </SmallScreenSearch>
-                    <SmallScreenAuthInfo hide={hide} darkMode={darkMode}>
-                      <AuthInfo rtl={rtl} />
-                    </SmallScreenAuthInfo>
-                  </div>
-                </Col>
-              </Row>
-            </div>
             <Layout>
-              {!topMenu || window.innerWidth <= 991 ? (
-                <ThemeProvider theme={darkTheme}>
-                  <Sider width={280} style={SideBarStyle} collapsed={collapsed} theme={!darkMode ? 'light' : 'dark'}>
-                    <Scrollbars
-                      className="custom-scrollbar"
-                      autoHide
-                      autoHideTimeout={500}
-                      autoHideDuration={200}
-                      renderThumbHorizontal={renderThumbHorizontal}
-                      renderThumbVertical={renderThumbVertical}
-                      renderView={renderView}
-                      renderTrackVertical={renderTrackVertical}
-                    >
-                      <p className="sidebar-nav-title">MAIN MENU</p>
-                      <MenuItems
-                        topMenu={topMenu}
-                        rtl={rtl}
-                        toggleCollapsed={toggleCollapsedMobile}
-                        darkMode={darkMode}
-                        events={onEventChange}
-                      />
-                    </Scrollbars>
-                  </Sider>
-                </ThemeProvider>
-              ) : null}
+              <ThemeProvider theme={theme}>
+                <Sider width={280} style={SideBarStyle} collapsed={collapsed} theme="light">
+                  <Scrollbars
+                    className="custom-scrollbar"
+                    autoHide
+                    autoHideTimeout={500}
+                    autoHideDuration={200}
+                    renderThumbHorizontal={renderThumbHorizontal}
+                    renderThumbVertical={renderThumbVertical}
+                    renderView={renderView}
+                    renderTrackVertical={renderTrackVertical}
+                  >
+                    <p className="sidebar-nav-title">MENU</p>
+                    <MenuItems
+                      toggleCollapsed={toggleCollapsedMobile}
+                    />
+                  </Scrollbars>
+                </Sider>
+              </ThemeProvider>
               <Layout className="atbd-main-layout">
                 <Content>
                   <WrappedComponent {...this.props} />
                   <Footer className="admin-footer" style={footerStyle}>
                     <Row>
                       <Col md={12} xs={24}>
-                        <span className="admin-footer__copyright">2023 © SovWare</span>
-                      </Col>
-                      <Col md={12} xs={24}>
-                        <div className="admin-footer__links">
-                          <NavLink to="#">About</NavLink>
-                          <NavLink to="#">Team</NavLink>
-                          <NavLink to="#">Contact</NavLink>
-                        </div>
+                        <span className="admin-footer__copyright">2025 ©</span>
                       </Col>
                     </Row>
                   </Footer>
@@ -340,165 +176,12 @@ const ThemeLayout = (WrappedComponent) => {
               </Layout>
             </Layout>
           </Layout>
-          <Link
-            to="#"
-            className="customizer-trigger"
-            onClick={() => {
-              showCustomizer();
-            }}
-          >
-            <FeatherIcon icon="settings" />
-          </Link>
-          <div className={`${customizerAction ? 'customizer-wrapper show' : 'customizer-wrapper'}`}>
-            <div className="customizer">
-              <div className="customizer__head">
-                <h4 className="customizer__title">Customizer</h4>
-                <span className="customizer__sub-title">Customize your overview Page layout</span>
-                <Link
-                  to="#"
-                  className="customizer-close"
-                  onClick={() => {
-                    showCustomizer();
-                  }}
-                >
-                  <FeatherIcon icon="x" />
-                </Link>
-              </div>
-              <div className="customizer__body">
-                <div className="customizer__single">
-                  <h4>Layout Type</h4>
-                  <ul className="customizer-list d-flex">
-                    <li className="customizer-list__item">
-                      <Link
-                        className={!rtl ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          onLtrChange();
-                        }}
-                        to="#"
-                      >
-                        <img src={require('../../static/img/ltr.png')} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                    <li className="customizer-list__item">
-                      <Link
-                        className={rtl ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          onRtlChange();
-                        }}
-                        to="#"
-                      >
-                        <img src={require(`../../static/img/rtl.png`)} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div className="customizer__single">
-                  <h4>Sidebar Type</h4>
-                  <ul className="customizer-list d-flex">
-                    <li className="customizer-list__item">
-                      <Link
-                        className={!darkMode ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          modeChangeLight();
-                        }}
-                        to="#"
-                      >
-                        <img src={require('../../static/img/light.png')} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                    <li className="customizer-list__item">
-                      <Link
-                        className={darkMode ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          modeChangeDark();
-                        }}
-                        to="#"
-                      >
-                        <img src={require(`../../static/img/dark.png`)} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div className="customizer__single">
-                  <h4>Navbar Type</h4>
-                  <ul className="customizer-list d-flex">
-                    <li className="customizer-list__item">
-                      <Link
-                        className={!topMenu ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          modeChangeSideNav();
-                        }}
-                        to="#"
-                      >
-                        <img src={require('../../static/img/side.png')} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                    <li className="customizer-list__item top">
-                      <Link
-                        className={topMenu ? 'active' : 'deactivate'}
-                        onClick={() => {
-                          showCustomizer();
-                          modeChangeTopNav();
-                        }}
-                        to="#"
-                      >
-                        <img src={require(`../../static/img/top.png`)} alt="" />
-                        <FontAwesome name="check-circle" />
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            className={`${customizerAction ? 'overlay-dark show' : 'overlay-dark'}`}
-            onClick={showCustomizer}
-          >
-            Cerrar
-          </button>
         </Div>
       );
     }
   }
 
-  const mapStateToProps = (state) => {
-    return {
-      ChangeLayoutMode: state.ChangeLayoutMode.data,
-      rtl: state.ChangeLayoutMode.rtlData,
-      topMenu: state.ChangeLayoutMode.topMenu,
-    };
-  };
-
-  const mapStateToDispatch = (dispatch) => {
-    return {
-      changeRtl: (rtl) => dispatch(changeRtlMode(rtl)),
-      changeLayout: (show) => dispatch(changeLayoutMode(show)),
-      changeMenuMode: (show) => dispatch(changeMenuMode(show)),
-    };
-  };
-
-  LayoutComponent.propTypes = {
-    ChangeLayoutMode: propTypes.bool,
-    rtl: propTypes.bool,
-    topMenu: propTypes.bool,
-    changeRtl: propTypes.func,
-    changeLayout: propTypes.func,
-    changeMenuMode: propTypes.func,
-  };
-
-  return connect(mapStateToProps, mapStateToDispatch)(LayoutComponent);
+  return LayoutComponent;
 };
 
 export default ThemeLayout;
