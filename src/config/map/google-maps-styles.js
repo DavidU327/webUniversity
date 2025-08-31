@@ -1,6 +1,4 @@
-import config from '../config';
-
-const { theme } = config;
+import { theme } from '../theme/themeVariables';
 
 const mapdata = {
   mapOneStyles: [

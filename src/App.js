@@ -1,12 +1,11 @@
 import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { hot } from 'react-hot-loader/root';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { ConfigProvider } from 'antd';
-import store, { rrfProps } from './redux/store';
+import store from './redux/store';
 import Admin from './routes/admin';
 import Auth from './routes/auth';
 import './static/css/style.css';
@@ -14,22 +13,14 @@ import 'antd/dist/antd.less';
 import { theme } from './config/theme/themeVariables';
 
 const ProviderConfig = () => {
- useSelector(state => {
-    return {
-      isLoggedIn: state.auth.login,
-      auth: state.fb.auth,
-    };
-  });
 
   return (
     <ConfigProvider direction="ltr">
       <ThemeProvider theme={{ ...theme}}>
-        <ReactReduxFirebaseProvider {...rrfProps}>
-          <Router basename={process.env.PUBLIC_URL}>
-            <Route path="/" exact component={Auth} />
-            <Route path="/admin" component={Admin} />
-          </Router>
-        </ReactReduxFirebaseProvider>
+        <Router basename={process.env.PUBLIC_URL}>
+          <Route path="/" exact component={Auth} />
+          <Route path="/admin" component={Admin} />
+        </Router>
       </ThemeProvider>
     </ConfigProvider>
   );
