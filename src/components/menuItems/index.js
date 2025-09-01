@@ -22,20 +22,19 @@ function MenuItems({ toggleCollapsed }) {
     if (item.keyPath.length === 1) setOpenKeys([]);
   };
 
+  const currentKey =
+    mainPathSplit.length === 1 || mainPathSplit[1] === 'dashboard'
+      ? 'home'
+      : mainPathSplit[1];
+
   return (
     <Menu
       onOpenChange={onOpenChange}
       onClick={onClick}
       mode="inline"
       // // eslint-disable-next-line no-nested-ternary
-      defaultSelectedKeys={
-        [
-          `${
-            mainPathSplit.length === 1 ? 'home' : mainPathSplit.length === 2 ? mainPathSplit[1] : mainPathSplit[2]
-          }`,
-        ]
-      }
-      defaultOpenKeys={[`${mainPathSplit.length > 2 ? mainPathSplit[1] : 'dashboard'}`]}
+      selectedKeys={[currentKey]}
+      defaultOpenKeys={[`${mainPathSplit.length > 2 ? mainPathSplit[1] : 'home'}`]}
       overflowedIndicator={<FeatherIcon icon="more-vertical" />}
       openKeys={openKeys}
     >

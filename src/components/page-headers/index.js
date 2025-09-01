@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { PageHeaderStyle } from './style';
 
 const PageHeader = props => {
-  const { title, subTitle, routes, buttons, ghost, bgColor, className } = props;
+  const { title, subTitle, routes, buttons, bgColor, className, styleAlternative } = props;
   return (
     <>
       <div
         style={{
           backgroundColor: bgColor || '#F4F5F7',
+          ...styleAlternative,
         }}
       >
         <PageHeaderStyle
@@ -21,7 +22,6 @@ const PageHeader = props => {
           subTitle={subTitle}
           breadcrumb={routes && { routes }}
           extra={buttons}
-          ghost={ghost}
         />
       </div>
     </>
@@ -36,7 +36,7 @@ PageHeader.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object),
   // eslint-disable-next-line react/forbid-prop-types
   buttons: PropTypes.array,
-  ghost: PropTypes.bool,
+  styleAlternative: PropTypes.object
 };
 
 export { PageHeader };
