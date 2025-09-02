@@ -57,7 +57,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="truck" />
           </NavLink>
         }
-        key="truck"
+        key="collectors"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/collectors`}>
           Recolectores
@@ -70,7 +70,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="users" />
           </NavLink>
         }
-        key="user"
+        key="users"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/users`}>
           Usuarios
@@ -83,7 +83,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="layers" />
           </NavLink>
         }
-        key="level"
+        key="levels"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/levels`}>
           Niveles
@@ -96,7 +96,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="shopping-cart" />
           </NavLink>
         }
-        key="shopping"
+        key="orders"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/orders`}>
           Ordenes
@@ -109,7 +109,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="trash-2" />
           </NavLink>
         }
-        key="trash"
+        key="wastes"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/wastes`}>
           Residuos
@@ -122,7 +122,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="layout" />
           </NavLink>
         }
-        key="layout"
+        key="blogs"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/blogs`}>
           Blogs
@@ -135,7 +135,7 @@ function MenuItems({ toggleCollapsed }) {
             <FeatherIcon icon="folder" />
           </NavLink>
         }
-        key="folder"
+        key="tips"
       >
         <NavLink onClick={toggleCollapsed} to={`${path}/tips`}>
           Tips

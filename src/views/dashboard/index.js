@@ -3,9 +3,10 @@ import { Row, Col } from 'antd';
 import { Main } from './style';
 import { Cards } from '../../components/cards';
 import { GoogleMaps } from '../../components/map';
+import { CardToolbox, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-import { CardToolbox, UserCardTop } from '../styled';
+
 
 function Dashboard(){
 
