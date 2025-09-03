@@ -4,7 +4,7 @@ import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
 
 
-function ModalDeleteUser({ visible, onCancel, deleteUser }) {
+function ModalDeleteWaste({ visible, onCancel, deleteWaste }) {
 
   const handleCancel = () => {
     onCancel();
@@ -31,12 +31,12 @@ function ModalDeleteUser({ visible, onCancel, deleteUser }) {
   return (
     <Modal
       type={state.modalType}
-      title="Eliminar usuario"
+      title="Eliminar residuo"
       visible={state.visible}
       footer={[
         <div key="1" >
-          <Button size="default" type="danger" key="submit" onClick={deleteUser}>
-            Eliminar usuario
+          <Button size="default" type="danger" key="submit" onClick={deleteWaste}>
+            Eliminar residuo
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
             Cancelar
@@ -45,15 +45,15 @@ function ModalDeleteUser({ visible, onCancel, deleteUser }) {
       ]}
       onCancel={handleCancel}
     >
-      <span>De verdad desea eliminar el usuario, esto no se puede reversar</span>
+      <span>De verdad desea eliminar el residuo, esto no se puede reversar</span>
     </Modal>
   );
 }
 
-ModalDeleteUser.propTypes = {
+ModalDeleteWaste.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
-  deleteUser: propTypes.func.isRequired,
+  deleteWaste: propTypes.func.isRequired,
 };
 
-export default ModalDeleteUser;
+export default ModalDeleteWaste;

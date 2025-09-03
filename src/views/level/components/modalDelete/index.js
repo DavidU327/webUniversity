@@ -31,7 +31,7 @@ function ModalDeleteLevel({ visible, onCancel, deleteCollector }) {
   return (
     <Modal
       type={state.modalType}
-      title="Eliminar recolector"
+      title="Eliminar nivel"
       visible={state.visible}
       footer={[
         <div key="1" >
