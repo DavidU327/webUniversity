@@ -92,7 +92,7 @@ function LevelListTable({ editLevel, deleteLevel }) {
             }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay recolectores aún" /> }}
+                description="No hay niveles aún" /> }}
           />
         </TableWrapper>
       </TableStyleWrapper>
