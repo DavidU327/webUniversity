@@ -12,7 +12,7 @@ const { Option } = Select;
 function ModalFormCollector({ visible, onCancel, title, textButton }) {
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState(null);
-  console.log(imageUrl, 'imageUrl')
+
   const handleUploadChange = (info) => {
     if (info?.file) {
       const url = URL.createObjectURL(info.file);

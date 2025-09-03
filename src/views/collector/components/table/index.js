@@ -1,13 +1,14 @@
 import React from 'react';
-import { Empty, Table } from 'antd';
+import propTypes from 'prop-types';
+import { Empty, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import Heading from '../../../../components/heading';
-import { Button } from '../../../../components/buttons';
 import { Cards } from '../../../../components/cards';
+import { Button } from '../../../../components/buttons';
 
-function CollectorListTable() {
+function CollectorListTable({ editCollector, deleteCollector }) {
 
   const allCollectors = [{id: 1, name: 'Juan', status: 'active'}];
 
@@ -35,13 +36,20 @@ function CollectorListTable() {
       </figcaption>,
       email: 'john@gmail.com',
       status: <span className={`status-text ${status}`}>Active</span>,
+      change_state: <Switch defaultChecked size="large" />,
       action: (
         <div className="table-actions">
           <>
-            <Button className="btn-icon" type="info" to="#" shape="circle">
+            <Button className="btn-icon"
+                    type="info"
+                    onClick={() => editCollector('Editar recolector', 'Editar')}
+                    shape="circle">
               <FeatherIcon icon="edit" size={16} />
             </Button>
-            <Button className="btn-icon" type="danger" to="#" shape="circle">
+            <Button className="btn-icon"
+                    onClick={deleteCollector}
+                    type="danger" to="#"
+                    shape="circle">
               <FeatherIcon icon="trash-2" size={16} />
             </Button>
           </>
@@ -77,10 +85,17 @@ function CollectorListTable() {
       key: 'status',
     },
     {
+      title: 'Cambiar estado',
+      dataIndex: 'change_state',
+      key: 'change_state',
+      align: 'center',
+    },
+    {
       title: 'Acciones',
       dataIndex: 'action',
       key: 'action',
       width: '10px',
+      align: 'center',
     },
   ];
 
@@ -105,5 +120,10 @@ function CollectorListTable() {
     </Cards>
   );
 }
+
+CollectorListTable.propTypes = {
+  editCollector: propTypes.func.isRequired,
+  deleteCollector: propTypes.func.isRequired,
+};
 
 export default CollectorListTable;

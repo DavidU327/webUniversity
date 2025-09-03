@@ -3,6 +3,7 @@ import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import CollectorListTable from './components/table';
 import ModalFormCollector from './components/modalForm';
+import ModalDeleteCollector from './components/modalDelete';
 import { Button } from '../../components/buttons';
 import { CardToolbox, UserCardTop, Main } from '../styled';
 import { PageHeader } from '../../components/page-headers';
@@ -13,6 +14,7 @@ function Collector(){
   const [state, setState] = useState({
     notData: [],
     visible: false,
+    modalDelete: false,
     title: '',
     textButton: ''
   });
@@ -26,10 +28,18 @@ function Collector(){
     });
   };
 
+  const showModalDelete = () => {
+    setState({
+      ...state,
+      modalDelete: true,
+    });
+  };
+
   const onCancel = () => {
     setState({
       ...state,
       visible: false,
+      modalDelete: false,
     });
   };
 
@@ -72,7 +82,7 @@ function Collector(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <CollectorListTable />
+            <CollectorListTable editCollector={showModal} deleteCollector={showModalDelete} />
           </Col>
         </Row>
       </Main>
@@ -81,6 +91,11 @@ function Collector(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+      />
+      <ModalDeleteCollector
+        deleteCollector={() => {}}
+        visible={state.modalDelete}
+        onCancel={onCancel}
       />
     </>
   )
