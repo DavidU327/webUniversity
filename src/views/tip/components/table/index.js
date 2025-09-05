@@ -7,30 +7,22 @@ import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 
-function BlogListTable({ editBlog, deleteBlog }) {
+function TipListTable({ editTip, deleteTip }) {
 
-  const allBlogs = [{id: 1, status: 'active'}];
+  const allTips = [{id: 1, status: 'active'}];
 
-  const blogs = allBlogs.map((user) => {
+  const tips = allTips.map((user) => {
     const { id, status } = user;
 
     return {
       key: id,
       title: <ColumnLarge >
-        Blog de medio ambiente
+        Tip 1
       </ColumnLarge>,
       description:
         <ColumnLarge>
           lorjkewjdjskalkjdjaksbdjlasdsadhjasdadasdasdsadasdasddasdasdasadldkajsdkasñkdakhldjlasjñkldjhkajsñdhaskljñdahslkjldlasda
         </ColumnLarge>,
-      url: 'http://google.com',
-      image: (
-        <figure>
-          <img style={{ width: '120px', height: '120px' }}
-               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEBkw2FR-UGWNB96Ip7cD5m3cJkQ_HyYuqKg&s"
-               alt="" />
-        </figure>
-      ),
       status: <span className={`status-text ${status}`}>Active</span>,
       change_state: <Switch defaultChecked size="large" />,
       action: (
@@ -38,12 +30,12 @@ function BlogListTable({ editBlog, deleteBlog }) {
           <>
             <Button className="btn-icon"
                     type="info"
-                    onClick={() => editBlog('Editar blog', 'Editar')}
+                    onClick={() => editTip('Editar tip', 'Editar')}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
             </Button>
             <Button className="btn-icon"
-                    onClick={deleteBlog}
+                    onClick={deleteTip}
                     type="danger" to="#"
                     shape="circle">
               <FeatherIcon icon="trash-2" size={16} />
@@ -58,46 +50,36 @@ function BlogListTable({ editBlog, deleteBlog }) {
     {
       title: 'Título',
       dataIndex: 'title',
-      width: 150,
       key: 'title',
+      width: 60,
     },
     {
       title: 'Descripción',
       dataIndex: 'description',
       key: 'description',
       width: 200,
-    },
-    {
-      title: 'Url',
-      dataIndex: 'url',
-      key: 'url',
-      width: 180,
       ellipsis: true,
-    },
-    {
-      title: 'Imagen',
-      dataIndex: 'image',
-      key: 'image',
-      width: 180,
     },
     {
       title: 'Estado',
       dataIndex: 'status',
       key: 'status',
-      width: 120,
+      width: 50,
+      align: 'center',
     },
     {
       title: 'Cambiar estado',
       dataIndex: 'change_state',
       key: 'change_state',
       align: 'center',
-      width: 140,
+      width: 70,
     },
     {
       title: 'Acciones',
       dataIndex: 'action',
       key: 'action',
-      width: 100,
+      align: 'center',
+      width: 50,
     },
   ];
 
@@ -106,11 +88,11 @@ function BlogListTable({ editBlog, deleteBlog }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={blogs}
+            dataSource={tips}
             columns={collectorTableColumns}
             pagination={{
               defaultPageSize: 5,
-              total: blogs.length,
+              total: tips.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
             locale={{ emptyText: <Empty
@@ -123,9 +105,9 @@ function BlogListTable({ editBlog, deleteBlog }) {
   );
 }
 
-BlogListTable.propTypes = {
-  editBlog: propTypes.func.isRequired,
-  deleteBlog: propTypes.func.isRequired,
+TipListTable.propTypes = {
+  editTip: propTypes.func.isRequired,
+  deleteTip: propTypes.func.isRequired,
 };
 
-export default BlogListTable;
+export default TipListTable;
