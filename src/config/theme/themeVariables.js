@@ -187,10 +187,5 @@ const theme = {
   'tag-font-size': '11px',
 };
 
-const darkTheme = {
-  ...theme,
-  'primary-color': 'red',
-  backgroundColor: '#000',
-};
 
-export { theme, darkTheme };
+export { theme };
