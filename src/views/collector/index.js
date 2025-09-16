@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import FeatherIcon from 'feather-icons-react';
+import { useDispatch, useSelector } from 'react-redux';
 import CollectorListTable from './components/table';
 import ModalFormCollector from './components/modalForm';
 import ModalDeleteCollector from './components/modalDelete';
@@ -8,8 +9,16 @@ import { Button } from '../../components/buttons';
 import { CardToolbox, UserCardTop, Main } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
+import { getRecollector } from '../../redux/recollector/actionCreator';
+import { getTypeIdentifications } from '../../redux/typeIdentification/actionCreator';
 
 function Collector(){
+
+  const dispatch = useDispatch();
+
+  const {
+    recollectors,
+  } = useSelector((state) => state.recollector);
 
   const [state, setState] = useState({
     notData: [],
@@ -52,6 +61,11 @@ function Collector(){
     });
   };
 
+  useEffect(() => {
+    dispatch(getRecollector());
+    dispatch(getTypeIdentifications());
+  }, []);
+
   return (
     <>
       <CardToolbox>
@@ -61,7 +75,7 @@ function Collector(){
             title="Recolectores"
             subTitle={
               <>
-                <span className="title-counter">274 Recolectores</span>
+                <span className="title-counter">{recollectors.length} Recolectores</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -82,7 +96,10 @@ function Collector(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <CollectorListTable editCollector={showModal} deleteCollector={showModalDelete} />
+            <CollectorListTable
+              editCollector={showModal}
+              deleteCollector={showModalDelete}
+            />
           </Col>
         </Row>
       </Main>

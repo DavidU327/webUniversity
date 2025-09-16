@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { getItem } from '../../utility/localStorageControl';
+import Cookies from 'js-cookie';
+import { getItem, removeItem } from '../../utility/localStorageControl';
+import { COOKIE_WEB, TOKEN_WEB } from '../variable/variable';
 
 class DataService {
 
@@ -7,7 +9,7 @@ class DataService {
     return axios.get(path, {
       baseURL,
       headers: {
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -26,7 +28,7 @@ class DataService {
       baseURL,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -36,7 +38,7 @@ class DataService {
       baseURL,
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -45,7 +47,7 @@ class DataService {
     return axios.patch(path, data, {
       baseURL,
       headers: {
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -56,7 +58,7 @@ class DataService {
       baseURL,
       data,
       headers: {
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -65,7 +67,7 @@ class DataService {
     return axios.put(path, data, {
       baseURL,
       headers: {
-        Authorization: `Bearer ${getItem('access_token')}`,
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
       },
     });
   }
@@ -77,8 +79,9 @@ axios.interceptors.response.use(
     const { response } = error;
     if (response) {
       if (response.status === 401) {
-        console.error('Token expirado o no autorizado');
-        // Aquí podrías hacer logout o refresh de token
+        removeItem(TOKEN_WEB);
+        Cookies.remove(COOKIE_WEB);
+        window.location.href = '/';
       }
       if (response.status === 500) {
         console.error('Error 500 en el servidor');

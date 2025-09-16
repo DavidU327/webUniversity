@@ -1,12 +1,10 @@
 import Cookies from 'js-cookie';
 import actions from './actions';
-import { DataService } from '../../config/dataService/dataService';
 import { setItem } from '../../utility/localStorageControl';
-import { ADMIN } from '../../config/variable/variable';
+import { DataService } from '../../config/dataService/dataService';
+import { ADMIN, COOKIE_WEB, TOKEN_WEB } from '../../config/variable/variable';
 
 const { loginBegin, loginSuccess, loginError, clearLoginForm } = actions;
-
-
 
 const loginUser = (credentials, remember) => {
   return async (dispatch) => {
@@ -16,9 +14,9 @@ const loginUser = (credentials, remember) => {
       if (response.data?.success) {
         if(response.data.data.rol === ADMIN){
           const token = response.data.data.access_token;
-          setItem('@university_access_token', token);
+          setItem(TOKEN_WEB, token);
           if(remember){
-            Cookies.set('loginIn', true);
+            Cookies.set(COOKIE_WEB, true);
           }
           dispatch(loginSuccess(true));
         } else {

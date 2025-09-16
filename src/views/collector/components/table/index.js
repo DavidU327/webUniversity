@@ -1,8 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Empty, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { TableStyleWrapper } from './style';
+import { StatusText, TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
@@ -10,17 +11,34 @@ import { Button } from '../../../../components/buttons';
 
 function CollectorListTable({ editCollector, deleteCollector }) {
 
-  const allCollectors = [{id: 1, name: 'Juan', status: 'active'}];
+  const {
+    recollectors,
+    loading,
+  } = useSelector((state) => state.recollector);
 
-  const collectors = allCollectors.map((user) => {
-    const { id, name, status } = user;
+  const collectors = recollectors.map((recollector) => {
+    console.log(recollector, 'usuario');
+    const {
+      collector: {
+        id,
+        user: {
+          name,
+          image,
+          identification,
+          email,
+          phone,
+          typeIdentification,
+        },
+        state,
+      },
+    } = recollector;
 
     return {
       key: id,
       user: (
         <div className="user-info">
           <figure>
-            <img style={{ width: '40px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/250px-User_icon_2.svg.png" alt="" />
+            <img style={{ width: '40px' }} src={image} alt="" />
           </figure>
           <figcaption>
             <Heading className="user-name" as="h6">
@@ -29,14 +47,14 @@ function CollectorListTable({ editCollector, deleteCollector }) {
           </figcaption>
         </div>
       ),
-      phone: '3178874640',
+      phone,
       document: <figcaption>
-        <span>C.C</span>
-        <span>101427321</span>
+        <span>{typeIdentification?.name}</span>
+        <span>{identification}</span>
       </figcaption>,
-      email: 'john@gmail.com',
-      status: <span className={`status-text ${status}`}>Active</span>,
-      change_state: <Switch defaultChecked size="large" />,
+      email,
+      status: <StatusText $color={state?.color}>{state?.name}</StatusText>,
+      change_state: <Switch checked={state?.name === 'Habilitado'} size="large" />,
       action: (
         <div className="table-actions">
           <>
@@ -83,6 +101,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       title: 'Estado',
       dataIndex: 'status',
       key: 'status',
+      align: 'center',
     },
     {
       title: 'Cambiar estado',
@@ -106,6 +125,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
           <Table
             dataSource={collectors}
             columns={collectorTableColumns}
+            loading={loading}
             pagination={{
               defaultPageSize: 5,
               total: collectors.length,

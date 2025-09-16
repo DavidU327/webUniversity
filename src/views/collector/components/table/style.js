@@ -9,28 +9,6 @@ const TableStyleWrapper = Styled.nav`
             font-size: 14px;
           }
         }
-        span.status-text{
-          font-size: 12px;
-          padding: 0 12.41px;
-          line-height: 1.9;
-          font-weight: 500;
-          border-radius: 12px;
-          text-transform: capitalize;
-          display: inline-block !important;
-          background: #ddd;
-          &.active{
-            background-color: ${({ theme }) => theme['success-color']}15;
-            color: ${({ theme }) => theme['success-color']};
-          }
-          &.deactivate{
-            background-color: ${({ theme }) => theme['warning-color']}15;
-            color: ${({ theme }) => theme['warning-color']};
-          }
-          &.blocked{
-            background-color: ${({ theme }) => theme['danger-color']}15;
-            color: ${({ theme }) => theme['danger-color']};
-          }
-        }
       }
     }
   }
@@ -79,6 +57,19 @@ const TableStyleWrapper = Styled.nav`
   }
 `;
 
+const StatusText = Styled.span`
+  font-size: 12px;
+  padding: 0 12.41px;
+  line-height: 1.9;
+  font-weight: 500;
+  border-radius: 12px;
+  text-transform: capitalize;
+  display: inline-block !important;
+  background-color: ${({ $color }) => `${$color}15`};
+  color: ${({ $color }) => $color};
+`;
+
 export {
+  StatusText,
   TableStyleWrapper,
 };

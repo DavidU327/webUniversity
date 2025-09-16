@@ -1,10 +1,11 @@
 import Cookies from 'js-cookie';
 import actions from './actions';
+import { COOKIE_WEB } from '../../config/variable/variable';
 
 const { LOGIN_BEGIN, LOGIN_SUCCESS, LOGIN_ERROR, CLEAR_LOGIN_ERROR, } = actions;
 
 const initState = {
-  login: Cookies.get('loginIn'),
+  login: Cookies.get(COOKIE_WEB),
   loading: false,
   error: null,
 };
