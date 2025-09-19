@@ -16,8 +16,15 @@ function CollectorListTable({ editCollector, deleteCollector }) {
     loading,
   } = useSelector((state) => state.recollector);
 
+  const infoDocument = (url) => {
+    if(url !== null){
+      window.open(url, "_blank");
+    }else{
+      console.log('abrir modal');
+    }
+  };
+
   const collectors = recollectors.map((recollector) => {
-    console.log(recollector, 'usuario');
     const {
       collector: {
         id,
@@ -29,6 +36,8 @@ function CollectorListTable({ editCollector, deleteCollector }) {
           phone,
           typeIdentification,
         },
+        identification_document: identificationDocument,
+        driving_license_document: drivingLicenseDocument,
         state,
       },
     } = recollector;
@@ -53,6 +62,29 @@ function CollectorListTable({ editCollector, deleteCollector }) {
         <span>{identification}</span>
       </figcaption>,
       email,
+      document_identification: (
+        <div>
+          <Button
+                  type="primary"
+                  onClick={() => infoDocument(identificationDocument)}
+                  shape="circle">
+            <FeatherIcon icon={identificationDocument !== null ? 'eye' : 'upload'} size={16} />
+          {identificationDocument !== null ? 'Documento de identidad' : 'No cargo el documento'}
+          </Button>
+        </div>
+      ),
+      document_driving:
+        (
+          <div>
+            <Button
+              type="primary"
+              onClick={() => infoDocument(drivingLicenseDocument)}
+              shape="circle">
+              <FeatherIcon icon={drivingLicenseDocument !== null ? 'eye' : 'upload'} size={16} />
+              {drivingLicenseDocument !== null ? 'Licencia de conducción' : 'No cargo el documento'}
+            </Button>
+          </div>
+        ),
       status: <StatusText $color={state?.color}>{state?.name}</StatusText>,
       change_state: <Switch checked={state?.name === 'Habilitado'} size="large" />,
       action: (
@@ -96,6 +128,18 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       title: 'Correo electrónico',
       dataIndex: 'email',
       key: 'email',
+    },
+    {
+      title: 'Documento de identificación',
+      dataIndex: 'document_identification',
+      key: 'document_identification',
+      align: 'center',
+    },
+    {
+      title: 'Documento de conducción',
+      dataIndex: 'document_driving',
+      key: 'document_driving',
+      align: 'center',
     },
     {
       title: 'Estado',

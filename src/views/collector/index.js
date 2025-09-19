@@ -9,8 +9,9 @@ import { Button } from '../../components/buttons';
 import { CardToolbox, UserCardTop, Main } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-import { getRecollector } from '../../redux/recollector/actionCreator';
+import { cleanFormRecollector, getRecollector } from '../../redux/recollector/actionCreator';
 import { getTypeIdentifications } from '../../redux/typeIdentification/actionCreator';
+import { openNotification } from '../../utility/notification';
 
 function Collector(){
 
@@ -18,6 +19,7 @@ function Collector(){
 
   const {
     recollectors,
+    successForm,
   } = useSelector((state) => state.recollector);
 
   const [state, setState] = useState({
@@ -65,6 +67,14 @@ function Collector(){
     dispatch(getRecollector());
     dispatch(getTypeIdentifications());
   }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', 'Se ha creado el recolector correctamente');
+      dispatch(cleanFormRecollector());
+    }
+  }, [successForm]);
 
   return (
     <>
