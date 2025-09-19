@@ -7,7 +7,11 @@ const actions = {
   CREATE_RECOLLECTOR_SUCCESS: 'CREATE_RECOLLECTOR_SUCCESS',
   CREATE_RECOLLECTOR_ERROR: 'CREATE_RECOLLECTOR_ERROR',
 
-  CLEAN_FORM: '',
+  UPLOAD_DOCUMENT_BEGIN: 'UPLOAD_DOCUMENT_BEGIN',
+  UPLOAD_DOCUMENT_SUCCESS: 'UPLOAD_DOCUMENT_SUCCESS',
+  UPLOAD_DOCUMENT_ERROR: 'UPLOAD_DOCUMENT_ERROR',
+
+  CLEAN_FORM: 'CLEAN_FORM',
 
   getRecollectorBegin: () => {
     return {
@@ -52,6 +56,26 @@ const actions = {
   cleanForm: () => {
     return {
       type: actions.CLEAN_FORM,
+    };
+  },
+
+  uploadDocumentBegin: () => {
+    return {
+      type: actions.UPLOAD_DOCUMENT_BEGIN,
+    };
+  },
+
+  uploadDocumentSuccess: (data) => {
+    return {
+      type: actions.UPLOAD_DOCUMENT_SUCCESS,
+      data,
+    };
+  },
+
+  uploadDocumentError: (err) => {
+    return {
+      type: actions.UPLOAD_DOCUMENT_ERROR,
+      err,
     };
   },
 };

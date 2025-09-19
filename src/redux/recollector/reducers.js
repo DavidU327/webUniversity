@@ -7,6 +7,9 @@ const { GET_RECOLLECTOR_BEGIN,
   CREATE_RECOLLECTOR_SUCCESS,
   CREATE_RECOLLECTOR_ERROR,
   CLEAN_FORM,
+  UPLOAD_DOCUMENT_BEGIN,
+  UPLOAD_DOCUMENT_SUCCESS,
+  UPLOAD_DOCUMENT_ERROR,
 } = actions;
 
 const initState = {
@@ -18,6 +21,7 @@ const initState = {
   currentPage: 1,
   loadingForm: false,
   successForm: false,
+  message: '',
 };
 
 const RecollectorReducer = (state = initState, action) => {
@@ -53,7 +57,8 @@ const RecollectorReducer = (state = initState, action) => {
         ...state,
         loadingForm: false,
         successForm: true,
-        recollectors: [data, ...state.recollectors]
+        message: data.message,
+        recollectors: [data.data, ...state.recollectors]
       };
     case CREATE_RECOLLECTOR_ERROR:
       return {
@@ -65,6 +70,36 @@ const RecollectorReducer = (state = initState, action) => {
       return {
         ...state,
         successForm: false,
+        message: '',
+      };
+    case UPLOAD_DOCUMENT_BEGIN:
+      return {
+        ...state,
+        loadingForm: true,
+      };
+    case UPLOAD_DOCUMENT_SUCCESS:
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: data.message,
+        recollectors: state.recollectors.map((recollector) =>
+          recollector.collector.id === data.id
+            ? {
+              ...recollector,
+              collector: {
+                ...recollector.collector,
+                [data.type]: data.url,
+              },
+            }
+            : recollector
+        ),
+      };
+    case UPLOAD_DOCUMENT_ERROR:
+      return {
+        ...state,
+        error: err,
+        loadingForm: false,
       };
     default:
       return state;

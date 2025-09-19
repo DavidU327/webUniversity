@@ -9,18 +9,18 @@ import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 
-function CollectorListTable({ editCollector, deleteCollector }) {
+function CollectorListTable({ editCollector, deleteCollector, modalDocument }) {
 
   const {
     recollectors,
     loading,
   } = useSelector((state) => state.recollector);
 
-  const infoDocument = (url) => {
+  const infoDocument = (url, type, collector) => {
     if(url !== null){
       window.open(url, "_blank");
     }else{
-      console.log('abrir modal');
+      modalDocument(type, collector);
     }
   };
 
@@ -47,7 +47,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       user: (
         <div className="user-info">
           <figure>
-            <img style={{ width: '40px' }} src={image} alt="" />
+            <img style={{ width: '80px', height: '80px', borderRadius: '10px' }} src={image} alt="" />
           </figure>
           <figcaption>
             <Heading className="user-name" as="h6">
@@ -66,7 +66,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
         <div>
           <Button
                   type="primary"
-                  onClick={() => infoDocument(identificationDocument)}
+                  onClick={() => infoDocument(identificationDocument, 'document_identification', recollector)}
                   shape="circle">
             <FeatherIcon icon={identificationDocument !== null ? 'eye' : 'upload'} size={16} />
           {identificationDocument !== null ? 'Documento de identidad' : 'No cargo el documento'}
@@ -78,7 +78,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
           <div>
             <Button
               type="primary"
-              onClick={() => infoDocument(drivingLicenseDocument)}
+              onClick={() => infoDocument(drivingLicenseDocument, 'document_driving_license', recollector)}
               shape="circle">
               <FeatherIcon icon={drivingLicenseDocument !== null ? 'eye' : 'upload'} size={16} />
               {drivingLicenseDocument !== null ? 'Licencia de conducción' : 'No cargo el documento'}
@@ -167,6 +167,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
+            rowKey={(record) => record.key}
             dataSource={collectors}
             columns={collectorTableColumns}
             loading={loading}
@@ -188,6 +189,7 @@ function CollectorListTable({ editCollector, deleteCollector }) {
 CollectorListTable.propTypes = {
   editCollector: propTypes.func.isRequired,
   deleteCollector: propTypes.func.isRequired,
+  modalDocument: propTypes.func.isRequired,
 };
 
 export default CollectorListTable;

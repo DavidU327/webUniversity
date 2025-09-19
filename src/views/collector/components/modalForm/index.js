@@ -126,7 +126,7 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
               <Form.Item name="type_identification" initialValue={typeIdentifications[0].id} label="Tipo de documento">
                 <Select style={{ width: '100%' }}>
                   {typeIdentifications.map((identification) => (
-                    <Option value={identification.id}>{identification.name}</Option>
+                    <Option key={identification.id} value={identification.id}>{identification.name}</Option>
                   ))}
                 </Select>
               </Form.Item>

@@ -9,9 +9,10 @@ const {
   createRecollectorSuccess,
   createRecollectorError,
   cleanForm,
+  uploadDocumentBegin,
+  uploadDocumentSuccess,
+  uploadDocumentError,
 } = actions;
-
-
 
 const getRecollector = () => {
   const url = process.env.REACT_APP_API_RECOLLECTOR;
@@ -52,7 +53,11 @@ const createRecollector = (params) => {
       dispatch(createRecollectorBegin());
       const response = await DataService.postFormData('/collector-backoffice', formData ,url);
       if (response?.data?.user) {
-        dispatch(createRecollectorSuccess(response?.data?.user));
+        dispatch(createRecollectorSuccess(
+          {
+            data: response?.data?.user,
+            message: response?.message,
+          }));
       } else {
         dispatch(createRecollectorError(response.data?.error || 'Error al crear recolector'));
       }
@@ -70,4 +75,36 @@ const cleanFormRecollector = () => {
   };
 };
 
-export { getRecollector, createRecollector, cleanFormRecollector };
+const uploadDocument = (params) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    const formData = new FormData();
+    if(params.type === 'document_identification'){
+      formData.append('identification_document', params.document.file);
+    }
+    if(params.type === 'document_driving_license'){
+      formData.append('driving_license_document', params.document.file);
+    }
+    try {
+      dispatch(uploadDocumentBegin());
+      const response = await DataService.postFormData(`/upload-document/${params.id}`, formData ,url);
+      if (response?.data?.data?.url) {
+        dispatch(uploadDocumentSuccess({
+          url:response?.data?.data?.url,
+          id: params.id,
+          type: params.type === 'document_identification' ? 'identification_document' : 'driving_license_document',
+          message: response?.data?.message,
+          },
+        ));
+      } else {
+        dispatch(uploadDocumentError(response.data?.error || 'Error al subir documento'));
+      }
+    } catch (err) {
+      dispatch(
+        uploadDocumentError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+export { getRecollector, createRecollector, cleanFormRecollector, uploadDocument };

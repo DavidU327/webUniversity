@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import CollectorListTable from './components/table';
 import ModalFormCollector from './components/modalForm';
 import ModalDeleteCollector from './components/modalDelete';
-import { Button } from '../../components/buttons';
+import ModalUploadCollector from './components/modaUploadDocument';
 import { CardToolbox, UserCardTop, Main } from '../styled';
+import { Button } from '../../components/buttons';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
+import { openNotification } from '../../utility/notification';
 import { cleanFormRecollector, getRecollector } from '../../redux/recollector/actionCreator';
 import { getTypeIdentifications } from '../../redux/typeIdentification/actionCreator';
-import { openNotification } from '../../utility/notification';
 
 function Collector(){
 
@@ -20,12 +21,15 @@ function Collector(){
   const {
     recollectors,
     successForm,
+    message,
   } = useSelector((state) => state.recollector);
 
   const [state, setState] = useState({
     notData: [],
     visible: false,
+    modalDocument: '',
     modalDelete: false,
+    focus: {},
     title: '',
     textButton: ''
   });
@@ -46,11 +50,21 @@ function Collector(){
     });
   };
 
+  const showModalDocument = (modal, collector) => {
+    setState({
+      ...state,
+      modalDocument: modal,
+      focus: collector
+    });
+  };
+
   const onCancel = () => {
     setState({
       ...state,
       visible: false,
       modalDelete: false,
+      modalDocument: '',
+      focus: {}
     });
   };
 
@@ -71,7 +85,7 @@ function Collector(){
   useEffect(() => {
     if(successForm) {
       onCancel();
-      openNotification('success', 'Enhorabuena', 'Se ha creado el recolector correctamente');
+      openNotification('success', 'Enhorabuena', message);
       dispatch(cleanFormRecollector());
     }
   }, [successForm]);
@@ -109,6 +123,7 @@ function Collector(){
             <CollectorListTable
               editCollector={showModal}
               deleteCollector={showModalDelete}
+              modalDocument={showModalDocument}
             />
           </Col>
         </Row>
@@ -124,6 +139,13 @@ function Collector(){
         visible={state.modalDelete}
         onCancel={onCancel}
       />
+      {state.modalDocument !== '' && (
+        <ModalUploadCollector
+          visible={state.modalDocument}
+          onCancel={onCancel}
+          id={state.focus.collector.id}
+        />
+      )}
     </>
   )
 }
