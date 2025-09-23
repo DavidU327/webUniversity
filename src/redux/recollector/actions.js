@@ -11,6 +11,14 @@ const actions = {
   UPLOAD_DOCUMENT_SUCCESS: 'UPLOAD_DOCUMENT_SUCCESS',
   UPLOAD_DOCUMENT_ERROR: 'UPLOAD_DOCUMENT_ERROR',
 
+  GET_STATES_BEGIN: 'GET_STATES_BEGIN',
+  GET_STATES_SUCCESS: 'GET_STATES_SUCCESS',
+  GET_STATES_ERROR: 'GET_STATES_ERROR',
+
+  CHANGE_STATE_LIST_BEGIN: 'CHANGE_STATE_LIST_BEGIN',
+  CHANGE_STATE_LIST_SUCCESS: 'CHANGE_STATE_LIST_SUCCESS',
+  CHANGE_STATE_LIST_ERROR: 'CHANGE_STATE_LIST_ERROR',
+
   CLEAN_FORM: 'CLEAN_FORM',
 
   getRecollectorBegin: () => {
@@ -75,6 +83,46 @@ const actions = {
   uploadDocumentError: (err) => {
     return {
       type: actions.UPLOAD_DOCUMENT_ERROR,
+      err,
+    };
+  },
+
+  getStatesBegin: () => {
+    return {
+      type: actions.GET_STATES_BEGIN,
+    };
+  },
+
+  getStatesSuccess: (data) => {
+    return {
+      type: actions.GET_STATES_SUCCESS,
+      data,
+    };
+  },
+
+  getStatesError: (err) => {
+    return {
+      type: actions.GET_STATES_ERROR,
+      err,
+    };
+  },
+
+  changeStateListBegin: () => {
+    return {
+      type: actions.CHANGE_STATE_LIST_BEGIN,
+    };
+  },
+
+  changeStateListSuccess: (data) => {
+    return {
+      type: actions.CHANGE_STATE_LIST_SUCCESS,
+      data,
+    };
+  },
+
+  changeStateListError: (err) => {
+    return {
+      type: actions.CHANGE_STATE_LIST_ERROR,
       err,
     };
   },

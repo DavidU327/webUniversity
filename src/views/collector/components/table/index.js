@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Empty, Switch, Table } from 'antd';
+import { Empty, Select, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { StatusText, TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
@@ -9,11 +9,14 @@ import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 
-function CollectorListTable({ editCollector, deleteCollector, modalDocument }) {
+const { Option } = Select;
+
+function CollectorListTable({ editCollector, deleteCollector, modalDocument, modalChangeState }) {
 
   const {
     recollectors,
     loading,
+    states,
   } = useSelector((state) => state.recollector);
 
   const infoDocument = (url, type, collector) => {
@@ -86,16 +89,36 @@ function CollectorListTable({ editCollector, deleteCollector, modalDocument }) {
           </div>
         ),
       status: <StatusText $color={state?.color}>{state?.name}</StatusText>,
-      change_state: <Switch checked={state?.name === 'Habilitado'} size="large" />,
+      change_state: (
+        <>
+          {state?.name === 'Pendiente de Validar' &&
+            <Select style={{ width: '100%' }}
+                    onChange={(value) => {
+                      const selectedState = states.find(s => s.id === value);
+                      modalChangeState(recollector, selectedState);
+                    }}
+            >
+              {states.map((state) => (
+                <Option key={state.id} value={state.id}>{state.name}</Option>
+              ))}
+            </Select>
+          }
+          {state?.name !== 'Rechazado' && (
+            <Switch checked={state?.name === 'Habilitado'} size="large" />
+          )}
+        </>
+      ),
       action: (
         <div className="table-actions">
           <>
+          {state?.name !== 'Rechazado' && (
             <Button className="btn-icon"
                     type="info"
                     onClick={() => editCollector('Editar recolector', 'Editar')}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
             </Button>
+          )}
             <Button className="btn-icon"
                     onClick={deleteCollector}
                     type="danger" to="#"
@@ -190,6 +213,7 @@ CollectorListTable.propTypes = {
   editCollector: propTypes.func.isRequired,
   deleteCollector: propTypes.func.isRequired,
   modalDocument: propTypes.func.isRequired,
+  modalChangeState: propTypes.func.isRequired,
 };
 
 export default CollectorListTable;

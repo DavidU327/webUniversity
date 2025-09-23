@@ -12,6 +12,12 @@ const {
   uploadDocumentBegin,
   uploadDocumentSuccess,
   uploadDocumentError,
+  getStatesBegin,
+  getStatesSuccess,
+  getStatesError,
+  changeStateListBegin,
+  changeStateListSuccess,
+  changeStateListError,
 } = actions;
 
 const getRecollector = () => {
@@ -107,4 +113,54 @@ const uploadDocument = (params) => {
   };
 };
 
-export { getRecollector, createRecollector, cleanFormRecollector, uploadDocument };
+const getRecollectorStates = () => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(getStatesBegin());
+      const response = await DataService.get(`/states_collector`, url);
+      if (response.data.state?.length > 0) {
+        dispatch(getStatesSuccess(response.data.state));
+      } else {
+        dispatch(getStatesError(response.data?.error || 'Error al traer datos'));
+      }
+    } catch (err) {
+      dispatch(
+        getStatesError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+const changeStateListRecollector = (stateId, recollectorId) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(changeStateListBegin());
+      const response = await DataService.get(`/change_state_collector/${stateId}/${recollectorId}` ,url);
+      if (response?.data?.code === 200) {
+        dispatch(changeStateListSuccess({
+            state: response?.data?.data?.state,
+            id: response?.data?.data?.id,
+            message: response?.data?.message,
+          },
+        ));
+      } else {
+        dispatch(changeStateListError(response.data?.error || 'Error al subir documento'));
+      }
+    } catch (err) {
+      dispatch(
+        changeStateListError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+export {
+  getRecollector,
+  createRecollector,
+  cleanFormRecollector,
+  uploadDocument,
+  getRecollectorStates,
+  changeStateListRecollector,
+};

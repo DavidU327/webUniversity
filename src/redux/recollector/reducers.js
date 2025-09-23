@@ -10,6 +10,12 @@ const { GET_RECOLLECTOR_BEGIN,
   UPLOAD_DOCUMENT_BEGIN,
   UPLOAD_DOCUMENT_SUCCESS,
   UPLOAD_DOCUMENT_ERROR,
+  GET_STATES_BEGIN,
+  GET_STATES_SUCCESS,
+  GET_STATES_ERROR,
+  CHANGE_STATE_LIST_BEGIN,
+  CHANGE_STATE_LIST_SUCCESS,
+  CHANGE_STATE_LIST_ERROR,
 } = actions;
 
 const initState = {
@@ -22,6 +28,9 @@ const initState = {
   loadingForm: false,
   successForm: false,
   message: '',
+  states: [],
+  errorStates: null,
+  errorChangeList: null,
 };
 
 const RecollectorReducer = (state = initState, action) => {
@@ -100,6 +109,51 @@ const RecollectorReducer = (state = initState, action) => {
         ...state,
         error: err,
         loadingForm: false,
+      };
+    case GET_STATES_BEGIN:
+      return {
+        ...state,
+      };
+    case GET_STATES_SUCCESS:
+      return {
+        ...state,
+        states: data,
+      };
+    case GET_STATES_ERROR:
+      return {
+        ...state,
+        errorStates: err,
+      };
+    case CHANGE_STATE_LIST_BEGIN:
+      return {
+        ...state,
+        loadingForm: true,
+      };
+    case CHANGE_STATE_LIST_SUCCESS:
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: data.message,
+        recollectors: state.recollectors.map((recollector) =>
+          recollector.collector.id === data.id
+            ? {
+              ...recollector,
+              collector: {
+                ...recollector.collector,
+                state: {
+                  ...data.state
+                }
+              },
+            }
+            : recollector
+        ),
+      };
+    case CHANGE_STATE_LIST_ERROR:
+      return {
+        ...state,
+        loadingForm: false,
+        errorChangeList: err,
       };
     default:
       return state;

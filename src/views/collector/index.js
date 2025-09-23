@@ -6,13 +6,20 @@ import CollectorListTable from './components/table';
 import ModalFormCollector from './components/modalForm';
 import ModalDeleteCollector from './components/modalDelete';
 import ModalUploadCollector from './components/modaUploadDocument';
+import ModalChangeStateCollector from './components/modalChangeState';
 import { CardToolbox, UserCardTop, Main } from '../styled';
 import { Button } from '../../components/buttons';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
 import { openNotification } from '../../utility/notification';
-import { cleanFormRecollector, getRecollector } from '../../redux/recollector/actionCreator';
+import {
+  changeStateListRecollector,
+  cleanFormRecollector,
+  getRecollector,
+  getRecollectorStates,
+} from '../../redux/recollector/actionCreator';
 import { getTypeIdentifications } from '../../redux/typeIdentification/actionCreator';
+
 
 function Collector(){
 
@@ -29,7 +36,9 @@ function Collector(){
     visible: false,
     modalDocument: '',
     modalDelete: false,
+    modalChangeState: false,
     focus: {},
+    stateFocus: {},
     title: '',
     textButton: ''
   });
@@ -58,11 +67,22 @@ function Collector(){
     });
   };
 
+  const showModalChangeState = (collector, state) => {
+    setState({
+      ...state,
+      modalDocument: '',
+      modalChangeState: true,
+      focus: collector,
+      stateFocus: state,
+    });
+  };
+
   const onCancel = () => {
     setState({
       ...state,
       visible: false,
       modalDelete: false,
+      modalChangeState: false,
       modalDocument: '',
       focus: {}
     });
@@ -77,9 +97,13 @@ function Collector(){
     });
   };
 
+  const changeListState = (stateId, recollectorId) => {
+    dispatch(changeStateListRecollector(stateId, recollectorId))
+  }
   useEffect(() => {
     dispatch(getRecollector());
     dispatch(getTypeIdentifications());
+    dispatch(getRecollectorStates());
   }, []);
 
   useEffect(() => {
@@ -124,6 +148,7 @@ function Collector(){
               editCollector={showModal}
               deleteCollector={showModalDelete}
               modalDocument={showModalDocument}
+              modalChangeState={showModalChangeState}
             />
           </Col>
         </Row>
@@ -144,6 +169,15 @@ function Collector(){
           visible={state.modalDocument}
           onCancel={onCancel}
           id={state.focus.collector.id}
+        />
+      )}
+      {state.modalChangeState && (
+        <ModalChangeStateCollector
+          visible
+          stateName={state.stateFocus.name}
+          onCancel={onCancel}
+          changeState={() => changeListState(state.stateFocus.id, state.focus.collector.id)}
+          recollectorName={state.focus.collector.user.name}
         />
       )}
     </>
