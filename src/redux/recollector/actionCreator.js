@@ -18,6 +18,9 @@ const {
   changeStateListBegin,
   changeStateListSuccess,
   changeStateListError,
+  changeStateBegin,
+  changeStateSuccess,
+  changeStateError,
 } = actions;
 
 const getRecollector = () => {
@@ -156,6 +159,30 @@ const changeStateListRecollector = (stateId, recollectorId) => {
   };
 };
 
+const changeStateRecollector = (recollectorId) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(changeStateBegin());
+      const response = await DataService.get(`/change_state/${recollectorId}` ,url);
+      if (response?.data?.code === 200) {
+        dispatch(changeStateSuccess({
+            state: response?.data?.data?.state,
+            id: response?.data?.data?.id,
+            message: response?.data?.message,
+          },
+        ));
+      } else {
+        dispatch(changeStateError(response.data?.error || 'Error al subir documento'));
+      }
+    } catch (err) {
+      dispatch(
+        changeStateError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
 export {
   getRecollector,
   createRecollector,
@@ -163,4 +190,5 @@ export {
   uploadDocument,
   getRecollectorStates,
   changeStateListRecollector,
+  changeStateRecollector,
 };

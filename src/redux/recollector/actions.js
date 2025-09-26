@@ -19,6 +19,10 @@ const actions = {
   CHANGE_STATE_LIST_SUCCESS: 'CHANGE_STATE_LIST_SUCCESS',
   CHANGE_STATE_LIST_ERROR: 'CHANGE_STATE_LIST_ERROR',
 
+  CHANGE_STATE_BEGIN: 'CHANGE_STATE_BEGIN',
+  CHANGE_STATE_SUCCESS: 'CHANGE_STATE_SUCCESS',
+  CHANGE_STATE_ERROR: 'CHANGE_STATE_ERROR',
+
   CLEAN_FORM: 'CLEAN_FORM',
 
   getRecollectorBegin: () => {
@@ -123,6 +127,26 @@ const actions = {
   changeStateListError: (err) => {
     return {
       type: actions.CHANGE_STATE_LIST_ERROR,
+      err,
+    };
+  },
+
+  changeStateBegin: () => {
+    return {
+      type: actions.CHANGE_STATE_BEGIN,
+    };
+  },
+
+  changeStateSuccess: (data) => {
+    return {
+      type: actions.CHANGE_STATE_SUCCESS,
+      data,
+    };
+  },
+
+  changeStateError: (err) => {
+    return {
+      type: actions.CHANGE_STATE_ERROR,
       err,
     };
   },

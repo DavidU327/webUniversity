@@ -16,6 +16,9 @@ const { GET_RECOLLECTOR_BEGIN,
   CHANGE_STATE_LIST_BEGIN,
   CHANGE_STATE_LIST_SUCCESS,
   CHANGE_STATE_LIST_ERROR,
+  CHANGE_STATE_BEGIN,
+  CHANGE_STATE_SUCCESS,
+  CHANGE_STATE_ERROR,
 } = actions;
 
 const initState = {
@@ -31,6 +34,7 @@ const initState = {
   states: [],
   errorStates: null,
   errorChangeList: null,
+  loadingState: false,
 };
 
 const RecollectorReducer = (state = initState, action) => {
@@ -153,6 +157,37 @@ const RecollectorReducer = (state = initState, action) => {
       return {
         ...state,
         loadingForm: false,
+        errorChangeList: err,
+      };
+    case CHANGE_STATE_BEGIN:
+      return {
+        ...state,
+        loadingState: true,
+      };
+    case CHANGE_STATE_SUCCESS:
+      return {
+        ...state,
+        loadingState: false,
+        successForm: true,
+        message: data.message,
+        recollectors: state.recollectors.map((recollector) =>
+          recollector.collector.id === data.id
+            ? {
+              ...recollector,
+              collector: {
+                ...recollector.collector,
+                state: {
+                  ...data.state
+                }
+              },
+            }
+            : recollector
+        ),
+      };
+    case CHANGE_STATE_ERROR:
+      return {
+        ...state,
+        loadingState: false,
         errorChangeList: err,
       };
     default:

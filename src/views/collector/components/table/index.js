@@ -11,7 +11,13 @@ import { Button } from '../../../../components/buttons';
 
 const { Option } = Select;
 
-function CollectorListTable({ editCollector, deleteCollector, modalDocument, modalChangeState }) {
+function CollectorListTable({
+                              editCollector,
+                              deleteCollector,
+                              modalDocument,
+                              modalChangeState,
+                              changeState
+}) {
 
   const {
     recollectors,
@@ -104,7 +110,7 @@ function CollectorListTable({ editCollector, deleteCollector, modalDocument, mod
             </Select>
           }
           {state?.name !== 'Rechazado' && (
-            <Switch checked={state?.name === 'Habilitado'} size="large" />
+            <Switch checked={state?.name === 'Habilitado'} size="large" onChange={() => changeState(id)} />
           )}
         </>
       ),
@@ -214,6 +220,7 @@ CollectorListTable.propTypes = {
   deleteCollector: propTypes.func.isRequired,
   modalDocument: propTypes.func.isRequired,
   modalChangeState: propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
 };
 
 export default CollectorListTable;

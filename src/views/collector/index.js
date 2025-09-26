@@ -8,18 +8,19 @@ import ModalDeleteCollector from './components/modalDelete';
 import ModalUploadCollector from './components/modaUploadDocument';
 import ModalChangeStateCollector from './components/modalChangeState';
 import { CardToolbox, UserCardTop, Main } from '../styled';
-import { Button } from '../../components/buttons';
-import { PageHeader } from '../../components/page-headers';
-import { AutoComplete } from '../../components/autoComplete';
-import { openNotification } from '../../utility/notification';
 import {
   changeStateListRecollector,
+  changeStateRecollector,
   cleanFormRecollector,
   getRecollector,
   getRecollectorStates,
 } from '../../redux/recollector/actionCreator';
+import { Button } from '../../components/buttons';
+import { ModalLoad } from '../../components/modalLoad';
+import { PageHeader } from '../../components/page-headers';
+import { AutoComplete } from '../../components/autoComplete';
+import { openNotification } from '../../utility/notification';
 import { getTypeIdentifications } from '../../redux/typeIdentification/actionCreator';
-
 
 function Collector(){
 
@@ -29,6 +30,7 @@ function Collector(){
     recollectors,
     successForm,
     message,
+    loadingState,
   } = useSelector((state) => state.recollector);
 
   const [state, setState] = useState({
@@ -100,6 +102,11 @@ function Collector(){
   const changeListState = (stateId, recollectorId) => {
     dispatch(changeStateListRecollector(stateId, recollectorId))
   }
+
+  const changeState = (recollectorId) => {
+    dispatch(changeStateRecollector(recollectorId))
+  }
+
   useEffect(() => {
     dispatch(getRecollector());
     dispatch(getTypeIdentifications());
@@ -149,6 +156,7 @@ function Collector(){
               deleteCollector={showModalDelete}
               modalDocument={showModalDocument}
               modalChangeState={showModalChangeState}
+              changeState={changeState}
             />
           </Col>
         </Row>
@@ -179,6 +187,9 @@ function Collector(){
           changeState={() => changeListState(state.stateFocus.id, state.focus.collector.id)}
           recollectorName={state.focus.collector.user.name}
         />
+      )}
+      {loadingState && (
+        <ModalLoad />
       )}
     </>
   )
