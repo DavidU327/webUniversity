@@ -21,6 +21,9 @@ const {
   changeStateBegin,
   changeStateSuccess,
   changeStateError,
+  updateRecollectorBegin,
+  updateRecollectorSuccess,
+  updateRecollectorError,
 } = actions;
 
 const getRecollector = () => {
@@ -183,6 +186,56 @@ const changeStateRecollector = (recollectorId) => {
   };
 };
 
+const updateRecollector = (id, params, defaultUser) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    const formData = new FormData();
+    formData.append("_method", 'PATCH');
+    if(params.name){
+      formData.append("name", params.name);
+    }
+    if(params.phone){
+      formData.append("phone", params.phone);
+    }
+    if(params.identification !== defaultUser.identification){
+      formData.append("identification", params.identification);
+    }
+    if(params.type_identification){
+      formData.append("type_identification", params.type_identification);
+    }
+   if(params.email !== defaultUser.email){
+     formData.append("email", params.email);
+   }
+   if(params.imageUrl?.file){
+     formData.append("images", params.imageUrl.file);
+   }
+    if(params.documentIdentification?.file){
+      formData.append("identification_document", params.documentIdentification.file);
+    }
+    if(params.documentDriving?.file){
+      formData.append("driving_license_document", params.documentDriving.file);
+    }
+    try {
+      dispatch(updateRecollectorBegin());
+      const response = await DataService.postFormData(`/collector/${id}`, formData ,url);
+      if (response?.data?.user) {
+        dispatch(updateRecollectorSuccess(
+          {
+            data: response?.data?.user,
+            id,
+            message: response?.data?.message,
+          }));
+      } else {
+        dispatch(updateRecollectorError(response.data?.error || 'Error al actualizar recolector'));
+      }
+    } catch (err) {
+      dispatch(
+        updateRecollectorError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
 export {
   getRecollector,
   createRecollector,
@@ -191,4 +244,5 @@ export {
   getRecollectorStates,
   changeStateListRecollector,
   changeStateRecollector,
+  updateRecollector,
 };

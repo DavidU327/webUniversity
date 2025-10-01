@@ -52,7 +52,6 @@ class DataService {
     });
   }
 
-
   static delete(path = '', data = {}, baseURL) {
     return axios.delete(path, {
       baseURL,

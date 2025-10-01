@@ -19,6 +19,9 @@ const { GET_RECOLLECTOR_BEGIN,
   CHANGE_STATE_BEGIN,
   CHANGE_STATE_SUCCESS,
   CHANGE_STATE_ERROR,
+  UPDATE_RECOLLECTOR_BEGIN,
+  UPDATE_RECOLLECTOR_SUCCESS,
+  UPDATE_RECOLLECTOR_ERROR,
 } = actions;
 
 const initState = {
@@ -190,6 +193,29 @@ const RecollectorReducer = (state = initState, action) => {
         loadingState: false,
         errorChangeList: err,
       };
+    case UPDATE_RECOLLECTOR_BEGIN:
+      return {
+        ...state,
+        loadingForm: true,
+      };
+    case UPDATE_RECOLLECTOR_SUCCESS:
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: data.message,
+        recollectors: state.recollectors.map((recollector) =>
+          recollector.collector.id === data.id
+            ? data.data
+            : recollector
+        ),
+      }
+    case UPDATE_RECOLLECTOR_ERROR:
+      return {
+        ...state,
+        error: err,
+        loadingForm: false,
+      }
     default:
       return state;
   }

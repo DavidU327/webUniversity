@@ -43,14 +43,13 @@ function CollectorListTable({
           identification,
           email,
           phone,
-          typeIdentification,
+          type_identification: typeIdentification,
         },
         identification_document: identificationDocument,
         driving_license_document: drivingLicenseDocument,
         state,
       },
     } = recollector;
-
     return {
       key: id,
       user: (
@@ -120,7 +119,7 @@ function CollectorListTable({
           {state?.name !== 'Rechazado' && (
             <Button className="btn-icon"
                     type="info"
-                    onClick={() => editCollector('Editar recolector', 'Editar')}
+                    onClick={() => editCollector('Editar recolector', 'Editar', recollector)}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
             </Button>

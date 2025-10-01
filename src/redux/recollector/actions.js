@@ -25,6 +25,10 @@ const actions = {
 
   CLEAN_FORM: 'CLEAN_FORM',
 
+  UPDATE_RECOLLECTOR_BEGIN: 'UPDATE_RECOLLECTOR_BEGIN',
+  UPDATE_RECOLLECTOR_SUCCESS: 'UPDATE_RECOLLECTOR_SUCCESS',
+  UPDATE_RECOLLECTOR_ERROR: 'UPDATE_RECOLLECTOR_ERROR',
+
   getRecollectorBegin: () => {
     return {
       type: actions.GET_RECOLLECTOR_BEGIN,
@@ -147,6 +151,26 @@ const actions = {
   changeStateError: (err) => {
     return {
       type: actions.CHANGE_STATE_ERROR,
+      err,
+    };
+  },
+
+  updateRecollectorBegin: () => {
+    return {
+      type: actions.UPDATE_RECOLLECTOR_BEGIN,
+    };
+  },
+
+  updateRecollectorSuccess: (data) => {
+    return {
+      type: actions.UPDATE_RECOLLECTOR_SUCCESS,
+      data,
+    };
+  },
+
+  updateRecollectorError: (err) => {
+    return {
+      type: actions.UPDATE_RECOLLECTOR_ERROR,
       err,
     };
   },

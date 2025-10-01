@@ -45,12 +45,13 @@ function Collector(){
     textButton: ''
   });
 
-  const showModal = (title, textButton) => {
+  const showModal = (title, textButton, collector) => {
     setState({
       ...state,
       visible: true,
       title,
-      textButton
+      textButton,
+      focus: collector
     });
   };
 
@@ -141,7 +142,7 @@ function Collector(){
               </>
             }
             buttons={[
-              <Button onClick={() => showModal('Formulario nuevo recolector', 'Crear')} className="btn-add_new" size="default" type="primary" key="1">
+              <Button onClick={() => showModal('Formulario nuevo recolector', 'Crear', {})} className="btn-add_new" size="default" type="primary" key="1">
                 <FeatherIcon icon="plus" size={14} /> Nuevo recolector
               </Button>,
             ]}
@@ -166,6 +167,7 @@ function Collector(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+        recollector={state.focus.collector}
       />
       <ModalDeleteCollector
         deleteCollector={() => {}}

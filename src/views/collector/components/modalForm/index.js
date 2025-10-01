@@ -7,20 +7,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BasicFormWrapper, PhotoUploadWrapper } from './style';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
-import { createRecollector } from '../../../../redux/recollector/actionCreator';
+import { createRecollector, updateRecollector } from '../../../../redux/recollector/actionCreator';
 
 const { Option } = Select;
 
-function ModalFormCollector({ visible, onCancel, title, textButton }) {
+function ModalFormCollector({ visible, onCancel, title, textButton, recollector }) {
   const dispatch = useDispatch();
 
   const {typeIdentifications} = useSelector((state) => state.typeIdentification);
   const {loadingForm} = useSelector((state) => state.recollector);
 
   const [form] = Form.useForm();
+  const [defaultUser, setDefaultUser] = useState({
+    email: '',
+    identification: ''
+  })
   const [imageUrl, setImageUrl] = useState(null);
   const [documentIdentification, setDocumentIdentification] = useState(null);
   const [documentDriving, setDocumentDriving] = useState(null);
+  const [documentIdFileList, setDocumentIdFileList] = useState([]);
+  const [drivingLicenseFileList, setDrivingLicenseFileList] = useState([]);
 
   const handleUploadChange = (info) => {
     if (info?.file) {
@@ -49,16 +55,23 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
 
   const removeDocument = (type) => {
     if (type === 'document_identification') {
+      setDocumentIdFileList([]);
       setDocumentIdentification(null);
     }
     if (type === 'document_driving_license') {
+      setDrivingLicenseFileList([]);
       setDocumentDriving(null);
     }
   };
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-    dispatch(createRecollector({...values, imageUrl, documentIdentification, documentDriving}));
+    if(recollector?.user){
+      dispatch(updateRecollector(recollector?.id, {...values, imageUrl, documentIdentification, documentDriving}, defaultUser));
+    }else {
+      dispatch(createRecollector({...values, imageUrl, documentIdentification, documentDriving}));
+    }
+
   };
 
   const handleCancel = () => {
@@ -83,6 +96,50 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
     };
   }, [visible]);
 
+  useEffect(() => {
+    if (recollector) {
+      form.setFieldsValue({
+        name: recollector.user?.name || '',
+        phone: recollector.user?.phone || '',
+        identification: recollector.user?.identification || '',
+        email: recollector.user?.email || '',
+        type_identification: recollector?.user?.type_identification?.id,
+      });
+      setDefaultUser({
+        identification: recollector.user?.identification || '',
+        email: recollector.user?.email || '',
+      })
+    }else{
+      form.setFieldsValue({
+        name:  '',
+        phone:  '',
+        identification: '',
+        email: '',
+      });
+    }
+  }, [recollector, form, typeIdentifications]);
+
+  useEffect(() => {
+    if (recollector?.identification_document) {
+      setDocumentIdFileList([{
+        uid: '-1',
+        name: 'identificacion.pdf',
+        status: 'done',
+        url: recollector.identification_document,
+      }]);
+      setDocumentIdentification({ url: recollector.identification_document });
+    }
+    if (recollector?.driving_license_document) {
+      setDrivingLicenseFileList([{
+        uid: '-2',
+        name: 'licencia.pdf',
+        status: 'done',
+        url: recollector.driving_license_document,
+      }]);
+      setDocumentDriving({ url: recollector.driving_license_document });
+    }
+  }, [recollector]);
+
   return (
     <Modal
       type={state.modalType}
@@ -102,7 +159,11 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="recollector" onFinish={handleOk}>
+          <Form
+            form={form}
+            name="recollector"
+            onFinish={handleOk}
+          >
             <Form.Item
               name="name"
               label="Nombre"
@@ -155,12 +216,14 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
               name="image"
               label="Imagen de Perfil"
               rules={[
-                { required: true, message: 'Suba una imagen' },
+                { required: !recollector?.user?.image, message: 'Suba una imagen' },
               ]}
             >
               <PhotoUploadWrapper>
                 <img
-                  src={imageUrl?.url || require('../../../../assets/image/changeImage.jpg')}
+                  src={imageUrl?.url ? imageUrl.url : recollector?.user?.image ?
+                    recollector.user.image
+                    : require('../../../../assets/image/changeImage.jpg')}
                   alt="profile"
                 />
                 <figcaption>
@@ -184,6 +247,7 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
                 beforeUpload={() => false}
                 onRemove={() => removeDocument('document_identification')}
                 className="sDash_upload-basic"
+                fileList={documentIdFileList}
                 onChange={(info) => handleUploadDocument(info, 'document_identification')}
               >
                 <span className="sDash_upload-text">Subir Documento de identidad</span>
@@ -200,6 +264,7 @@ function ModalFormCollector({ visible, onCancel, title, textButton }) {
                 beforeUpload={() => false}
                 onRemove={() => removeDocument('document_driving_license')}
                 className="sDash_upload-basic"
+                fileList={drivingLicenseFileList}
                 onChange={(info) => handleUploadDocument(info, 'document_driving_license')}
               >
                 <span className="sDash_upload-text">Subir Licencia de conducción</span>
@@ -220,6 +285,21 @@ ModalFormCollector.propTypes = {
   onCancel: propTypes.func.isRequired,
   title: propTypes.string.isRequired,
   textButton: propTypes.string.isRequired,
+  recollector: propTypes.shape({
+    id: propTypes.number.isRequired,
+    user: {
+      name: propTypes.string.isRequired,
+      phone: propTypes.string.isRequired,
+      email: propTypes.string.isRequired,
+      identification: propTypes.string.isRequired,
+      image: propTypes.string.isRequired,
+      type_identification: {
+        id: propTypes.number.isRequired,
+      }
+    },
+    identification_document: propTypes.string.isRequired,
+    driving_license_document: propTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ModalFormCollector;
