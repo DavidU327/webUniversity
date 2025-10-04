@@ -126,7 +126,7 @@ function CollectorListTable({
             </Button>
           )}
             <Button className="btn-icon"
-                    onClick={deleteCollector}
+                    onClick={() => deleteCollector(recollector)}
                     type="danger" to="#"
                     shape="circle">
               <FeatherIcon icon="trash-2" size={16} />

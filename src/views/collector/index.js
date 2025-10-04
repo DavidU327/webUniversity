@@ -11,7 +11,7 @@ import { CardToolbox, UserCardTop, Main } from '../styled';
 import {
   changeStateListRecollector,
   changeStateRecollector,
-  cleanFormRecollector,
+  cleanFormRecollector, deleteRecollector,
   getRecollector,
   getRecollectorStates, searchRecollector,
 } from '../../redux/recollector/actionCreator';
@@ -56,10 +56,11 @@ function Collector(){
     });
   };
 
-  const showModalDelete = () => {
+  const showModalDelete = (collector) => {
     setState({
       ...state,
       modalDelete: true,
+      focus: collector
     });
   };
 
@@ -121,6 +122,10 @@ function Collector(){
     }else{
       dispatch(searchRecollector(state.search, page));
     }
+  };
+
+  const handleDeleteRecollector = () => {
+    dispatch(deleteRecollector(state.focus.collector.id));
   };
 
   useEffect(() => {
@@ -186,7 +191,7 @@ function Collector(){
         recollector={state.focus.collector}
       />
       <ModalDeleteCollector
-        deleteCollector={() => {}}
+        deleteCollector={handleDeleteRecollector}
         visible={state.modalDelete}
         onCancel={onCancel}
       />

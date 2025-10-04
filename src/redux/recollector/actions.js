@@ -33,6 +33,10 @@ const actions = {
   SEARCH_RECOLLECTOR_SUCCESS: 'SEARCH_RECOLLECTOR_SUCCESS',
   SEARCH_RECOLLECTOR_ERROR: 'SEARCH_RECOLLECTOR_ERROR',
 
+  DELETE_RECOLLECTOR_BEGIN: 'DELETE_RECOLLECTOR_BEGIN',
+  DELETE_RECOLLECTOR_SUCCESS: 'DELETE_RECOLLECTOR_SUCCESS',
+  DELETE_RECOLLECTOR_ERROR: 'DELETE_RECOLLECTOR_ERROR',
+
   getRecollectorBegin: () => {
     return {
       type: actions.GET_RECOLLECTOR_BEGIN,
@@ -195,6 +199,26 @@ const actions = {
   searchRecollectorError: (err) => {
     return {
       type: actions.SEARCH_RECOLLECTOR_ERROR,
+      err,
+    };
+  },
+
+  deleteRecollectorBegin: () => {
+    return {
+      type: actions.DELETE_RECOLLECTOR_BEGIN,
+    };
+  },
+
+  deleteRecollectorSuccess: (data) => {
+    return {
+      type: actions.DELETE_RECOLLECTOR_SUCCESS,
+      data,
+    };
+  },
+
+  deleteRecollectorError: (err) => {
+    return {
+      type: actions.DELETE_RECOLLECTOR_ERROR,
       err,
     };
   },

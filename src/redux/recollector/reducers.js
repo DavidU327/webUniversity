@@ -25,6 +25,9 @@ const { GET_RECOLLECTOR_BEGIN,
   SEARCH_RECOLLECTOR_BEGIN,
   SEARCH_RECOLLECTOR_SUCCESS,
   SEARCH_RECOLLECTOR_ERROR,
+  DELETE_RECOLLECTOR_BEGIN,
+  DELETE_RECOLLECTOR_SUCCESS,
+  DELETE_RECOLLECTOR_ERROR,
 } = actions;
 
 const initState = {
@@ -239,6 +242,25 @@ const RecollectorReducer = (state = initState, action) => {
         error: err,
         loading: false,
       };
+    case DELETE_RECOLLECTOR_BEGIN:
+      return {
+        ...state,
+        loadingForm: true,
+      };
+    case DELETE_RECOLLECTOR_SUCCESS:
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: data.message,
+        recollectors: state.recollectors.filter(recollector => recollector.collector.id !== data.id),
+      }
+    case DELETE_RECOLLECTOR_ERROR:
+      return {
+        ...state,
+        error: err,
+        loadingForm: false,
+      }
     default:
       return state;
   }

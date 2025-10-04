@@ -27,6 +27,9 @@ const {
   searchRecollectorBegin,
   searchRecollectorSuccess,
   searchRecollectorError,
+  deleteRecollectorBegin,
+  deleteRecollectorSuccess,
+  deleteRecollectorError,
 } = actions;
 
 const getRecollector = (page) => {
@@ -258,6 +261,25 @@ const searchRecollector = (query, page) => {
   };
 };
 
+const deleteRecollector = (id) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(deleteRecollectorBegin());
+      const response = await DataService.delete(`/deleteCollector/${id}`, {}, url);
+      if (response.data.code === 200) {
+        dispatch(deleteRecollectorSuccess(response.data));
+      } else {
+        dispatch(deleteRecollectorError(response.data?.error || 'Error al eliminar recolector'));
+      }
+    } catch (err) {
+      dispatch(
+        deleteRecollectorError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
 export {
   getRecollector,
   createRecollector,
@@ -268,4 +290,5 @@ export {
   changeStateRecollector,
   updateRecollector,
   searchRecollector,
+  deleteRecollector,
 };
