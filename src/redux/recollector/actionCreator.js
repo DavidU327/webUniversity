@@ -24,14 +24,17 @@ const {
   updateRecollectorBegin,
   updateRecollectorSuccess,
   updateRecollectorError,
+  searchRecollectorBegin,
+  searchRecollectorSuccess,
+  searchRecollectorError,
 } = actions;
 
-const getRecollector = () => {
+const getRecollector = (page) => {
   const url = process.env.REACT_APP_API_RECOLLECTOR;
   return async (dispatch) => {
     try {
       dispatch(getRecollectorBegin());
-      const response = await DataService.get('/collectors', url);
+      const response = await DataService.get(`/collectors?page=${page}`, url);
       if (response.data.data?.length > 0) {
         dispatch(getRecollectorSuccess(response.data));
       } else {
@@ -236,6 +239,25 @@ const updateRecollector = (id, params, defaultUser) => {
   };
 };
 
+const searchRecollector = (query, page) => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(searchRecollectorBegin());
+      const response = await DataService.post(`/search?page=${page}`, query, url);
+      if (response.data.data?.length > 0) {
+        dispatch(searchRecollectorSuccess(response.data));
+      } else {
+        dispatch(searchRecollectorError(response.data?.error || 'Error al traer datos'));
+      }
+    } catch (err) {
+      dispatch(
+        searchRecollectorError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
 export {
   getRecollector,
   createRecollector,
@@ -245,4 +267,5 @@ export {
   changeStateListRecollector,
   changeStateRecollector,
   updateRecollector,
+  searchRecollector,
 };

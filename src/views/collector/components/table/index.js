@@ -16,7 +16,8 @@ function CollectorListTable({
                               deleteCollector,
                               modalDocument,
                               modalChangeState,
-                              changeState
+                              changeState,
+                              morePage,
 }) {
 
   const {
@@ -200,9 +201,13 @@ function CollectorListTable({
             columns={collectorTableColumns}
             loading={loading}
             pagination={{
-              defaultPageSize: 5,
+              defaultPageSize: 10,
               total: collectors.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
+            }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
             }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -220,6 +225,7 @@ CollectorListTable.propTypes = {
   modalDocument: propTypes.func.isRequired,
   modalChangeState: propTypes.func.isRequired,
   changeState: propTypes.func.isRequired,
+  morePage: propTypes.func.isRequired,
 };
 
 export default CollectorListTable;

@@ -29,6 +29,10 @@ const actions = {
   UPDATE_RECOLLECTOR_SUCCESS: 'UPDATE_RECOLLECTOR_SUCCESS',
   UPDATE_RECOLLECTOR_ERROR: 'UPDATE_RECOLLECTOR_ERROR',
 
+  SEARCH_RECOLLECTOR_BEGIN: 'SEARCH_RECOLLECTOR_BEGIN',
+  SEARCH_RECOLLECTOR_SUCCESS: 'SEARCH_RECOLLECTOR_SUCCESS',
+  SEARCH_RECOLLECTOR_ERROR: 'SEARCH_RECOLLECTOR_ERROR',
+
   getRecollectorBegin: () => {
     return {
       type: actions.GET_RECOLLECTOR_BEGIN,
@@ -171,6 +175,26 @@ const actions = {
   updateRecollectorError: (err) => {
     return {
       type: actions.UPDATE_RECOLLECTOR_ERROR,
+      err,
+    };
+  },
+
+  searchRecollectorBegin: () => {
+    return {
+      type: actions.SEARCH_RECOLLECTOR_BEGIN,
+    };
+  },
+
+  searchRecollectorSuccess: (data) => {
+    return {
+      type: actions.SEARCH_RECOLLECTOR_SUCCESS,
+      data,
+    };
+  },
+
+  searchRecollectorError: (err) => {
+    return {
+      type: actions.SEARCH_RECOLLECTOR_ERROR,
       err,
     };
   },

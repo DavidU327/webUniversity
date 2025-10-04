@@ -22,6 +22,9 @@ const { GET_RECOLLECTOR_BEGIN,
   UPDATE_RECOLLECTOR_BEGIN,
   UPDATE_RECOLLECTOR_SUCCESS,
   UPDATE_RECOLLECTOR_ERROR,
+  SEARCH_RECOLLECTOR_BEGIN,
+  SEARCH_RECOLLECTOR_SUCCESS,
+  SEARCH_RECOLLECTOR_ERROR,
 } = actions;
 
 const initState = {
@@ -216,6 +219,26 @@ const RecollectorReducer = (state = initState, action) => {
         error: err,
         loadingForm: false,
       }
+    case SEARCH_RECOLLECTOR_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SEARCH_RECOLLECTOR_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        recollectors: data.data,
+        prev: data.links.prev !== null,
+        next: data.links.next !== null,
+        currentPage: data.meta.current_page
+      };
+    case SEARCH_RECOLLECTOR_ERROR:
+      return {
+        ...state,
+        error: err,
+        loading: false,
+      };
     default:
       return state;
   }

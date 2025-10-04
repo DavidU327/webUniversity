@@ -13,7 +13,7 @@ import {
   changeStateRecollector,
   cleanFormRecollector,
   getRecollector,
-  getRecollectorStates,
+  getRecollectorStates, searchRecollector,
 } from '../../redux/recollector/actionCreator';
 import { Button } from '../../components/buttons';
 import { ModalLoad } from '../../components/modalLoad';
@@ -42,7 +42,8 @@ function Collector(){
     focus: {},
     stateFocus: {},
     title: '',
-    textButton: ''
+    textButton: '',
+    search: '',
   });
 
   const showModal = (title, textButton, collector) => {
@@ -91,13 +92,19 @@ function Collector(){
     });
   };
 
-
   const handleSearch = (searchText) => {
-    const data = state.notData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
+    const values = {
+      search: searchText
+    }
     setState({
       ...state,
-      notData: data,
+      search: searchText
     });
+    if(searchText === ''){
+      dispatch(getRecollector(1));
+    }else{
+      dispatch(searchRecollector(values, 1));
+    }
   };
 
   const changeListState = (stateId, recollectorId) => {
@@ -108,8 +115,16 @@ function Collector(){
     dispatch(changeStateRecollector(recollectorId))
   }
 
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getRecollector(page));
+    }else{
+      dispatch(searchRecollector(state.search, page));
+    }
+  };
+
   useEffect(() => {
-    dispatch(getRecollector());
+    dispatch(getRecollector(1));
     dispatch(getTypeIdentifications());
     dispatch(getRecollectorStates());
   }, []);
@@ -158,6 +173,7 @@ function Collector(){
               modalDocument={showModalDocument}
               modalChangeState={showModalChangeState}
               changeState={changeState}
+              morePage={morePage}
             />
           </Col>
         </Row>
