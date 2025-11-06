@@ -3,10 +3,9 @@ import { Col, Row } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import LevelListTable from './components/table';
 import ModalFormLevel from './components/modalForm';
-import ModalDeleteLevel from './components/modalDelete';
-import { PageHeader } from '../../components/page-headers';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { Button } from '../../components/buttons';
+import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
 
 function Level(){
@@ -14,7 +13,6 @@ function Level(){
   const [state, setState] = useState({
     notData: [],
     visible: false,
-    modalDelete: false,
     title: '',
     textButton: ''
   });
@@ -28,18 +26,10 @@ function Level(){
     });
   };
 
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
-    });
-  };
-
   const onCancel = () => {
     setState({
       ...state,
       visible: false,
-      modalDelete: false,
     });
   };
 
@@ -82,7 +72,7 @@ function Level(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <LevelListTable editLevel={showModal} deleteLevel={showModalDelete} />
+            <LevelListTable editLevel={showModal} />
           </Col>
         </Row>
       </Main>
@@ -91,11 +81,6 @@ function Level(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
-      />
-      <ModalDeleteLevel
-        deleteCollector={() => {}}
-        visible={state.modalDelete}
-        onCancel={onCancel}
       />
     </>
   )

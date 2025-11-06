@@ -236,12 +236,20 @@ const TableWrapper = Styled.div`
                             background: ${({ theme }) => theme['danger-color']}10;
                         }
                     }
+                    .table-action {
+                        a {
+                            &.edit{       
+                              &:hover{
+                                svg,
+                                i{
+                                    color: ${({ theme }) => theme['info-color']};
+                                }
+                              }  
+                            }
+                        }
+                    }
                     .table-actions{
                         a{
-                            svg, i{
-                                width: 16px;
-                                color: ${({ theme }) => theme['extra-light-color']};
-                            }
                             &.edit{
                                 margin-right: 6px;
                               &:hover{
@@ -337,6 +345,31 @@ const TableWrapper = Styled.div`
                     }
                     .table-actions{
                         min-width: 60px;
+                    }
+                }
+            }
+        }
+        .table-action{
+            text-align: center;
+            min-width: 50px !important;
+            button{
+                height: 40px;
+                padding: 0 11px;
+                background: transparent;
+                border: 0 none;
+                color: ${({ theme }) => theme['extra-light-color']};
+                &:hover{
+                    &.ant-btn-primary{
+                        color: ${({ theme }) => theme['primary-color']};
+                        background: ${({ theme }) => theme['primary-color']}10;
+                    }
+                    &.ant-btn-info{
+                        color: ${({ theme }) => theme['info-color']};
+                        background: ${({ theme }) => theme['info-color']}10;
+                    }
+                    &.ant-btn-danger{
+                        color: ${({ theme }) => theme['danger-color']};
+                        background: ${({ theme }) => theme['danger-color']}10;
                     }
                 }
             }
