@@ -109,7 +109,7 @@ function CollectorListTable({
               ))}
             </Select>
           }
-          {state?.name !== 'Rechazado' && (
+          {state?.name !== 'Rechazado' && state?.name !== 'Pendiente de Validar' && (
             <Switch checked={state?.name === 'Habilitado'} size="large" onChange={() => changeState(id)} />
           )}
         </>
@@ -117,14 +117,14 @@ function CollectorListTable({
       action: (
         <div className="table-actions">
           <>
-          {state?.name !== 'Rechazado' && (
-            <Button className="btn-icon"
-                    type="info"
-                    onClick={() => editCollector('Editar recolector', 'Editar', recollector)}
-                    shape="circle">
-              <FeatherIcon icon="edit" size={16} />
-            </Button>
-          )}
+            {state?.name !== 'Rechazado' && (
+              <Button className="btn-icon"
+                      type="info"
+                      onClick={() => editCollector('Editar recolector', 'Editar', recollector)}
+                      shape="circle">
+                <FeatherIcon icon="edit" size={16} />
+              </Button>
+            )}
             <Button className="btn-icon"
                     onClick={() => deleteCollector(recollector)}
                     type="danger" to="#"
