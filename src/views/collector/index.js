@@ -11,9 +11,11 @@ import { CardToolbox, UserCardTop, Main } from '../styled';
 import {
   changeStateListRecollector,
   changeStateRecollector,
-  cleanFormRecollector, deleteRecollector,
+  cleanFormRecollector,
+  deleteRecollector,
   getRecollector,
-  getRecollectorStates, searchRecollector,
+  getRecollectorStates,
+  searchRecollector,
 } from '../../redux/recollector/actionCreator';
 import { Button } from '../../components/buttons';
 import { ModalLoad } from '../../components/modalLoad';

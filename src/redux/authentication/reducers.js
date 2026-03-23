@@ -5,7 +5,9 @@ import { COOKIE_WEB } from '../../config/variable/variable';
 const { LOGIN_BEGIN, LOGIN_SUCCESS, LOGIN_ERROR, CLEAR_LOGIN_ERROR, } = actions;
 
 const initState = {
-  login: Cookies.get(COOKIE_WEB),
+  login: COOKIE_WEB
+    ? Cookies.get(COOKIE_WEB)
+    : null,
   loading: false,
   error: null,
 };

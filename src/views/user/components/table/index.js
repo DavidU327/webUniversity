@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Empty, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { TableStyleWrapper } from './style';
@@ -7,20 +8,38 @@ import { TableWrapper } from '../../../styled';
 import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
+import { StatusText } from '../../../collector/components/table/style';
 
-function UserListTable({ deleteUser }) {
 
-  const allUsers = [{id: 1, name: 'Juan', status: 'active'}];
+function UserListTable({
+                         deleteUser,
+                         morePage,
+                         changeState,
+}) {
 
-  const users = allUsers.map((user) => {
-    const { id, name, status } = user;
+  const {
+    users
+  } = useSelector((state) => state.user);
+
+  const usersTable = users.map((user) => {
+    const {
+      id,
+      name,
+      photo,
+      identification,
+      phone,
+      email,
+      type_identification: typeIdentification,
+      state,
+      points,
+    } = user;
 
     return {
       key: id,
       user: (
         <div className="user-info">
           <figure>
-            <img style={{ width: '40px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/250px-User_icon_2.svg.png" alt="" />
+            <img style={{ width: '80px', height: '80px', borderRadius: '10px'  }} src={photo} alt="" />
           </figure>
           <figcaption>
             <Heading className="user-name" as="h6">
@@ -29,20 +48,20 @@ function UserListTable({ deleteUser }) {
           </figcaption>
         </div>
       ),
-      phone: '3178874640',
+      phone,
       document: <figcaption>
-        <span>C.C</span>
-        <span>101427321</span>
+        <span>{typeIdentification?.name}</span>
+        <span>{identification}</span>
       </figcaption>,
-      email: 'john@gmail.com',
-      points: 12,
-      status: <span className={`status-text ${status}`}>Active</span>,
-      change_state: <Switch defaultChecked size="large" />,
+      email,
+      points,
+      status: <StatusText $color={state?.color}>{state?.name}</StatusText>,
+      change_state: <Switch checked={state?.name === 'Habilitado'} size="large" onChange={() => changeState(id)} />,
       action: (
         <div className="table-actions" style={{ display: 'flex', justifyContent: 'center' }}>
           <>
             <Button className="btn-icon"
-                    onClick={deleteUser}
+                    onClick={() => deleteUser(user)}
                     type="danger" to="#"
                     shape="circle">
               <FeatherIcon icon="trash-2" size={16} />
@@ -105,12 +124,16 @@ function UserListTable({ deleteUser }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={users}
+            dataSource={usersTable}
             columns={userTableColumns}
             pagination={{
-              defaultPageSize: 5,
-              total: users.length,
+              defaultPageSize: 10,
+              total: usersTable.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
+            }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
             }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -124,6 +147,8 @@ function UserListTable({ deleteUser }) {
 
 UserListTable.propTypes = {
   deleteUser: propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
+  morePage: propTypes.func.isRequired,
 };
 
 export default UserListTable;

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
 
-
 function ModalDeleteUser({ visible, onCancel, deleteUser }) {
+
+  const {loadingForm} = useSelector((state) => state.user);
 
   const handleCancel = () => {
     onCancel();
@@ -35,7 +37,7 @@ function ModalDeleteUser({ visible, onCancel, deleteUser }) {
       visible={state.visible}
       footer={[
         <div key="1" >
-          <Button size="default" type="danger" key="submit" onClick={deleteUser}>
+          <Button size="default" type="danger" key="submit" onClick={deleteUser} loading={loadingForm}>
             Eliminar usuario
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

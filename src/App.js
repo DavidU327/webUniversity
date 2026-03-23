@@ -3,7 +3,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import store from './redux/store';
 import Admin from './routes/admin';
@@ -14,12 +14,17 @@ import { theme } from './config/theme/themeVariables';
 
 const ProviderConfig = () => {
 
+  function NotFound() {
+    return <Redirect to="/" />;
+  }
+
   return (
     <ConfigProvider direction="ltr">
       <ThemeProvider theme={{ ...theme}}>
         <Router basename={process.env.PUBLIC_URL}>
           <Route path="/" exact component={Auth} />
           <Route path="/admin" component={Admin} />
+          <Route exact path="*" component={NotFound} />
         </Router>
       </ThemeProvider>
     </ConfigProvider>
