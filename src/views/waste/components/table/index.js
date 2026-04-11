@@ -18,13 +18,12 @@ function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
   };
 
   const wasteRows = wastes.map((item) => {
-    const { id, name, points_per_kilo, status } = item;
-    const isActive = status === 'active' || status === 1 || status === true;
+    const { id, name, points, is_active: isActive } = item; // eslint-disable-line camelcase
 
     return {
       key: id,
       name,
-      points_per_kilo: points_per_kilo ?? '-',
+      points: points ?? '-',
       status: (
         <span className={`status-text ${isActive ? 'active' : 'deactivate'}`}>
           {isActive ? 'Activo' : 'Inactivo'}
@@ -69,8 +68,8 @@ function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
     },
     {
       title: 'Puntos por kilo',
-      dataIndex: 'points_per_kilo',
-      key: 'points_per_kilo',
+      dataIndex: 'points',
+      key: 'points',
     },
     {
       title: 'Estado',
