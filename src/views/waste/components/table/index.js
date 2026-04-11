@@ -1,41 +1,61 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Empty, Switch, Table } from 'antd';
+import { Empty, Switch, Table, Spin } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import { TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
+import { toggleStatusWaste } from '../../../../redux/waste/actionCreator';
 
-function WasteListTable({ editWaste, deleteWaste }) {
+function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
+  const dispatch = useDispatch();
+  const { loadingToggle } = useSelector((state) => state.waste);
 
-  const allWastes = [{id: 1, name: 'Juan', status: 'active'}];
+  const handleToggle = (waste) => {
+    dispatch(toggleStatusWaste(waste.id));
+  };
 
-  const waste = allWastes.map((user) => {
-    const { id, status } = user;
+  const wasteRows = wastes.map((item) => {
+    const { id, name, points_per_kilo, status } = item;
+    const isActive = status === 'active' || status === 1 || status === true;
 
     return {
       key: id,
-      name: 'Básico',
-      point: 123,
-      status: <span className={`status-text ${status}`}>Active</span>,
-      change_state: <Switch defaultChecked size="large" />,
+      name,
+      points_per_kilo: points_per_kilo ?? '-',
+      status: (
+        <span className={`status-text ${isActive ? 'active' : 'deactivate'}`}>
+          {isActive ? 'Activo' : 'Inactivo'}
+        </span>
+      ),
+      change_state: (
+        <Switch
+          checked={isActive}
+          loading={loadingToggle}
+          onChange={() => handleToggle(item)}
+          size="default"
+        />
+      ),
       action: (
         <div className="table-actions">
-          <>
-            <Button className="btn-icon"
-                    type="info"
-                    onClick={() => editWaste('Editar residuo', 'Editar')}
-                    shape="circle">
-              <FeatherIcon icon="edit" size={16} />
-            </Button>
-            <Button className="btn-icon"
-                    onClick={deleteWaste}
-                    type="danger" to="#"
-                    shape="circle">
-              <FeatherIcon icon="trash-2" size={16} />
-            </Button>
-          </>
+          <Button
+            className="btn-icon"
+            type="info"
+            onClick={() => editWaste('Editar residuo', 'Editar', item)}
+            shape="circle"
+          >
+            <FeatherIcon icon="edit" size={16} />
+          </Button>
+          <Button
+            className="btn-icon"
+            type="danger"
+            onClick={() => deleteWaste(item)}
+            shape="circle"
+          >
+            <FeatherIcon icon="trash-2" size={16} />
+          </Button>
         </div>
       ),
     };
@@ -49,8 +69,8 @@ function WasteListTable({ editWaste, deleteWaste }) {
     },
     {
       title: 'Puntos por kilo',
-      dataIndex: 'point',
-      key: 'point',
+      dataIndex: 'points_per_kilo',
+      key: 'points_per_kilo',
     },
     {
       title: 'Estado',
@@ -76,18 +96,29 @@ function WasteListTable({ editWaste, deleteWaste }) {
     <Cards headless>
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
-          <Table
-            dataSource={waste}
-            columns={wasteTableColumns}
-            pagination={{
-              defaultPageSize: 5,
-              total: waste.length,
-              showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
-            }}
-            locale={{ emptyText: <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay residuos aún" /> }}
-          />
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px' }}>
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Table
+              dataSource={wasteRows}
+              columns={wasteTableColumns}
+              pagination={{
+                defaultPageSize: 5,
+                total: wasteRows.length,
+                showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
+              }}
+              locale={{
+                emptyText: (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description="No hay residuos aún"
+                  />
+                ),
+              }}
+            />
+          )}
         </TableWrapper>
       </TableStyleWrapper>
     </Cards>
@@ -95,6 +126,8 @@ function WasteListTable({ editWaste, deleteWaste }) {
 }
 
 WasteListTable.propTypes = {
+  wastes: propTypes.array.isRequired,
+  loading: propTypes.bool.isRequired,
   editWaste: propTypes.func.isRequired,
   deleteWaste: propTypes.func.isRequired,
 };

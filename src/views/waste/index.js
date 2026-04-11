@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import WasteListTable from './components/table';
 import ModalFormWaste from './components/modalForm';
@@ -8,48 +9,63 @@ import { CardToolbox, Main, UserCardTop } from '../styled';
 import { Button } from '../../components/buttons';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
+import {
+  getWastes,
+  selectWaste,
+  deleteWaste,
+  cleanWasteFormAction,
+} from '../../redux/waste/actionCreator';
 
-function Waste(){
+function Waste() {
+  const dispatch = useDispatch();
+  const { wastes, loading } = useSelector((state) => state.waste);
+
   const [state, setState] = useState({
-    notData: [],
     visible: false,
     modalDelete: false,
     title: '',
-    textButton: ''
+    textButton: '',
+    searchText: '',
   });
 
-  const showModal = (title, textButton) => {
-    setState({
-      ...state,
-      visible: true,
-      title,
-      textButton
-    });
+  useEffect(() => {
+    dispatch(getWastes());
+  }, [dispatch]);
+
+  const showModal = (title, textButton, waste = null) => {
+    if (waste) {
+      dispatch(selectWaste(waste));
+    } else {
+      dispatch(cleanWasteFormAction());
+    }
+    setState({ ...state, visible: true, title, textButton });
   };
 
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
-    });
+  const showModalDelete = (waste) => {
+    dispatch(selectWaste(waste));
+    setState({ ...state, modalDelete: true });
   };
 
   const onCancel = () => {
-    setState({
-      ...state,
-      visible: false,
-      modalDelete: false,
-    });
+    dispatch(cleanWasteFormAction());
+    setState({ ...state, visible: false, modalDelete: false });
   };
 
+  const handleDelete = (id) => {
+    dispatch(deleteWaste(id, () => {
+      setState({ ...state, modalDelete: false });
+    }));
+  };
 
   const handleSearch = (searchText) => {
-    const data = state.notData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
-    setState({
-      ...state,
-      notData: data,
-    });
+    setState({ ...state, searchText });
   };
+
+  const filteredWastes = state.searchText
+    ? wastes.filter((item) =>
+        item.name?.toUpperCase().startsWith(state.searchText.toUpperCase())
+      )
+    : wastes;
 
   return (
     <>
@@ -60,10 +76,10 @@ function Waste(){
             title="Residuos"
             subTitle={
               <>
-                <span className="title-counter">2 residuos</span>
+                <span className="title-counter">{filteredWastes.length} residuo(s)</span>
                 <AutoComplete
                   onSearch={handleSearch}
-                  dataSource={state.notData}
+                  dataSource={filteredWastes}
                   placeholder="Buscar"
                   width="100%"
                   patterns
@@ -71,7 +87,13 @@ function Waste(){
               </>
             }
             buttons={[
-              <Button onClick={() => showModal('Formulario nuevo residuo', 'Crear')} className="btn-add_new" size="default" type="primary" key="1">
+              <Button
+                onClick={() => showModal('Formulario nuevo residuo', 'Crear')}
+                className="btn-add_new"
+                size="default"
+                type="primary"
+                key="1"
+              >
                 <FeatherIcon icon="plus" size={14} /> Nuevo residuo
               </Button>,
             ]}
@@ -81,7 +103,12 @@ function Waste(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <WasteListTable editWaste={showModal} deleteWaste={showModalDelete} />
+            <WasteListTable
+              wastes={filteredWastes}
+              loading={loading}
+              editWaste={showModal}
+              deleteWaste={showModalDelete}
+            />
           </Col>
         </Row>
       </Main>
@@ -92,12 +119,12 @@ function Waste(){
         textButton={state.textButton}
       />
       <ModalDeleteWaste
-        deleteWaste={() => {}}
         visible={state.modalDelete}
         onCancel={onCancel}
+        onDelete={handleDelete}
       />
     </>
-  )
+  );
 }
 
 export default Waste;
