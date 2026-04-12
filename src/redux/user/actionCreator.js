@@ -91,14 +91,12 @@ const deleteUser = (id) => {
     try {
       dispatch(deleteUserBegin());
       const response = await DataService.delete(`/delete_user/${id}`, {}, url);
-      console.log(response, 'aca que responde')
       if (response.data.code === 200) {
         dispatch(deleteUserSuccess(response.data));
       } else {
         dispatch(deleteUserError(response.data?.error || 'Error al eliminar recolector'));
       }
     } catch (err) {
-      console.log(err, 'que error hay')
       dispatch(
         deleteUserError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
       );
