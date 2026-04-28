@@ -18,12 +18,13 @@ function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
   };
 
   const wasteRows = wastes.map((item) => {
-    const { id, name, points, is_active: isActive } = item; // eslint-disable-line camelcase
+    const { id, name, points, is_active: status } = item;
+    const isActive = status === 'active' || status === 1 || status === true;
 
     return {
       key: id,
       name,
-      points: points ?? '-',
+      points_per_kilo: points ?? '-',
       status: (
         <span className={`status-text ${isActive ? 'active' : 'deactivate'}`}>
           {isActive ? 'Activo' : 'Inactivo'}

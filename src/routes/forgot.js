@@ -3,7 +3,7 @@ import { Spin } from 'antd';
 import { Switch, Route } from 'react-router-dom';
 import AuthSideImage from '../components/authSideImage';
 
-const Login = lazy(() => import('../views/login'));
+const ForgotPassword = lazy(() => import('../views/forgotPassword'));
 
 function FrontendRoutes() {
   return (
@@ -15,7 +15,7 @@ function FrontendRoutes() {
           </div>
         }
       >
-        <Route exact path="/" component={Login} />
+        <Route exact path="/forgotPassword" component={ForgotPassword} />
       </Suspense>
     </Switch>
   );
