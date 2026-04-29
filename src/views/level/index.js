@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Row } from 'antd';
+import { useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import LevelListTable from './components/table';
 import ModalFormLevel from './components/modalForm';
@@ -9,6 +10,8 @@ import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
 
 function Level(){
+
+  const { levels } = useSelector((state) => state.level);
 
   const [state, setState] = useState({
     notData: [],
@@ -51,7 +54,7 @@ function Level(){
             title="Niveles"
             subTitle={
               <>
-                <span className="title-counter">2 Niveles</span>
+                <span className="title-counter">{levels.length} Niveles</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}

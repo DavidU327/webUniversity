@@ -15,7 +15,7 @@ function FrontendRoutes() {
           </div>
         }
       >
-        <Route exact path="/forgotPassword" component={ForgotPassword} />
+        <Route exact path="/forgot/forgotPassword" component={ForgotPassword} />
       </Suspense>
     </Switch>
   );

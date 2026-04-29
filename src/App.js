@@ -26,7 +26,7 @@
           <Router basename={process.env.PUBLIC_URL}>
             <Route exact path="/" component={Auth} />
             <Route path="/admin" component={Admin} />
-            <Route path="/" component={Forgot} />
+            <Route path="/forgot" component={Forgot} />
             <Route exact path="*" component={NotFound} />
           </Router>
         </ThemeProvider>

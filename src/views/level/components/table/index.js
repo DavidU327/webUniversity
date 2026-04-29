@@ -74,11 +74,6 @@ function LevelListTable({ editLevel }) {
             dataSource={dataSource}
             columns={columns}
             loading={loading}
-            pagination={{
-              defaultPageSize: 5,
-              total: dataSource.length,
-              showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
-            }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description="No hay niveles aún" /> }}

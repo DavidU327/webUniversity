@@ -74,7 +74,7 @@ function Login(){
             <Checkbox onChange={onChange} checked={check}>
               Mantenerme conectado
             </Checkbox>
-            <NavLink className="forgot-pass-link" to="/forgotPassword">
+            <NavLink className="forgot-pass-link" to="/forgot/forgotPassword">
               ¿Recuperar contraseña?
             </NavLink>
           </div>
