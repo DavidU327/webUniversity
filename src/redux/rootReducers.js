@@ -4,6 +4,7 @@ import authReducer from './authentication/reducers';
 import recollectorReducer from './recollector/reducers';
 import typeIdentificationReducer from './typeIdentification/reducers';
 import wasteReducer from './waste/reducers';
+import levelReducer from './level/reducer';
 
 const rootReducers = combineReducers({
   auth: authReducer,
@@ -11,6 +12,7 @@ const rootReducers = combineReducers({
   user: userReducer,
   typeIdentification: typeIdentificationReducer,
   waste: wasteReducer,
+  level: levelReducer,
 });
 
 export default rootReducers;

@@ -1,38 +1,48 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import propTypes from 'prop-types';
 import { Empty, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
+import { getLevels, selectLevel } from '../../../../redux/level/actionCreator';
 
 function LevelListTable({ editLevel }) {
+  const dispatch = useDispatch();
+  const { levels, loading } = useSelector((state) => state.level);
+  useEffect(() => {
+    dispatch(getLevels());
+  }, [dispatch]);
 
-  const allLevels = [{id: 1, level: 'Básico'}];
+  const handleEdit = (level) => {
+    dispatch(selectLevel(level));
+    editLevel('Editar nivel', 'Editar');
+  };
 
-  const collectors = allLevels.map((user) => {
-    const { id, level } = user;
+  const dataSource = Array.isArray(levels)
+    ? levels.map((level) => ({
+        key: level.id,
+        level: level.name || level.level,
+        point_min: level.min_point,
+        point_max: level.max_point,
+        ...level,
+        action: (
+          <div className="table-action">
+            <Button className="btn-icon"
+                    type="info"
+                    onClick={() => handleEdit(level)}
+                    shape="circle">
+              <FeatherIcon icon="edit" size={16} />
+            </Button>
+          </div>
+        ),
+      }))
+    : [];
 
-    return {
-      key: id,
-      level,
-      point_min: 0,
-      point_max: 100,
-      action: (
-        <div className="table-action">
-          <Button className="btn-icon"
-                  type="info"
-                  onClick={() => editLevel('Editar nivel', 'Editar')}
-                  shape="circle">
-            <FeatherIcon icon="edit" size={16} />
-          </Button>
-        </div>
-      ),
-    };
-  });
-
-  const collectorTableColumns = [
+  const columns = [
     {
       title: 'Nivel',
       dataIndex: 'level',
@@ -61,11 +71,12 @@ function LevelListTable({ editLevel }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={collectors}
-            columns={collectorTableColumns}
+            dataSource={dataSource}
+            columns={columns}
+            loading={loading}
             pagination={{
               defaultPageSize: 5,
-              total: collectors.length,
+              total: dataSource.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
             locale={{ emptyText: <Empty
