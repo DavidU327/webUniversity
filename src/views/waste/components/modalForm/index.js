@@ -30,7 +30,7 @@ function ModalFormWaste({ visible, onCancel, title, textButton }) {
     if (visible && selectedWaste) {
       form.setFieldsValue({
         name: selectedWaste.name,
-        points_per_kilo: selectedWaste.points_per_kilo,
+        points: selectedWaste.points,
       });
     } else if (visible) {
       form.resetFields();
@@ -107,7 +107,7 @@ function ModalFormWaste({ visible, onCancel, title, textButton }) {
               <Input placeholder="Nombre del residuo" />
             </Form.Item>
             <Form.Item
-              name="points_per_kilo"
+              name="points"
               label="Puntos por kilo"
               rules={[
                 { required: true, message: 'Escribe los puntos por kilo' },

@@ -69,7 +69,7 @@ function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
     },
     {
       title: 'Puntos por kilo',
-      dataIndex: 'points',
+      dataIndex: 'points_per_kilo',
       key: 'points',
     },
     {
