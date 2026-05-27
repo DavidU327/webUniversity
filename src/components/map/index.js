@@ -1,118 +1,67 @@
-import React, { useState } from 'react';
-import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
-import PropTypes from 'prop-types';
-import { GmapWraper } from './style';
+import { useEffect, useRef } from "react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-const apiKey = process.env.REACT_APP_GOOGLE_MAP_KEY;
-const GoogleMaps = GoogleApiWrapper({
-  apiKey,
-})(property => {
-  const { latitude, longitude, google, width, height, zoom, mapStyles, place, styles, infoWindow } = property;
-  const [state, setState] = useState({
-    showingInfoWindow: false,
-    activeMarker: {},
-    selectedPlace: {},
-  });
-  const [mapInstance, setMapInstance] = useState(null);
+export default function Map() {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
 
-  const onMapReady = (_mapProps, map) => {
-    setMapInstance(map);
-  };
+  useEffect(() => {
+    if (map.current) return;
 
-  const onMarkerClick = (props, marker) =>
-    setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true,
+    // 🗺️ Inicializar mapa
+    map.current = new maplibregl.Map({
+      container: mapContainer.current,
+
+      style: {
+        version: 8,
+        sources: {
+          osm: {
+            type: "raster",
+            tiles: [
+              "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            ],
+            tileSize: 256,
+            attribution: "© OpenStreetMap contributors",
+          },
+        },
+        layers: [
+          {
+            id: "osm-layer",
+            type: "raster",
+            source: "osm",
+          },
+        ],
+      },
+
+      center: [-74.0721, 4.711],
+      zoom: 12,
     });
 
-  const onMapClicked = () => {
-    if (state.showingInfoWindow) {
-      setState({
-        showingInfoWindow: false,
-        activeMarker: null,
-      });
-    }
-  };
+    // 📍 Punto 1 (verde)
+    new maplibregl.Marker({ color: "green" })
+      .setLngLat([-74.0721, 4.711])
+      .setPopup(new maplibregl.Popup().setText("Punto verde - activo"))
+      .addTo(map.current);
 
-  const onInfoWindowClose = () => {
-    setState({
-      showingInfoWindow: false,
-    });
-  };
+    // 📍 Punto 2 (rojo)
+    new maplibregl.Marker({ color: "red" })
+      .setLngLat([-74.0621, 4.721]) // un poco desplazado
+      .setPopup(new maplibregl.Popup().setText("Punto rojo - inactivo"))
+      .addTo(map.current);
+
+  }, []);
 
   return (
-    <GmapWraper width={width} height={height}>
-      <Map
-        onReady={onMapReady}
-        onClick={onMapClicked}
-        styles={mapStyles}
-        google={google}
-        style={styles}
-        center={{ lat: latitude, lng: longitude }}
-        zoom={zoom}
-        height="400px"
-      >
-        {place !== undefined ? (
-          place.map(item => {
-            return (
-              <Marker
-                key={item.id}
-                onClick={onMarkerClick}
-                position={{ lat: item.latitude, lng: item.longitude }}
-                icon={require(`../../assets/image/marker.png`)}
-              />
-            );
-          })
-        ) : (
-          <Marker
-            onClick={onMarkerClick}
-            position={{ lat: latitude, lng: longitude }}
-            icon={require(`../../assets/image/marker.png`)}
-          />
-        )}
-        <InfoWindow
-          onClose={onInfoWindowClose}
-          marker={state.activeMarker}
-          google={google}
-          map={mapInstance}
-          visible={state.showingInfoWindow}>
-          {infoWindow}
-        </InfoWindow>
-      </Map>
-    </GmapWraper>
+    <div
+      ref={mapContainer}
+      style={{
+        height: "500px",
+        width: "100%",
+        borderRadius: "12px",
+      }}
+    />
   );
-});
-
-GoogleMaps.defaultProps = {
-  latitude: '50.797897',
-  longitude: '-1.077641',
-  width: '100%',
-  height: '600px',
-  zoom: 13,
-  infoWindow: (
-    <div>
-      <h1>Hello world</h1>
-    </div>
-  ),
-
-  styles: {
-    width: '100%',
-    height: '100%',
-    top: 0,
-    left: 0,
-  },
-};
-
-GoogleMaps.propTypes = {
-  latitude: PropTypes.string,
-  longitude: PropTypes.string,
-  google: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  zoom: PropTypes.number,
-  place: PropTypes.arrayOf(PropTypes.object),
-  infoWindow: PropTypes.node,
-};
-
-export { GoogleMaps };
+}

@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { Main } from './style';
 import { Cards } from '../../components/cards';
-import { GoogleMaps } from '../../components/map';
+import Map from '../../components/map';
 import { CardToolbox, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-
+import { getOrderDays } from '../../redux/order/actionCreator';
+import MapOrders from '../../components/mapOrders';
+import { getRecollectorDashboard } from '../../redux/recollector/actionCreator';
 
 function Dashboard(){
+  const today = new Date().toLocaleDateString("en-CA");
+
+  const dispatch = useDispatch();
+
+  const {
+    orders,
+  } = useSelector((state) => state.order);
+  const {
+    dashboardRecollectors,
+  } = useSelector((state) => state.recollector);
 
   const [searchData, setSearchData] = useState([]);
 
@@ -16,6 +29,11 @@ function Dashboard(){
     const data = searchData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
     setSearchData(data);
   };
+
+  useEffect(() => {
+    dispatch(getOrderDays(today));
+    dispatch(getRecollectorDashboard());
+  }, []);
 
   return (
     <>
@@ -27,7 +45,10 @@ function Dashboard(){
         <Row gutter={25}>
           <Col md={24} xs={24}>
             <Cards title="Asignación del dia" size="large">
-              <GoogleMaps latitude='4.57926' longitude='-74.15831' />
+              <MapOrders
+                orders={orders}
+                recollectors={dashboardRecollectors}
+              />
             </Cards>
           </Col>
         </Row>
@@ -54,7 +75,7 @@ function Dashboard(){
             <Row gutter={25}>
               <Col md={24} xs={24}>
                 <Cards title="Ubicación recolectores" size="large">
-                  <GoogleMaps latitude='4.57926' longitude='-74.15831' />
+                  <Map />
                 </Cards>
               </Col>
             </Row>

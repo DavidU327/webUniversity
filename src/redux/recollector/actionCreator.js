@@ -5,6 +5,9 @@ const {
   getRecollectorBegin,
   getRecollectorSuccess,
   getRecollectorError,
+  getRecollectorDashboardBegin,
+  getRecollectorDashboardSuccess,
+  getRecollectorDashboardError,
   createRecollectorBegin,
   createRecollectorSuccess,
   createRecollectorError,
@@ -42,6 +45,25 @@ const getRecollector = (page) => {
         dispatch(getRecollectorSuccess(response.data));
       } else {
         dispatch(getRecollectorError(response.data?.error || 'Error al traer datos'));
+      }
+    } catch (err) {
+      dispatch(
+        getRecollectorError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+const getRecollectorDashboard = () => {
+  const url = process.env.REACT_APP_API_RECOLLECTOR;
+  return async (dispatch) => {
+    try {
+      dispatch(getRecollectorDashboardBegin());
+      const response = await DataService.get('collectors-dashboard', url);
+      if (response.data.data?.length > 0) {
+        dispatch(getRecollectorDashboardSuccess(response.data));
+      } else {
+        dispatch(getRecollectorDashboardError(response.data?.error || 'Error al traer datos'));
       }
     } catch (err) {
       dispatch(
@@ -268,7 +290,7 @@ const deleteRecollector = (id) => {
       dispatch(deleteRecollectorBegin());
       const response = await DataService.delete(`/deleteCollector/${id}`, {}, url);
       if (response.data.code === 200) {
-        dispatch(deleteRecollectorSuccess(response.data));
+        dispatch(deleteRecollectorSuccess(response.data.data));
       } else {
         dispatch(deleteRecollectorError(response.data?.error || 'Error al eliminar recolector'));
       }
@@ -282,6 +304,7 @@ const deleteRecollector = (id) => {
 
 export {
   getRecollector,
+  getRecollectorDashboard,
   createRecollector,
   cleanFormRecollector,
   uploadDocument,

@@ -3,6 +3,10 @@ const actions = {
   GET_RECOLLECTOR_SUCCESS: 'GET_RECOLLECTOR_SUCCESS',
   GET_RECOLLECTOR_ERROR: 'GET_RECOLLECTOR_ERROR',
 
+  GET_RECOLLECTOR_DASHBOARD_BEGIN: 'GET_RECOLLECTOR_DASHBOARD_BEGIN',
+  GET_RECOLLECTOR_DASHBOARD_SUCCESS: 'GET_RECOLLECTOR_DASHBOARD_SUCCESS',
+  GET_RECOLLECTOR_DASHBOARD_ERROR: 'GET_RECOLLECTOR_DASHBOARD_ERROR',
+
   CREATE_RECOLLECTOR_BEGIN: 'CREATE_RECOLLECTOR_BEGIN',
   CREATE_RECOLLECTOR_SUCCESS: 'CREATE_RECOLLECTOR_SUCCESS',
   CREATE_RECOLLECTOR_ERROR: 'CREATE_RECOLLECTOR_ERROR',
@@ -53,6 +57,26 @@ const actions = {
   getRecollectorError: (err) => {
     return {
       type: actions.GET_RECOLLECTOR_ERROR,
+      err,
+    };
+  },
+
+  getRecollectorDashboardBegin: () => {
+    return {
+      type: actions.GET_RECOLLECTOR_DASHBOARD_BEGIN,
+    };
+  },
+
+  getRecollectorDashboardSuccess: (data) => {
+    return {
+      type: actions.GET_RECOLLECTOR_DASHBOARD_SUCCESS,
+      data,
+    };
+  },
+
+  getRecollectorDashboardError: (err) => {
+    return {
+      type: actions.GET_RECOLLECTOR_DASHBOARD_ERROR,
       err,
     };
   },

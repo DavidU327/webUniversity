@@ -1,8 +1,12 @@
 import actions from './actions';
 
-const { GET_RECOLLECTOR_BEGIN,
+const {
+  GET_RECOLLECTOR_BEGIN,
   GET_RECOLLECTOR_SUCCESS,
   GET_RECOLLECTOR_ERROR,
+  GET_RECOLLECTOR_DASHBOARD_BEGIN,
+  GET_RECOLLECTOR_DASHBOARD_SUCCESS,
+  GET_RECOLLECTOR_DASHBOARD_ERROR,
   CREATE_RECOLLECTOR_BEGIN,
   CREATE_RECOLLECTOR_SUCCESS,
   CREATE_RECOLLECTOR_ERROR,
@@ -33,6 +37,7 @@ const { GET_RECOLLECTOR_BEGIN,
 const initState = {
   loading: false,
   recollectors: [],
+  dashboardRecollectors: [],
   error: null,
   prev: false,
   next: false,
@@ -64,6 +69,23 @@ const RecollectorReducer = (state = initState, action) => {
         currentPage: data.meta.current_page
       };
     case GET_RECOLLECTOR_ERROR:
+      return {
+        ...state,
+        error: err,
+        loading: false,
+      };
+    case GET_RECOLLECTOR_DASHBOARD_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_RECOLLECTOR_DASHBOARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        dashboardRecollectors: data.data,
+      };
+    case GET_RECOLLECTOR_DASHBOARD_ERROR:
       return {
         ...state,
         error: err,
