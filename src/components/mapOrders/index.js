@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import PropTypes from "prop-types";
+import { openNotification } from "../../utility/notification";
 
 const getAddress = async (lat, lon) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
@@ -11,7 +12,11 @@ const getAddress = async (lat, lon) => {
   return data.name;
 };
 
-export default function MapOrders({ orders = [], recollectors }) {
+export default function MapOrders({
+                                    orders = [],
+                                    recollectors,
+                                    assignCollector,
+                                  }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markersRef = useRef([]);
@@ -21,7 +26,6 @@ export default function MapOrders({ orders = [], recollectors }) {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-
       style: {
         version: 8,
         sources: {
@@ -44,7 +48,6 @@ export default function MapOrders({ orders = [], recollectors }) {
           },
         ],
       },
-
       center: [-74.0721, 4.711],
       zoom: 12,
     });
@@ -63,15 +66,100 @@ export default function MapOrders({ orders = [], recollectors }) {
       if (!lat || !lng) return;
 
       const color = order.state?.color || "#3498DB";
+      const buttonId = `assign-btn-${order.id}`;
+      const selectId = `select-${order.id}`;
 
-      // 🧠 Popup inicial
-      const popup = new maplibregl.Popup().setHTML(`
-        <div style="font-size:12px">
-          <strong>${order.user?.name || "Sin nombre"}</strong><br/>
-          Estado: ${order.state?.name || "N/A"}<br/>
-          Dirección: cargando...
+      const canAssign = order.state.id === 1;
+
+      const popup = new maplibregl.Popup({
+        closeOnClick: false,
+        closeButton: true,
+      });
+
+      const container = document.createElement("div");
+      container.style.fontSize = "12px";
+      container.style.textAlign = "center";
+      container.style.width = "200px";
+      container.style.maxHeight = "300px";
+      container.style.overflowY = "auto";
+      container.style.padding = "12px";
+      container.style.fontFamily = "Arial, sans-serif";
+
+      const assignBlock = canAssign
+        ? `
+        <div style="margin-top:10px;">
+          <label style="font-size:11px;font-weight:600;">Asignar recolector</label>
+
+          <select id="${selectId}" style="width:100%;margin-top:5px;padding:6px;border-radius:6px;border:1px solid #ddd;font-size:11px;">
+            <option value="" disabled selected>Seleccionar recolector</option>
+            ${
+          recollectors?.length
+            ? recollectors
+              .map(
+                (r) => `
+                        <option value="${r.collector.id}">
+                          ${r?.collector.user.name || "Sin nombre"}
+                        </option>
+                      `
+              )
+              .join("")
+            : `<option>No hay recolector</option>`
+        }
+          </select>
         </div>
-      `);
+
+        <button
+          id="${buttonId}"
+          style="width:100%;margin-top:10px;padding:8px;background:${color};color:white;border:none;border-radius:8px;font-size:12px;cursor:pointer;">
+          Asignar
+        </button>
+        `
+        : `
+        <div />
+        `;
+
+      container.innerHTML = `
+        <img
+          alt=""
+          src="${order.user?.photo || "https://via.placeholder.com/60"}"
+          style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:10px;"
+        />
+
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px;">
+          ${order.user?.name || "Sin nombre"}
+        </div>
+
+        <div style="font-size:11px;color:#555;margin-bottom:6px;">
+          📞 ${order.user?.phone || "N/A"}
+        </div>
+
+        <div style="display:inline-block;background:${color};color:white;padding:3px 8px;border-radius:12px;font-size:10px;margin-bottom:8px;">
+          ${order.state?.name || "N/A"}
+        </div>
+
+        <div style="font-size:11px;color:#666;margin-top:8px;">
+          📍 cargando...
+        </div>
+
+        <div style="margin-top:10px;text-align:left;font-size:11px;background:#f7f7f7;padding:8px;border-radius:8px;">
+          <div style="font-weight:600;margin-bottom:5px;">♻️ Tipos de residuos</div>
+          ${
+        order.type_waste?.length
+          ? order.type_waste
+            .map(
+              (w) => `
+                      <div>• ${w.name || "Sin tipo"} - ${w.weight} kg</div>
+                    `
+            )
+            .join("")
+          : "<div>No hay residuos</div>"
+      }
+        </div>
+
+        ${assignBlock}
+      `;
+
+      popup.setDOMContent(container);
 
       const marker = new maplibregl.Marker({ color })
         .setLngLat([lng, lat])
@@ -80,156 +168,31 @@ export default function MapOrders({ orders = [], recollectors }) {
 
       markersRef.current.push(marker);
 
-      // 🚀 Fetch async de dirección
-      getAddress(lat, lng)
-        .then((address) => {
-          popup.setHTML(`
-           <div style="
- font-size:12px;
-  text-align:center;
-  width:200px;
-  max-height:300px;
-  overflow-y:auto;
-  padding:12px;
-  font-family: Arial, sans-serif;
-  ">
+      getAddress(lat, lng).then((address) => {
+        const addrDiv = container.querySelector("div:nth-child(5)");
+        if (addrDiv) addrDiv.textContent = `📍 ${address}`;
+      });
 
-    <!-- 🖼️ AVATAR -->
-    <img
-      alt=""
-      src="${order.user?.photo || 'https://via.placeholder.com/60'}"
-      style="
-        width:64px;
-        height:64px;
-        border-radius:50%;
-        object-fit:cover;
-        margin-bottom:10px;
-      "
-    />
+      container
+        .querySelector(`#${buttonId}`)
+        ?.addEventListener("click", () => {
+          const collectorId = container
+            .querySelector(`#${selectId}`)
+            ?.value;
 
-    <!-- 👤 NOMBRE -->
-    <div style="
-      font-weight:700;
-      font-size:13px;
-      margin-bottom:4px;
-      color:#222;
-    ">
-      ${order.user?.name || "Sin nombre"}
-    </div>
-
-    <!-- 📞 TELÉFONO -->
-    <div style="
-      font-size:11px;
-      color:#555;
-      margin-bottom:6px;
-    ">
-      📞 ${order.user?.phone || "N/A"}
-    </div>
-
-    <!-- 📍 ESTADO -->
-    <div style="
-      display:inline-block;
-      background:${order.state?.color || '#3498DB'};
-      color:white;
-      padding:3px 8px;
-      border-radius:12px;
-      font-size:10px;
-      margin-bottom:8px;
-    ">
-      ${order.state?.name || "N/A"}
-    </div>
-
-    <!-- 🏠 DIRECCIÓN -->
-    <div style="
-      font-size:11px;
-      color:#666;
-      margin-top:8px;
-      line-height:1.3;
-    ">
-      📍 ${address}
-    </div>
-
-<!-- 🗑️ TIPOS DE RESIDUO -->
-<div style="
-  margin-top:10px;
-  text-align:left;
-  font-size:11px;
-  background:#f7f7f7;
-  padding:8px;
-  border-radius:8px;
-">
-  <div style="font-weight:600; margin-bottom:5px;">
-    ♻️ Tipos de residuos
-  </div>
-
-  ${
-            order.type_waste?.length
-              ? order.type_waste
-                .map(
-                  (w) => `
-              <div style="margin-bottom:3px;">
-                • ${w.name || "Sin tipo"} - ${w.weight} kg
-              </div>
-            `
-                )
-                .join("")
-              : "<div>No hay residuos</div>"
+          if (!collectorId) {
+            openNotification(
+              "error",
+              "¡Espera!",
+              "Debes seleccionar un recolector"
+            );
+            return;
           }
-  </div>
 
-<!-- 🧪 SELECTOR -->
-          <div style="margin-top:10px;">
-            <label style="font-size:11px;font-weight:600;">
-              Asignar recolector
-            </label>
-            
-
-            <select style="
-              width:100%;
-              margin-top:5px;
-              padding:6px;
-              border-radius:6px;
-              border:1px solid #ddd;
-              font-size:11px;
-            ">
-             <option value="" disabled selected>
-    Seleccionar recolector
-  </option>
-              ${
-            recollectors?.length
-              ? recollectors
-                .map(
-                  (r) => `
-                          <option value="${r.collector.id}">
-                            ${r?.collector.user.name || "Sin nombre"}
-                          </option>
-                        `
-                )
-                .join("")
-              : `<option>No hay recolector</option>`
-          }
-            </select>
-          </div>
-          
-             <!-- 🔘 BOTÓN -->
-          <button style="
-            width:100%;
-            margin-top:10px;
-            padding:8px;
-            background:${color};
-            color:white;
-            border:none;
-            border-radius:8px;
-            font-size:12px;
-            cursor:pointer;
-          ">
-            Asignar
-          </button>
-  </div>
-          `);
+          assignCollector(order.id, parseInt(collectorId, 10));
         });
     });
-  }, [orders]);
+  }, [orders, recollectors, assignCollector]);
 
   return (
     <div
@@ -246,4 +209,5 @@ export default function MapOrders({ orders = [], recollectors }) {
 MapOrders.propTypes = {
   orders: PropTypes.array,
   recollectors: PropTypes.array,
+  assignCollector: PropTypes.func,
 };

@@ -1,10 +1,14 @@
 import actions from './actions';
 import { DataService } from '../../config/dataService/dataService';
+import { openNotification } from '../../utility/notification';
 
 const {
   getOrderDaysBegin,
   getOrderDaysSuccess,
   getOrderDaysError,
+  assignedOrderBegin,
+  assignedOrderSuccess,
+  assignedOrderError,
 } = actions;
 
 const BASE_URL = process.env.REACT_APP_API_ORDER;
@@ -27,6 +31,36 @@ const getOrderDays = (day) => {
   };
 };
 
+/**
+ * Asignar recolector
+ */
+const assignedCollector = (order, collector) => {
+  return async (dispatch) => {
+    try {
+      const body = {
+        order_id: order,
+        collector_id: collector
+      };
+      dispatch(assignedOrderBegin());
+      const response = await DataService.post('orders/assign-collector', body, BASE_URL);
+      if (response.data) {
+        dispatch(assignedOrderSuccess(response.data));
+        openNotification(
+          "sucess",
+          "Listo",
+          "Recolector asignado"
+        );
+      } else {
+        dispatch(assignedOrderError('Error al asignar recolector'));
+      }
+    } catch (err) {
+      dispatch(assignedOrderError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
+
+
 export {
+  assignedCollector,
   getOrderDays,
 };

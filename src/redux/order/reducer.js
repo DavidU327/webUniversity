@@ -3,6 +3,8 @@ const initialState = {
   orders: [],
   loading: false,
   error: null,
+  loadingForm: false,
+  errorForm: null,
 };
 
 export default function orderReducer(state = initialState, action) {
@@ -13,7 +15,18 @@ export default function orderReducer(state = initialState, action) {
       return { ...state, loading: false, orders: action.data.data };
     case 'GET_ORDER_DAYS_ERROR':
       return { ...state, loading: false, error: action.error };
-
+    case 'ASSIGNED_ORDER_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'ASSIGNED_ORDER_SUCCESS':
+      return { ...state, loadingForm: false,
+        orders: state.orders.map((order) =>
+          order.id === action.data.data.id
+            ? action.data.data
+            : order
+        )
+      };
+    case 'ASSIGNED_ORDER_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
     default:
       return state;
   }

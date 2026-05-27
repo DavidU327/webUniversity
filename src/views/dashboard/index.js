@@ -7,7 +7,7 @@ import Map from '../../components/map';
 import { CardToolbox, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-import { getOrderDays } from '../../redux/order/actionCreator';
+import { assignedCollector, getOrderDays } from '../../redux/order/actionCreator';
 import MapOrders from '../../components/mapOrders';
 import { getRecollectorDashboard } from '../../redux/recollector/actionCreator';
 
@@ -19,6 +19,7 @@ function Dashboard(){
   const {
     orders,
   } = useSelector((state) => state.order);
+
   const {
     dashboardRecollectors,
   } = useSelector((state) => state.recollector);
@@ -28,6 +29,10 @@ function Dashboard(){
   const handleSearch = (searchText) => {
     const data = searchData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
     setSearchData(data);
+  };
+
+  const handleAssignCollector = (order, collector) => {
+    dispatch(assignedCollector(order, collector));
   };
 
   useEffect(() => {
@@ -48,6 +53,7 @@ function Dashboard(){
               <MapOrders
                 orders={orders}
                 recollectors={dashboardRecollectors}
+                assignCollector={handleAssignCollector}
               />
             </Cards>
           </Col>
