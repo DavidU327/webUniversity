@@ -9,6 +9,10 @@ const {
   assignedOrderBegin,
   assignedOrderSuccess,
   assignedOrderError,
+  initOrderBegin,
+  initOrderSuccess,
+  initOrderError,
+  cleanOrder,
 } = actions;
 
 const BASE_URL = process.env.REACT_APP_API_ORDER;
@@ -46,7 +50,7 @@ const assignedCollector = (order, collector) => {
       if (response.data) {
         dispatch(assignedOrderSuccess(response.data));
         openNotification(
-          "sucess",
+          "success",
           "Listo",
           "Recolector asignado"
         );
@@ -59,8 +63,37 @@ const assignedCollector = (order, collector) => {
   };
 };
 
+/**
+ * Iniciar ordenes
+ */
+const initOrder = (values) => {
+  return async (dispatch) => {
+    try {
+      dispatch(initOrderBegin());
+      const response = await DataService.post('orders/init', values, BASE_URL);
+      if (response.data) {
+        dispatch(initOrderSuccess(response.data));
+      } else {
+        dispatch(initOrderError('Error al iniciar ordenes'));
+      }
+    } catch (err) {
+      dispatch(initOrderError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
+
+/**
+ * Limpiar
+ */
+const clearOrder = () => {
+  return async (dispatch) => {
+    dispatch(cleanOrder());
+  };
+};
 
 export {
   assignedCollector,
   getOrderDays,
+  initOrder,
+  clearOrder,
 };

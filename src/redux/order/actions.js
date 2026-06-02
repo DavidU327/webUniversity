@@ -6,6 +6,12 @@ const actions = {
   assignedOrderBegin: () => ({ type: 'ASSIGNED_ORDER_BEGIN' }),
   assignedOrderSuccess: (data) => ({ type: 'ASSIGNED_ORDER_SUCCESS', data }),
   assignedOrderError: (error) => ({ type: 'ASSIGNED_ORDER_ERROR', error}),
+
+  initOrderBegin: () => ({ type: 'INIT_ORDER_BEGIN' }),
+  initOrderSuccess: (data) => ({ type: 'INIT_ORDER_SUCCESS', data }),
+  initOrderError: (error) => ({ type: 'INIT_ORDER_ERROR', error}),
+
+  cleanOrder: () => ({ type: 'CLEAN_ORDER'}),
 };
 
 export default actions;

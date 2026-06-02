@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   error: null,
   loadingForm: false,
+  successForm: false,
   errorForm: null,
 };
 
@@ -27,6 +28,16 @@ export default function orderReducer(state = initialState, action) {
       };
     case 'ASSIGNED_ORDER_ERROR':
       return { ...state, loadingForm: false, errorForm: action.error };
+    case 'INIT_ORDER_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'INIT_ORDER_SUCCESS':
+      return { ...state, loadingForm: false, successForm: true,
+        orders: action.data.data
+      };
+    case 'INIT_ORDER_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
+    case 'CLEAN_ORDER':
+      return { ...state, successForm: false };
     default:
       return state;
   }
