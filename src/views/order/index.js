@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import OrderListTable from './components/table';
 import ModalInfoUser from './components/modalInfoUser';
 import ModalInfoWaste from './components/modalInfoWaste';
@@ -13,6 +13,10 @@ import { getOrders } from '../../redux/order/actionCreator';
 function Order(){
 
   const dispatch = useDispatch();
+
+  const {
+    allOrders,
+  } = useSelector((state) => state.order);
 
   const [state, setState] = useState({
     notData: [],
@@ -40,6 +44,12 @@ function Order(){
     });
   }
 
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getOrders(page));
+    }
+  };
+
   useEffect(() => {
     dispatch(getOrders(1));
   }, []);
@@ -53,7 +63,7 @@ function Order(){
             title="Órdenes"
             subTitle={
               <>
-                <span className="title-counter">2 Órdenes</span>
+                <span className="title-counter">{allOrders.length} Órdenes</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -91,6 +101,7 @@ function Order(){
                   focus: item
                 });
               }}
+              morePage={morePage}
             />
           </Col>
         </Row>

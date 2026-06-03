@@ -16,7 +16,7 @@ const getAddress = async (lat, lon) => {
   return data.name || 'Sin dirección';
 };
 
-function OrderListTable({openWaste, openUser, openCollector}) {
+function OrderListTable({openWaste, openUser, openCollector, morePage}) {
   const { allOrders, loading } = useSelector((state) => state.order);
 
   const [orders, setOrders] = useState([]);
@@ -144,6 +144,10 @@ function OrderListTable({openWaste, openUser, openCollector}) {
               showTotal: (total, range) =>
                 `${range[0]}-${range[1]} de ${total}`,
             }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
+            }}
             locale={{
               emptyText: (
                 <Empty
@@ -163,6 +167,7 @@ OrderListTable.propTypes = {
   openWaste: propTypes.func.isRequired,
   openUser: propTypes.func.isRequired,
   openCollector: propTypes.func.isRequired,
+  morePage: propTypes.func.isRequired,
 };
 
 export default OrderListTable;
