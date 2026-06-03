@@ -1,6 +1,10 @@
 
 const initialState = {
   orders: [],
+  allOrders: [],
+  prev: false,
+  next: false,
+  currentPage: 1,
   loading: false,
   error: null,
   loadingForm: false,
@@ -15,6 +19,19 @@ export default function orderReducer(state = initialState, action) {
     case 'GET_ORDER_DAYS_SUCCESS':
       return { ...state, loading: false, orders: action.data.data };
     case 'GET_ORDER_DAYS_ERROR':
+      return { ...state, loading: false, error: action.error };
+    case 'GET_ORDERS_BEGIN':
+      return { ...state, loading: true, error: null };
+    case 'GET_ORDERS_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        allOrders: action.data.data,
+        prev: action.data.links.prev !== null,
+        next: action.data.links.next !== null,
+        currentPage: action.data.meta.current_page
+      };
+    case 'GET_ORDERS_ERROR':
       return { ...state, loading: false, error: action.error };
     case 'ASSIGNED_ORDER_BEGIN':
       return { ...state, loadingForm: true, errorForm: null };

@@ -6,6 +6,9 @@ const {
   getOrderDaysBegin,
   getOrderDaysSuccess,
   getOrderDaysError,
+  getOrdersBegin,
+  getOrdersSuccess,
+  getOrdersError,
   assignedOrderBegin,
   assignedOrderSuccess,
   assignedOrderError,
@@ -31,6 +34,25 @@ const getOrderDays = (day) => {
       }
     } catch (err) {
       dispatch(getOrderDaysError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
+
+/**
+ * Ver todas las ordenes
+ */
+const getOrders = (page) => {
+  return async (dispatch) => {
+    try {
+      dispatch(getOrdersBegin());
+      const response = await DataService.get(`/orders?page=${page}&limit=10`, BASE_URL);
+      if (response.data) {
+        dispatch(getOrdersSuccess(response.data));
+      } else {
+        dispatch(getOrdersError('Error al obtener las ordenes'));
+      }
+    } catch (err) {
+      dispatch(getOrdersError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
     }
   };
 };
@@ -94,6 +116,7 @@ const clearOrder = () => {
 export {
   assignedCollector,
   getOrderDays,
+  getOrders,
   initOrder,
   clearOrder,
 };

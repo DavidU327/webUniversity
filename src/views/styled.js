@@ -278,9 +278,7 @@ const TableWrapper = Styled.div`
             tr{
                 border-radius: 10px;
                 th{
-                    &:last-child{
-                        text-align: right;
-                    }
+                
                     color: ${({ theme }) => theme['gray-color']};
                     background: ${({ theme }) => theme['bg-color-light']};
                     border-top: 1px solid ${({ theme }) => theme['border-color-light']};

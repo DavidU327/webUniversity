@@ -1,59 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Empty, Table } from 'antd';
+import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
-import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
+import { StatusText } from '../../../collector/components/table/style';
 
-function OrderListTable() {
+const getAddress = async (lat, lon) => {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
 
-  const allUsers = [{id: 1, name: 'Juan', status: 'active'}];
+  const res = await fetch(url);
+  const data = await res.json();
 
-  const users = allUsers.map((user) => {
-    const { id, name, status } = user;
+  return data.name || 'Sin dirección';
+};
 
-    return {
-      key: id,
-      user: (
-        <div className="user-info">
-          <figure>
-            <img style={{ width: '40px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/250px-User_icon_2.svg.png" alt="" />
-          </figure>
-          <figcaption>
-            <Heading className="user-name" as="h6">
-              {name}
-            </Heading>
-          </figcaption>
-        </div>
-      ),
-      collector: (
-        <div className="user-info">
-          <figure>
-            <img style={{ width: '40px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/250px-User_icon_2.svg.png" alt="" />
-          </figure>
-          <figcaption>
-            <Heading className="user-name" as="h6">
-              {name}
-            </Heading>
-          </figcaption>
-        </div>
-      ),
-      address: 'Carrera 110 # 80 70',
-      date: '1 de agosto de 2025',
-      status: <span className={`status-text ${status}`}>Active</span>,
+function OrderListTable({openWaste, openUser, openCollector}) {
+  const { allOrders, loading } = useSelector((state) => state.order);
+
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      const data = await Promise.all(
+        allOrders.map(async (order) => {
+          const { id, latitude, longitude, date, state, user, collector } = order;
+
+          let address;
+
+          try {
+            address = await getAddress(latitude, longitude);
+          } catch (error) {
+            address = 'No disponible';
+          }
+
+          return {
+            key: id,
+
+            order_id: (
+              <figcaption>
+                <span> {id}</span>
+              </figcaption>
+            ),
+            address: (
+              <figcaption>
+                <span>{address}</span>
+              </figcaption>
+            ),
+            date: (
+              <figcaption>
+                <span>{date.substring(0, 10)}</span>
+              </figcaption>
+            ),
+            points: (
+              <figcaption>
+                <span>0</span>
+              </figcaption>
+            ),
+            waste: (
+              <button type="button" onClick={() => openWaste(order)} style={{ all: 'unset', cursor: 'pointer' }}>
+                <span>Residuos</span>
+              </button>
+            ),
+            user: (
+              <button type="button" onClick={() => openUser(order)} style={{ all: 'unset', cursor: 'pointer' }}>
+                <span>{user?.name}</span>
+              </button>
+        ),
+          collector: (
+            <button type="button" onClick={() => openCollector(order)} style={{ all: 'unset', cursor: 'pointer' }}>
+              <span>{collector?.name || 'Sin asignar'}</span>
+            </button>
+        ),
+          state: (
+              <StatusText $color={state?.color}>{state?.name}</StatusText>
+            ),
+          };
+        })
+      );
+      setOrders(data);
     };
-  });
 
-  const userTableColumns = [
+    if (allOrders?.length) {
+      loadOrders();
+    }
+  }, [allOrders]);
+
+  const orderTableColumns = [
     {
-      title: 'Usuario',
-      dataIndex: 'user',
-      key: 'user',
-    },
-    {
-      title: 'Recolector',
-      dataIndex: 'collector',
-      key: 'collector',
+      title: 'Orden',
+      dataIndex: 'order_id',
+      key: 'order_id',
     },
     {
       title: 'Dirección',
@@ -66,10 +104,29 @@ function OrderListTable() {
       key: 'date',
     },
     {
+      title: 'Puntos',
+      dataIndex: 'points',
+      key: 'points',
+    },
+    {
+      title: 'Residuos',
+      dataIndex: 'waste',
+      key: 'waste',
+    },
+    {
+      title: 'Usario',
+      dataIndex: 'user',
+      key: 'user',
+    },
+    {
+      title: 'Recolector',
+      dataIndex: 'collector',
+      key: 'collector',
+    },
+    {
       title: 'Estado',
-      dataIndex: 'status',
-      key: 'status',
-      align: 'center'
+      dataIndex: 'state',
+      key: 'state',
     },
   ];
 
@@ -78,21 +135,34 @@ function OrderListTable() {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={users}
-            columns={userTableColumns}
+            dataSource={orders}
+            columns={orderTableColumns}
+            loading={loading}
             pagination={{
               defaultPageSize: 5,
-              total: users.length,
-              showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
+              total: orders.length,
+              showTotal: (total, range) =>
+                `${range[0]}-${range[1]} de ${total}`,
             }}
-            locale={{ emptyText: <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay órdenes aún" /> }}
+            locale={{
+              emptyText: (
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  description="No hay órdenes aún"
+                />
+              ),
+            }}
           />
         </TableWrapper>
       </TableStyleWrapper>
     </Cards>
   );
 }
+
+OrderListTable.propTypes = {
+  openWaste: propTypes.func.isRequired,
+  openUser: propTypes.func.isRequired,
+  openCollector: propTypes.func.isRequired,
+};
 
 export default OrderListTable;
