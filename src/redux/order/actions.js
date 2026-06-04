@@ -15,6 +15,10 @@ const actions = {
   initOrderSuccess: (data) => ({ type: 'INIT_ORDER_SUCCESS', data }),
   initOrderError: (error) => ({ type: 'INIT_ORDER_ERROR', error}),
 
+  cancelOrderBegin: () => ({ type: 'CANCEL_ORDER_BEGIN' }),
+  cancelOrderSuccess: (data) => ({ type: 'CANCEL_ORDER_SUCCESS', data }),
+  cancelOrderError: (error) => ({ type: 'CANCEL_ORDER_ERROR', error}),
+
   cleanOrder: () => ({ type: 'CLEAN_ORDER'}),
 };
 

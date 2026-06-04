@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import OrderListTable from './components/table';
 import ModalInfoUser from './components/modalInfoUser';
 import ModalInfoWaste from './components/modalInfoWaste';
+import ModalCancelOrder from './components/modalCancelOrder';
 import ModalInfoCollector from './components/modalInfoCollector';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-import { getOrders } from '../../redux/order/actionCreator';
+import { cancelOrder, clearOrder, getOrders } from '../../redux/order/actionCreator';
 
 function Order(){
 
@@ -16,6 +17,8 @@ function Order(){
 
   const {
     allOrders,
+    loadingForm,
+    successForm,
   } = useSelector((state) => state.order);
 
   const [state, setState] = useState({
@@ -23,6 +26,7 @@ function Order(){
     modalWaste: false,
     modalUser: false,
     modalCollector: false,
+    modalCancel: false,
     focus: null,
   });
 
@@ -40,6 +44,7 @@ function Order(){
       modalWaste: false,
       modalUser: false,
       modalCollector: false,
+      modalCancel: false,
       focus: null,
     });
   }
@@ -50,9 +55,32 @@ function Order(){
     }
   };
 
+  const handleCancelOrder = (order) => {
+    setState({
+      ...state,
+      focus: order,
+      modalCancel: true,
+    });
+  };
+
+  const confirmCancelOrder= () => {
+    dispatch(cancelOrder(state.focus.id))
+  };
+
   useEffect(() => {
     dispatch(getOrders(1));
   }, []);
+
+  useEffect(() => {
+    if(successForm){
+      dispatch(clearOrder());
+      setState({
+        ...state,
+        focus: null,
+        modalCancel: false,
+      });
+    }
+  }, [successForm]);
 
   return (
     <>
@@ -102,6 +130,7 @@ function Order(){
                 });
               }}
               morePage={morePage}
+              handleCancelOrder={handleCancelOrder}
             />
           </Col>
         </Row>
@@ -125,6 +154,15 @@ function Order(){
           visible={state.modalCollector}
           collector={state.focus?.collector}
           onCancel={cleanModals}
+        />
+      )}
+      {state.focus && (
+        <ModalCancelOrder
+          visible={state.modalCancel}
+          order={state.focus}
+          onCancel={cleanModals}
+          loading={loadingForm}
+          confirmCancelOrder={confirmCancelOrder}
         />
       )}
     </>

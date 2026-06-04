@@ -15,6 +15,9 @@ const {
   initOrderBegin,
   initOrderSuccess,
   initOrderError,
+  cancelOrderBegin,
+  cancelOrderSuccess,
+  cancelOrderError,
   cleanOrder,
 } = actions;
 
@@ -105,6 +108,34 @@ const initOrder = (values) => {
 };
 
 /**
+ * Cancelar orden
+ */
+const cancelOrder = (order) => {
+  return async (dispatch) => {
+    try {
+      const body = {
+        order_id: order,
+      };
+      dispatch(cancelOrderBegin());
+      const response = await DataService.post('orders/cancel', body, BASE_URL);
+      if (response.data) {
+        dispatch(cancelOrderSuccess(response.data));
+        openNotification(
+          "success",
+          "Listo",
+          "Órden cancelada"
+        );
+      } else {
+        dispatch(cancelOrderError('Error al cancelar órden'));
+      }
+    } catch (err) {
+      dispatch(cancelOrderError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
+
+
+/**
  * Limpiar
  */
 const clearOrder = () => {
@@ -118,5 +149,6 @@ export {
   getOrderDays,
   getOrders,
   initOrder,
+  cancelOrder,
   clearOrder,
 };

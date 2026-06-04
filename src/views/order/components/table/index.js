@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Empty, Table } from 'antd';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import FeatherIcon from 'feather-icons-react';
 import { TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { StatusText } from '../../../collector/components/table/style';
+import { Button } from '../../../../components/buttons';
 
 const getAddress = async (lat, lon) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
@@ -16,7 +18,7 @@ const getAddress = async (lat, lon) => {
   return data.name || 'Sin dirección';
 };
 
-function OrderListTable({openWaste, openUser, openCollector, morePage}) {
+function OrderListTable({openWaste, openUser, openCollector, morePage, handleCancelOrder}) {
   const { allOrders, loading } = useSelector((state) => state.order);
 
   const [orders, setOrders] = useState([]);
@@ -25,9 +27,12 @@ function OrderListTable({openWaste, openUser, openCollector, morePage}) {
     const loadOrders = async () => {
       const data = await Promise.all(
         allOrders.map(async (order) => {
-          const { id, latitude, longitude, date, state, user, collector } = order;
+          const { id, latitude, longitude, date, state, user, collector, type_waste: typeWaste } = order;
 
           let address;
+          const totalPoints = typeWaste.reduce((total, item) => {
+            return total + item.points;
+          }, 0);
 
           try {
             address = await getAddress(latitude, longitude);
@@ -55,7 +60,7 @@ function OrderListTable({openWaste, openUser, openCollector, morePage}) {
             ),
             points: (
               <figcaption>
-                <span>0</span>
+                <span>{totalPoints}</span>
               </figcaption>
             ),
             waste: (
@@ -67,14 +72,33 @@ function OrderListTable({openWaste, openUser, openCollector, morePage}) {
               <button type="button" onClick={() => openUser(order)} style={{ all: 'unset', cursor: 'pointer' }}>
                 <span>{user?.name}</span>
               </button>
-        ),
-          collector: (
-            <button type="button" onClick={() => openCollector(order)} style={{ all: 'unset', cursor: 'pointer' }}>
-              <span>{collector?.name || 'Sin asignar'}</span>
-            </button>
-        ),
-          state: (
+            ),
+            collector: (
+              <button type="button" onClick={() => openCollector(order)} style={{ all: 'unset', cursor: 'pointer' }}>
+                <span>{collector?.name || 'Sin asignar'}</span>
+              </button>
+            ),
+            state: (
               <StatusText $color={state?.color}>{state?.name}</StatusText>
+            ),
+            action: (
+              <div className="table-actions">
+                <>
+                  {state?.name !== 'Rechazado' && (
+                    <Button className="btn-icon"
+                            onClick={() => handleCancelOrder(order)}
+                            type="info"
+                            shape="circle">
+                      <FeatherIcon icon="x-circle" size={16} />
+                    </Button>
+                  )}
+                  <Button className="btn-icon"
+                          type="info" to="#"
+                          shape="circle">
+                    <FeatherIcon icon="check-circle" size={16} />
+                  </Button>
+                </>
+              </div>
             ),
           };
         })
@@ -128,6 +152,13 @@ function OrderListTable({openWaste, openUser, openCollector, morePage}) {
       dataIndex: 'state',
       key: 'state',
     },
+    {
+      title: 'Acciones',
+      dataIndex: 'action',
+      key: 'action',
+      width: '10px',
+      align: 'center',
+    },
   ];
 
   return (
@@ -168,6 +199,7 @@ OrderListTable.propTypes = {
   openUser: propTypes.func.isRequired,
   openCollector: propTypes.func.isRequired,
   morePage: propTypes.func.isRequired,
+  handleCancelOrder: propTypes.func.isRequired,
 };
 
 export default OrderListTable;
