@@ -11,8 +11,11 @@ import { Button } from '../../../../components/buttons';
 import { getLevels, selectLevel } from '../../../../redux/level/actionCreator';
 
 function LevelListTable({ editLevel }) {
+
   const dispatch = useDispatch();
+
   const { levels, loading } = useSelector((state) => state.level);
+
   useEffect(() => {
     dispatch(getLevels());
   }, [dispatch]);

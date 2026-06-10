@@ -18,7 +18,7 @@ const getAddress = async (lat, lon) => {
   return data.name || 'Sin dirección';
 };
 
-function OrderListTable({openWaste, openUser, openCollector, morePage, handleCancelOrder}) {
+function OrderListTable({openWaste, openUser, openCollector, morePage, handleCancelOrder, handleFinishOrder}) {
   const { allOrders, loading } = useSelector((state) => state.order);
 
   const [orders, setOrders] = useState([]);
@@ -83,21 +83,22 @@ function OrderListTable({openWaste, openUser, openCollector, morePage, handleCan
             ),
             action: (
               <div className="table-actions">
-                <>
-                  {state?.name !== 'Rechazado' && (
-                    <Button className="btn-icon"
-                            onClick={() => handleCancelOrder(order)}
-                            type="info"
-                            shape="circle">
-                      <FeatherIcon icon="x-circle" size={16} />
-                    </Button>
-                  )}
+                {state?.name !== 'Cancelada' && state?.name !== 'Orden finalizada' && state?.name !== 'Recogido' && (
                   <Button className="btn-icon"
+                          onClick={() => handleCancelOrder(order)}
+                          type="info"
+                          shape="circle">
+                    <FeatherIcon icon="x-circle" size={16} />
+                  </Button>
+                )}
+                {state?.name === 'Recogido' && (
+                  <Button className="btn-icon"
+                          onClick={() => handleFinishOrder(order)}
                           type="info" to="#"
                           shape="circle">
                     <FeatherIcon icon="check-circle" size={16} />
                   </Button>
-                </>
+                )}
               </div>
             ),
           };
@@ -200,6 +201,7 @@ OrderListTable.propTypes = {
   openCollector: propTypes.func.isRequired,
   morePage: propTypes.func.isRequired,
   handleCancelOrder: propTypes.func.isRequired,
+  handleFinishOrder: propTypes.func.isRequired,
 };
 
 export default OrderListTable;

@@ -66,6 +66,19 @@ export default function orderReducer(state = initialState, action) {
       };
     case 'CANCEL_ORDER_ERROR':
       return { ...state, loadingForm: false, errorForm: action.error };
+    case 'FINISH_ORDER_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'FINISH_ORDER_SUCCESS':
+      return { ...state, loadingForm: false,
+        successForm: true,
+        allOrders: state.allOrders.map((order) =>
+          order.id === action.data.data.id
+            ? action.data.data
+            : order
+        )
+      };
+    case 'FINISH_ORDER_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
     case 'CLEAN_ORDER':
       return { ...state, successForm: false };
     default:

@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import OrderListTable from './components/table';
 import ModalInfoUser from './components/modalInfoUser';
 import ModalInfoWaste from './components/modalInfoWaste';
+import ModalFinishOrder from './components/modalFinishOrder';
 import ModalCancelOrder from './components/modalCancelOrder';
 import ModalInfoCollector from './components/modalInfoCollector';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
-import { cancelOrder, clearOrder, getOrders } from '../../redux/order/actionCreator';
+import { cancelOrder, clearOrder, finishOrder, getOrders } from '../../redux/order/actionCreator';
+import { getWastes } from '../../redux/waste/actionCreator';
 
 function Order(){
 
@@ -27,6 +29,7 @@ function Order(){
     modalUser: false,
     modalCollector: false,
     modalCancel: false,
+    modalFinish: false,
     focus: null,
   });
 
@@ -45,6 +48,7 @@ function Order(){
       modalUser: false,
       modalCollector: false,
       modalCancel: false,
+      modalFinish: false,
       focus: null,
     });
   }
@@ -63,12 +67,34 @@ function Order(){
     });
   };
 
+  const handleFinishOrder = (order) => {
+    setState({
+      ...state,
+      focus: order,
+      modalFinish: true,
+    });
+  };
+
   const confirmCancelOrder= () => {
     dispatch(cancelOrder(state.focus.id))
   };
 
+  const confirmFinishOrder = (wastes) => {
+    const values = {
+      order_id: state.focus.id,
+      user_id: state.focus.user.id,
+      items: wastes.map((waste) => ({
+        type_waste_id: waste.type_waste_id,
+        weight: waste.weight,
+        points: waste.points,
+      })),
+    };
+    dispatch(finishOrder(values))
+  };
+
   useEffect(() => {
     dispatch(getOrders(1));
+    dispatch(getWastes());
   }, []);
 
   useEffect(() => {
@@ -78,6 +104,7 @@ function Order(){
         ...state,
         focus: null,
         modalCancel: false,
+        modalFinish: false,
       });
     }
   }, [successForm]);
@@ -111,6 +138,7 @@ function Order(){
               openWaste={(item) => {
                 setState({
                   ...state,
+                  modalFinish: false,
                   modalWaste: true,
                   focus: item
                 });
@@ -118,6 +146,7 @@ function Order(){
               openUser={(item) => {
                 setState({
                   ...state,
+                  modalFinish: false,
                   modalUser: true,
                   focus: item
                 });
@@ -125,12 +154,14 @@ function Order(){
               openCollector={(item) => {
                 setState({
                   ...state,
+                  modalFinish: false,
                   modalCollector: true,
                   focus: item
                 });
               }}
               morePage={morePage}
               handleCancelOrder={handleCancelOrder}
+              handleFinishOrder={handleFinishOrder}
             />
           </Col>
         </Row>
@@ -163,6 +194,15 @@ function Order(){
           onCancel={cleanModals}
           loading={loadingForm}
           confirmCancelOrder={confirmCancelOrder}
+        />
+      )}
+      {state.focus && (
+        <ModalFinishOrder
+          visible={state.modalFinish}
+          order={state.focus}
+          onCancel={cleanModals}
+          loading={loadingForm}
+          confirmFinishOrder={confirmFinishOrder}
         />
       )}
     </>

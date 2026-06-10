@@ -19,6 +19,10 @@ const actions = {
   cancelOrderSuccess: (data) => ({ type: 'CANCEL_ORDER_SUCCESS', data }),
   cancelOrderError: (error) => ({ type: 'CANCEL_ORDER_ERROR', error}),
 
+  finishOrderBegin: () => ({ type: 'FINISH_ORDER_BEGIN' }),
+  finishOrderSuccess: (data) => ({ type: 'FINISH_ORDER_SUCCESS', data }),
+  finishOrderError: (error) => ({ type: 'FINISH_ORDER_ERROR', error}),
+
   cleanOrder: () => ({ type: 'CLEAN_ORDER'}),
 };
 

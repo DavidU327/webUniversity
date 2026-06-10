@@ -18,6 +18,9 @@ const {
   cancelOrderBegin,
   cancelOrderSuccess,
   cancelOrderError,
+  finishOrderBegin,
+  finishOrderSuccess,
+  finishOrderError,
   cleanOrder,
 } = actions;
 
@@ -134,6 +137,29 @@ const cancelOrder = (order) => {
   };
 };
 
+/**
+ * Finalizar orden
+ */
+const finishOrder = (values) => {
+  return async (dispatch) => {
+    try {
+      dispatch(finishOrderBegin());
+      const response = await DataService.post('orders/finish', values, BASE_URL);
+      if (response.data) {
+        dispatch(finishOrderSuccess(response.data));
+        openNotification(
+          "success",
+          "Listo",
+          "Órden finalizada"
+        );
+      } else {
+        dispatch(finishOrderError('Error al finalizar órden'));
+      }
+    } catch (err) {
+      dispatch(finishOrderError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
 
 /**
  * Limpiar
@@ -151,4 +177,5 @@ export {
   initOrder,
   cancelOrder,
   clearOrder,
+  finishOrder,
 };
