@@ -6,6 +6,7 @@ import typeIdentificationReducer from './typeIdentification/reducers';
 import wasteReducer from './waste/reducers';
 import levelReducer from './level/reducer';
 import orderReducer from './order/reducer';
+import blogReducer from './blog/reducer';
 
 const rootReducers = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
   waste: wasteReducer,
   level: levelReducer,
   order: orderReducer,
+  blog: blogReducer,
 });
 
 export default rootReducers;

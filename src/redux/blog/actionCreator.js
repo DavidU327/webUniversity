@@ -1,0 +1,78 @@
+import actions from './actions';
+import { DataService } from '../../config/dataService/dataService';
+
+const {
+  getBlogsBegin,
+  getBlogsSuccess,
+  getBlogsError,
+  createBlogBegin,
+  createBlogSuccess,
+  createBlogError,
+  cleanBlogForm,
+} = actions;
+
+const BASE_URL = process.env.REACT_APP_API_BLOG;
+
+/**
+ * Listar todos los blogs
+ */
+const getBlogs = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(getBlogsBegin());
+      const response = await DataService.get('/blogs_web', BASE_URL);
+      if (response.data) {
+        dispatch(getBlogsSuccess(response.data));
+      } else {
+        dispatch(getBlogsError('Error al obtener los blogs'));
+      }
+    } catch (err) {
+      dispatch(getBlogsError(err.response?.data?.message || 'Error de servidor. Intenta de nuevo.'));
+    }
+  };
+};
+
+/**
+ * Crear un nuevo blog
+ */
+const createBlog = (params) => {
+  return async (dispatch) => {
+    const formData = new FormData();
+    formData.append("title", params.title);
+    formData.append("description", params.description);
+    formData.append("url", params.url);
+    formData.append("image", params.imageUrl.file);
+    try {
+      dispatch(createBlogBegin());
+      const response = await DataService.postFormData('/blogs_web', formData ,BASE_URL);
+      if (response?.data?.blog) {
+        dispatch(createBlogSuccess(
+          {
+            data: response?.data?.blog,
+            message: response?.message,
+          }));
+      } else {
+        dispatch(createBlogError(response.data?.error || 'Error al crear blog'));
+      }
+    } catch (err) {
+      dispatch(
+        createBlogError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+/**
+ * Limpiar formulario
+ */
+const cleanBlogFormAction = () => {
+  return (dispatch) => {
+    dispatch(cleanBlogForm());
+  };
+};
+
+export {
+  getBlogs,
+  createBlog,
+  cleanBlogFormAction,
+};

@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Upload } from 'antd';
 import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import { BasicFormWrapper, PhotoUploadWrapper } from './style';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
 import Heading from '../../../../components/heading';
+import { createBlog } from '../../../../redux/blog/actionCreator';
 
 function ModalFormBlog({ visible, onCancel, title, textButton }) {
+
+  const dispatch = useDispatch();
+
+  const {loadingForm} = useSelector((state) => state.blog);
+
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState(null);
 
   const handleUploadChange = (info) => {
     if (info?.file) {
       const url = URL.createObjectURL(info.file);
-      setImageUrl(url);
+      setImageUrl({
+        url,
+        file: info.file
+      });
     }
   };
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-    console.log(values, 'info usuario')
-    onCancel();
+    dispatch(createBlog({...values, imageUrl}));
   };
 
   const handleCancel = () => {
@@ -53,7 +62,7 @@ function ModalFormBlog({ visible, onCancel, title, textButton }) {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Button size="default" type="primary" key="submit" onClick={handleOk}>
+          <Button size="default" type="primary" onClick={() => form.submit()} loading={loadingForm}  >
             {textButton}
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
@@ -96,23 +105,31 @@ function ModalFormBlog({ visible, onCancel, title, textButton }) {
             <div className="info">
               <Heading as="h6">Imagen</Heading>
             </div>
-            <PhotoUploadWrapper>
-              <img
-                src={imageUrl || require('../../../../assets/image/changeImage.jpg')}
-                alt="profile"
-              />
-              <figcaption>
-                <Upload
-                  showUploadList={false}
-                  beforeUpload={() => false}
-                  onChange={handleUploadChange}
-                >
-                  <div className="upload-btn">
-                    <FeatherIcon icon="camera" size={18} fill="#FFFFFF" />
-                  </div>
-                </Upload>
-              </figcaption>
-            </PhotoUploadWrapper>
+            <Form.Item
+              name="image"
+              label="Imagen de Perfil"
+              rules={[
+                { required: true, message: 'Suba una imagen' },
+              ]}
+            >
+              <PhotoUploadWrapper>
+                <img
+                  src={imageUrl?.url ? imageUrl.url : require('../../../../assets/image/changeImage.jpg')}
+                  alt="profile"
+                />
+                <figcaption>
+                  <Upload
+                    showUploadList={false}
+                    beforeUpload={() => false}
+                    onChange={handleUploadChange}
+                  >
+                    <div className="upload-btn">
+                      <FeatherIcon icon="camera" size={18} fill="#FFFFFF" />
+                    </div>
+                  </Upload>
+                </figcaption>
+              </PhotoUploadWrapper>
+            </Form.Item>
           </Form>
         </BasicFormWrapper>
       </div>

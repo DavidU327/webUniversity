@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import BlogListTable from './components/table';
 import ModalFormBlog from './components/modalForm';
@@ -8,8 +9,14 @@ import { CardToolbox, Main, UserCardTop } from '../styled';
 import { Button } from '../../components/buttons';
 import { AutoComplete } from '../../components/autoComplete';
 import { PageHeader } from '../../components/page-headers';
+import { cleanBlogFormAction, getBlogs } from '../../redux/blog/actionCreator';
+import { openNotification } from '../../utility/notification';
 
 function Blog(){
+
+  const dispatch = useDispatch();
+
+  const {successForm, message} = useSelector((state) => state.blog);
 
   const [state, setState] = useState({
     notData: [],
@@ -43,7 +50,6 @@ function Blog(){
     });
   };
 
-
   const handleSearch = (searchText) => {
     const data = state.notData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
     setState({
@@ -51,6 +57,26 @@ function Blog(){
       notData: data,
     });
   };
+
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getBlogs(page));
+    }
+  };
+
+
+  useEffect(() => {
+    dispatch(getBlogs(1));
+  }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', message);
+      dispatch(cleanBlogFormAction());
+    }
+  }, [successForm]);
+
 
   return (
     <>
@@ -82,7 +108,11 @@ function Blog(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <BlogListTable editBlog={showModal} deleteBlog={showModalDelete} />
+            <BlogListTable
+              editBlog={showModal}
+              deleteBlog={showModalDelete}
+              morePage={morePage}
+            />
           </Col>
         </Row>
       </Main>

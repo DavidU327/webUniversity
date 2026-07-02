@@ -1,37 +1,42 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Empty, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { ColumnLarge, TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
+import { StatusText } from '../../../collector/components/table/style';
 
-function BlogListTable({ editBlog, deleteBlog }) {
 
-  const allBlogs = [{id: 1, status: 'active'}];
+function BlogListTable({ editBlog, deleteBlog, morePage }) {
+  const { blogs, loading } = useSelector((state) => state.blog);
 
-  const blogs = allBlogs.map((user) => {
-    const { id, status } = user;
+
+  const tableBlogs = blogs.map((blog) => {
+    const { id, title, description, url, image, is_active: active } = blog;
 
     return {
       key: id,
       title: <ColumnLarge >
-        Blog de medio ambiente
+        {title}
       </ColumnLarge>,
       description:
         <ColumnLarge>
-          lorjkewjdjskalkjdjaksbdjlasdsadhjasdadasdasdsadasdasddasdasdasadldkajsdkasñkdakhldjlasjñkldjhkajsñdhaskljñdahslkjldlasda
+          {description}
         </ColumnLarge>,
-      url: 'http://google.com',
+      url: <ColumnLarge>
+        {url}
+      </ColumnLarge>,
       image: (
         <figure>
           <img style={{ width: '120px', height: '120px' }}
-               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEBkw2FR-UGWNB96Ip7cD5m3cJkQ_HyYuqKg&s"
+               src={image}
                alt="" />
         </figure>
       ),
-      status: <span className={`status-text ${status}`}>Active</span>,
+      status: <StatusText $color={active ? '#28A745' : '#6C757D'}>{active ? 'Habilitado' : 'Inhabilitado'}</StatusText>,
       change_state: <Switch defaultChecked size="large" />,
       action: (
         <div className="table-actions">
@@ -54,7 +59,7 @@ function BlogListTable({ editBlog, deleteBlog }) {
     };
   });
 
-  const collectorTableColumns = [
+  const blogTableColumns = [
     {
       title: 'Título',
       dataIndex: 'title',
@@ -106,16 +111,22 @@ function BlogListTable({ editBlog, deleteBlog }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={blogs}
-            columns={collectorTableColumns}
+            rowKey={(record) => record.key}
+            dataSource={tableBlogs}
+            columns={blogTableColumns}
+            loading={loading}
             pagination={{
-              defaultPageSize: 5,
+              defaultPageSize: 10,
               total: blogs.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
+            }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay recolectores aún" /> }}
+                description="No hay blogs aún" /> }}
           />
         </TableWrapper>
       </TableStyleWrapper>
@@ -126,6 +137,7 @@ function BlogListTable({ editBlog, deleteBlog }) {
 BlogListTable.propTypes = {
   editBlog: propTypes.func.isRequired,
   deleteBlog: propTypes.func.isRequired,
+  morePage:  propTypes.func.isRequired,
 };
 
 export default BlogListTable;
