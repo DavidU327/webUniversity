@@ -8,6 +8,9 @@ const {
   createBlogBegin,
   createBlogSuccess,
   createBlogError,
+  updateBlogBegin,
+  updateBlogSuccess,
+  updateBlogError,
   cleanBlogForm,
 } = actions;
 
@@ -63,6 +66,40 @@ const createBlog = (params) => {
 };
 
 /**
+ * Actuqlizat un nuevo blog
+ */
+const updatedBlog = (params, id) => {
+  return async (dispatch) => {
+    const formData = new FormData();
+    formData.append("title", params.title);
+    formData.append("description", params.description);
+    formData.append("url", params.url);
+    if(params.imageUrl !== null) {
+      formData.append("image", params.imageUrl.file);
+    }
+    formData.append("_method", 'patch');
+    try {
+      dispatch(updateBlogBegin());
+      const response = await DataService.postFormData(`${id}/blogs_web`, formData ,BASE_URL);
+      if (response?.data?.blog) {
+        dispatch(updateBlogSuccess(
+          {
+            id,
+            data: response?.data?.blog,
+            message: response?.data?.message,
+          }));
+      } else {
+        dispatch(updateBlogError(response.data?.error || 'Error al actualizar blog'));
+      }
+    } catch (err) {
+      dispatch(
+        updateBlogError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+/**
  * Limpiar formulario
  */
 const cleanBlogFormAction = () => {
@@ -74,5 +111,6 @@ const cleanBlogFormAction = () => {
 export {
   getBlogs,
   createBlog,
+  updatedBlog,
   cleanBlogFormAction,
 };

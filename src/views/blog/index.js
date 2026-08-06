@@ -23,22 +23,17 @@ function Blog(){
     visible: false,
     modalDelete: false,
     title: '',
-    textButton: ''
+    textButton: '',
+    focus: {},
   });
 
-  const showModal = (title, textButton) => {
+  const showModal = (title, textButton, blog) => {
     setState({
       ...state,
       visible: true,
       title,
-      textButton
-    });
-  };
-
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
+      textButton,
+      focus: blog
     });
   };
 
@@ -110,7 +105,6 @@ function Blog(){
           <Col md={24}>
             <BlogListTable
               editBlog={showModal}
-              deleteBlog={showModalDelete}
               morePage={morePage}
             />
           </Col>
@@ -121,6 +115,7 @@ function Blog(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+        blog={state.focus}
       />
       <ModalDeleteBlog
         deleteBlog={() => {}}

@@ -10,7 +10,7 @@ import { Button } from '../../../../components/buttons';
 import { StatusText } from '../../../collector/components/table/style';
 
 
-function BlogListTable({ editBlog, deleteBlog, morePage }) {
+function BlogListTable({ editBlog, morePage }) {
   const { blogs, loading } = useSelector((state) => state.blog);
 
 
@@ -43,15 +43,9 @@ function BlogListTable({ editBlog, deleteBlog, morePage }) {
           <>
             <Button className="btn-icon"
                     type="info"
-                    onClick={() => editBlog('Editar blog', 'Editar')}
+                    onClick={() => editBlog('Editar blog', 'Editar', blog)}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
-            </Button>
-            <Button className="btn-icon"
-                    onClick={deleteBlog}
-                    type="danger" to="#"
-                    shape="circle">
-              <FeatherIcon icon="trash-2" size={16} />
             </Button>
           </>
         </div>
@@ -101,6 +95,7 @@ function BlogListTable({ editBlog, deleteBlog, morePage }) {
     {
       title: 'Acciones',
       dataIndex: 'action',
+      align: 'center',
       key: 'action',
       width: 100,
     },
@@ -136,7 +131,6 @@ function BlogListTable({ editBlog, deleteBlog, morePage }) {
 
 BlogListTable.propTypes = {
   editBlog: propTypes.func.isRequired,
-  deleteBlog: propTypes.func.isRequired,
   morePage:  propTypes.func.isRequired,
 };
 

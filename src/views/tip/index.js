@@ -36,13 +36,6 @@ function Tip(){
     });
   };
 
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
-    });
-  };
-
   const onCancel = () => {
     setState({
       ...state,
@@ -113,7 +106,6 @@ function Tip(){
             <TipListTable
               morePage={morePage}
               editTip={showModal}
-              deleteTip={showModalDelete}
             />
           </Col>
         </Row>

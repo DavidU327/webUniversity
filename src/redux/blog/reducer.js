@@ -41,6 +41,22 @@ export default function blogReducer(state = initialState, action) {
       return { ...state, loadingForm: false, errorForm: action.error };
     case 'CLEAN_BLOG_FORM':
       return { ...state, loadingForm: false, successForm: false, errorForm: null };
+    case 'UPDATE_BLOG_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'UPDATE_BLOG_SUCCESS':
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: action.data.message,
+        blogs: state.blogs.map((blog) =>
+          blog.id === action.data.id
+            ? action.data.data
+            : blog
+        ),
+      };
+    case 'UPDATE_BLOG_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
     default:
       return state;
   }

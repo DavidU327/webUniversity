@@ -9,7 +9,7 @@ import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 import { StatusText } from '../../../collector/components/table/style';
 
-function TipListTable({ editTip, deleteTip, morePage }) {
+function TipListTable({ editTip, morePage }) {
 
   const { tips, loading } = useSelector((state) => state.tip);
 
@@ -35,12 +35,6 @@ function TipListTable({ editTip, deleteTip, morePage }) {
                     onClick={() => editTip('Editar tip', 'Editar')}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
-            </Button>
-            <Button className="btn-icon"
-                    onClick={deleteTip}
-                    type="danger" to="#"
-                    shape="circle">
-              <FeatherIcon icon="trash-2" size={16} />
             </Button>
           </>
         </div>
@@ -114,7 +108,6 @@ function TipListTable({ editTip, deleteTip, morePage }) {
 
 TipListTable.propTypes = {
   editTip: propTypes.func.isRequired,
-  deleteTip: propTypes.func.isRequired,
   morePage: propTypes.func.isRequired,
 };
 

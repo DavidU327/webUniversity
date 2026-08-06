@@ -7,16 +7,16 @@ import { BasicFormWrapper, PhotoUploadWrapper } from './style';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
 import Heading from '../../../../components/heading';
-import { createBlog } from '../../../../redux/blog/actionCreator';
+import { createBlog, updatedBlog } from '../../../../redux/blog/actionCreator';
 
-function ModalFormBlog({ visible, onCancel, title, textButton }) {
+function ModalFormBlog({ visible, onCancel, title, textButton, blog }) {
 
   const dispatch = useDispatch();
 
   const {loadingForm} = useSelector((state) => state.blog);
 
   const [form] = Form.useForm();
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState( null);
 
   const handleUploadChange = (info) => {
     if (info?.file) {
@@ -30,7 +30,19 @@ function ModalFormBlog({ visible, onCancel, title, textButton }) {
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-    dispatch(createBlog({...values, imageUrl}));
+
+    if(blog?.id){
+      dispatch(updatedBlog({...values, imageUrl}, blog.id))
+    }else {
+      dispatch(createBlog({...values, imageUrl}));
+    }
+    /*
+    *  if(recollector?.user){
+      dispatch(updateRecollector(recollector?.id, {...values, imageUrl, documentIdentification, documentDriving}, defaultUser));
+    }else {
+      dispatch(createRecollector({...values, imageUrl, documentIdentification, documentDriving}));
+    }
+    * */
   };
 
   const handleCancel = () => {
@@ -54,6 +66,23 @@ function ModalFormBlog({ visible, onCancel, title, textButton }) {
       unmounted = true;
     };
   }, [visible]);
+
+  useEffect(() => {
+    if (blog) {
+      form.setFieldsValue({
+        title: blog.title || '',
+        description: blog.description || '',
+        url: blog.url || '',
+      });
+    }else{
+      form.setFieldsValue({
+        title:  '',
+        description:  '',
+        url: '',
+      });
+    }
+  }, [blog, form,]);
+
 
   return (
     <Modal
@@ -109,12 +138,14 @@ function ModalFormBlog({ visible, onCancel, title, textButton }) {
               name="image"
               label="Imagen de Perfil"
               rules={[
-                { required: true, message: 'Suba una imagen' },
+                { required:  !blog?.image, message: 'Suba una imagen' },
               ]}
             >
               <PhotoUploadWrapper>
                 <img
-                  src={imageUrl?.url ? imageUrl.url : require('../../../../assets/image/changeImage.jpg')}
+                  src={
+                    imageUrl?.url ? imageUrl.url : blog?.image ?
+                      blog.image : require('../../../../assets/image/changeImage.jpg')}
                   alt="profile"
                 />
                 <figcaption>
@@ -142,6 +173,13 @@ ModalFormBlog.propTypes = {
   onCancel: propTypes.func.isRequired,
   title: propTypes.string.isRequired,
   textButton: propTypes.string.isRequired,
+  blog: propTypes.shape({
+    id: propTypes.number.isRequired,
+    title: propTypes.string.isRequired,
+    description: propTypes.string.isRequired,
+    url: propTypes.string.isRequired,
+    image: propTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ModalFormBlog;
