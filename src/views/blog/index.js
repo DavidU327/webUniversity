@@ -16,7 +16,7 @@ function Blog(){
 
   const dispatch = useDispatch();
 
-  const {successForm, message} = useSelector((state) => state.blog);
+  const {blogs, successForm, message} = useSelector((state) => state.blog);
 
   const [state, setState] = useState({
     notData: [],
@@ -87,7 +87,7 @@ function Blog(){
             title="Blogs"
             subTitle={
               <>
-                <span className="title-counter">2 Blogs</span>
+                <span className="title-counter">{blogs.length} Blogs</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}

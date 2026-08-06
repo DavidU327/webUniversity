@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { BasicFormWrapper } from './style';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
+import { createTip } from '../../../../redux/tip/actionCreator';
 
 
 function ModalFormTip({ visible, onCancel, title, textButton }) {
+
+  const dispatch = useDispatch();
+
+  const {loadingForm} = useSelector((state) => state.tip);
+
   const [form] = Form.useForm();
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-    console.log(values, 'info usuario')
-    onCancel();
+    dispatch(createTip(values));
+    //
+    // onCancel();
   };
 
   const handleCancel = () => {
@@ -44,7 +52,7 @@ function ModalFormTip({ visible, onCancel, title, textButton }) {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Button size="default" type="primary" key="submit" onClick={handleOk}>
+          <Button size="default" type="primary" key="submit" onClick={() => form.submit()} loading={loadingForm} >
             {textButton}
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

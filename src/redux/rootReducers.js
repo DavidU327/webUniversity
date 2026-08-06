@@ -7,6 +7,7 @@ import wasteReducer from './waste/reducers';
 import levelReducer from './level/reducer';
 import orderReducer from './order/reducer';
 import blogReducer from './blog/reducer';
+import tipReducer from './tip/reducer';
 
 const rootReducers = combineReducers({
   auth: authReducer,
@@ -17,6 +18,7 @@ const rootReducers = combineReducers({
   level: levelReducer,
   order: orderReducer,
   blog: blogReducer,
+  tip: tipReducer
 });
 
 export default rootReducers;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import FeatherIcon from 'feather-icons-react';
+import { useDispatch, useSelector } from 'react-redux';
 import TipListTable from './components/table';
 import ModalFormTip from './components/modalForm';
 import ModalDeleteTip from './components/modalDelete';
@@ -8,8 +9,15 @@ import { PageHeader } from '../../components/page-headers';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { AutoComplete } from '../../components/autoComplete';
 import { Button } from '../../components/buttons';
+import { openNotification } from '../../utility/notification';
+import { cleanTipFormAction, getTips } from '../../redux/tip/actionCreator';
+
 
 function Tip(){
+
+  const dispatch = useDispatch();
+
+  const {tips, successForm, message} = useSelector((state) => state.tip);
 
   const [state, setState] = useState({
     notData: [],
@@ -52,6 +60,26 @@ function Tip(){
     });
   };
 
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getTips(page));
+    }
+  };
+
+
+  useEffect(() => {
+    dispatch(getTips(1));
+  }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', message);
+      dispatch(cleanTipFormAction());
+    }
+  }, [successForm]);
+
+
   return (
     <>
       <CardToolbox>
@@ -61,7 +89,7 @@ function Tip(){
             title="Tips"
             subTitle={
               <>
-                <span className="title-counter">2 Tips</span>
+                <span className="title-counter">{tips.length} Tips</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -82,7 +110,11 @@ function Tip(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <TipListTable editTip={showModal} deleteTip={showModalDelete} />
+            <TipListTable
+              morePage={morePage}
+              editTip={showModal}
+              deleteTip={showModalDelete}
+            />
           </Col>
         </Row>
       </Main>
