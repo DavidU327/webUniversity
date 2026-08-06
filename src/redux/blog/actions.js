@@ -11,6 +11,9 @@ const actions = {
   updateBlogSuccess: (data) => ({ type: 'UPDATE_BLOG_SUCCESS', data }),
   updateBlogError: (error) => ({ type: 'UPDATE_BLOG_ERROR', error }),
 
+  changeStateBlogBegin: () => ({ type: 'CHANGE_STATE_BLOG_BEGIN' }),
+  changeStateBlogSuccess: (data) => ({ type: 'CHANGE_STATE_BLOG_SUCCESS', data }),
+  changeStateBlogError: (error) => ({ type: 'CHANGE_STATE_BLOG_ERROR', error }),
 
   cleanBlogForm: () => ({ type: 'CLEAN_BLOG_FORM' }),
 };

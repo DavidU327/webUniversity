@@ -11,6 +11,9 @@ const {
   updateBlogBegin,
   updateBlogSuccess,
   updateBlogError,
+  changeStateBlogBegin,
+  changeStateBlogSuccess,
+  changeStateBlogError,
   cleanBlogForm,
 } = actions;
 
@@ -66,7 +69,7 @@ const createBlog = (params) => {
 };
 
 /**
- * Actuqlizat un nuevo blog
+ * Actualizar un blog
  */
 const updatedBlog = (params, id) => {
   return async (dispatch) => {
@@ -100,6 +103,32 @@ const updatedBlog = (params, id) => {
 };
 
 /**
+ * Cambiar estado de un blog
+ */
+const changeStateBlog = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch(changeStateBlogBegin());
+      const response = await DataService.patch(`${id}/change_state_blogs`, {},BASE_URL);
+      if (response?.data?.blog) {
+        dispatch(changeStateBlogSuccess(
+          {
+            id,
+            data: response?.data?.blog,
+            message: response?.data?.message,
+          }));
+      } else {
+        dispatch(changeStateBlogError(response.data?.error || 'Error al cambiar estado blog'));
+      }
+    } catch (err) {
+      dispatch(
+        changeStateBlogError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+/**
  * Limpiar formulario
  */
 const cleanBlogFormAction = () => {
@@ -112,5 +141,6 @@ export {
   getBlogs,
   createBlog,
   updatedBlog,
+  changeStateBlog,
   cleanBlogFormAction,
 };

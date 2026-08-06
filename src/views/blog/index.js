@@ -9,7 +9,7 @@ import { CardToolbox, Main, UserCardTop } from '../styled';
 import { Button } from '../../components/buttons';
 import { AutoComplete } from '../../components/autoComplete';
 import { PageHeader } from '../../components/page-headers';
-import { cleanBlogFormAction, getBlogs } from '../../redux/blog/actionCreator';
+import { changeStateBlog, cleanBlogFormAction, getBlogs } from '../../redux/blog/actionCreator';
 import { openNotification } from '../../utility/notification';
 
 function Blog(){
@@ -59,6 +59,9 @@ function Blog(){
     }
   };
 
+  const changeState = (blogId) => {
+    dispatch(changeStateBlog(blogId))
+  }
 
   useEffect(() => {
     dispatch(getBlogs(1));
@@ -106,6 +109,7 @@ function Blog(){
             <BlogListTable
               editBlog={showModal}
               morePage={morePage}
+              changeState={changeState}
             />
           </Col>
         </Row>

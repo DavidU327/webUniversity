@@ -10,7 +10,7 @@ import { Button } from '../../../../components/buttons';
 import { StatusText } from '../../../collector/components/table/style';
 
 
-function BlogListTable({ editBlog, morePage }) {
+function BlogListTable({ editBlog, morePage, changeState }) {
   const { blogs, loading } = useSelector((state) => state.blog);
 
 
@@ -37,7 +37,7 @@ function BlogListTable({ editBlog, morePage }) {
         </figure>
       ),
       status: <StatusText $color={active ? '#28A745' : '#6C757D'}>{active ? 'Habilitado' : 'Inhabilitado'}</StatusText>,
-      change_state: <Switch defaultChecked size="large" />,
+      change_state: <Switch checked={active} size="large" onChange={() => changeState(id)} />,
       action: (
         <div className="table-actions">
           <>
@@ -132,6 +132,7 @@ function BlogListTable({ editBlog, morePage }) {
 BlogListTable.propTypes = {
   editBlog: propTypes.func.isRequired,
   morePage:  propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
 };
 
 export default BlogListTable;
