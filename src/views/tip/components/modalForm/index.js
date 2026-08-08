@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BasicFormWrapper } from './style';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
-import { createTip } from '../../../../redux/tip/actionCreator';
+import { createTip, updateTip } from '../../../../redux/tip/actionCreator';
 
 
-function ModalFormTip({ visible, onCancel, title, textButton }) {
+function ModalFormTip({ visible, onCancel, title, textButton, tip }) {
 
   const dispatch = useDispatch();
 
@@ -18,9 +18,11 @@ function ModalFormTip({ visible, onCancel, title, textButton }) {
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-    dispatch(createTip(values));
-    //
-    // onCancel();
+    if(tip?.id){
+      dispatch(updateTip(tip.id, values));
+    }else {
+      dispatch(createTip(values));
+    }
   };
 
   const handleCancel = () => {
@@ -44,6 +46,20 @@ function ModalFormTip({ visible, onCancel, title, textButton }) {
       unmounted = true;
     };
   }, [visible]);
+
+  useEffect(() => {
+    if (tip) {
+      form.setFieldsValue({
+        title: tip.title || '',
+        description: tip.description || '',
+      });
+    }else{
+      form.setFieldsValue({
+        title:  '',
+        description:  '',
+      });
+    }
+  }, [tip, form]);
 
   return (
     <Modal
@@ -95,6 +111,11 @@ ModalFormTip.propTypes = {
   onCancel: propTypes.func.isRequired,
   title: propTypes.string.isRequired,
   textButton: propTypes.string.isRequired,
+  tip: propTypes.shape({
+    id: propTypes.number.isRequired,
+    title: propTypes.string.isRequired,
+    description: propTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default ModalFormTip;

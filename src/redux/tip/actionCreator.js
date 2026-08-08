@@ -8,6 +8,12 @@ const {
   createTipBegin,
   createTipSuccess,
   createTipError,
+  updateTipBegin,
+  updateTipSuccess,
+  updateTipError,
+  changeStateTipBegin,
+  changeStateTipSuccess,
+  changeStateTipError,
   cleanTipForm,
 } = actions;
 
@@ -58,6 +64,59 @@ const createTip = (body) => {
 };
 
 /**
+ * Actualizar un tip
+ */
+const updateTip = (id, values) => {
+  return async (dispatch) => {
+    try {
+      dispatch(updateTipBegin());
+      const response = await DataService.patch(`/${id}/tips_web`, values ,BASE_URL);
+      if (response?.data?.tip) {
+        dispatch(updateTipSuccess(
+          {
+            id,
+            data: response?.data?.tip,
+            message: response?.message,
+          }));
+      } else {
+        dispatch(updateTipError(response.data?.error || 'Error al actualizar un tip'));
+      }
+    } catch (err) {
+      dispatch(
+        updateTipError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+/**
+ * Cambiar estado de un blog
+ */
+const changeStateTip = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch(changeStateTipBegin());
+      const response = await DataService.patch(`${id}/change_state_tips`, {},BASE_URL);
+      if (response?.data?.tip) {
+        dispatch(changeStateTipSuccess(
+          {
+            id,
+            data: response?.data?.tip,
+            message: response?.data?.message,
+          }));
+      } else {
+        dispatch(changeStateTipError(response.data?.error || 'Error al cambiar estado tip'));
+      }
+    } catch (err) {
+      dispatch(
+        changeStateTipError(err.response?.error|| 'Error de servidor. Intenta de nuevo.')
+      );
+    }
+  };
+};
+
+
+/**
  * Limpiar formulario
  */
 const cleanTipFormAction = () => {
@@ -69,5 +128,7 @@ const cleanTipFormAction = () => {
 export {
   getTips,
   createTip,
+  updateTip,
+  changeStateTip,
   cleanTipFormAction,
 };

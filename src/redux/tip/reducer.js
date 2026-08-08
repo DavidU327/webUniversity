@@ -39,6 +39,38 @@ export default function tipReducer(state = initialState, action) {
       };
     case 'CREATE_TIP_ERROR':
       return { ...state, loadingForm: false, errorForm: action.error };
+    case 'UPDATE_TIP_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'UPDATE_TIP_SUCCESS':
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: action.data.message,
+        tips: state.tips.map((tip) =>
+          tip.id === action.data.id
+            ? action.data.data
+            : tip
+        ),
+      };
+    case 'UPDATE_TIP_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
+    case 'CHANGE_STATE_TIP_BEGIN':
+      return { ...state, loadingForm: true, errorForm: null };
+    case 'CHANGE_STATE_TIP_SUCCESS':
+      return {
+        ...state,
+        loadingForm: false,
+        successForm: true,
+        message: action.data.message,
+        tips: state.tips.map((tip) =>
+          tip.id === action.data.id
+            ? action.data.data
+            : tip
+        ),
+      };
+    case 'CHANGE_STATE_TIP_ERROR':
+      return { ...state, loadingForm: false, errorForm: action.error };
     case 'CLEAN_TIP_FORM':
       return { ...state, loadingForm: false, successForm: false, errorForm: null };
     default:

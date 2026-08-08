@@ -9,12 +9,12 @@ import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 import { StatusText } from '../../../collector/components/table/style';
 
-function TipListTable({ editTip, morePage }) {
+function TipListTable({ editTip, morePage, changeState }) {
 
   const { tips, loading } = useSelector((state) => state.tip);
 
-  const tableTips = tips.map((user) => {
-    const { id, title, description, is_active: active } = user;
+  const tableTips = tips.map((tip) => {
+    const { id, title, description, is_active: active } = tip;
 
     return {
       key: id,
@@ -26,13 +26,13 @@ function TipListTable({ editTip, morePage }) {
           {description}
         </ColumnLarge>,
       status: <StatusText $color={active ? '#28A745' : '#6C757D'}>{active ? 'Habilitado' : 'Inhabilitado'}</StatusText>,
-      change_state: <Switch defaultChecked size="large" />,
+      change_state: <Switch checked={active} size="large" onChange={() => changeState(id)} />,
       action: (
         <div className="table-actions">
           <>
             <Button className="btn-icon"
                     type="info"
-                    onClick={() => editTip('Editar tip', 'Editar')}
+                    onClick={() => editTip('Editar tip', 'Editar', tip)}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
             </Button>
@@ -109,6 +109,7 @@ function TipListTable({ editTip, morePage }) {
 TipListTable.propTypes = {
   editTip: propTypes.func.isRequired,
   morePage: propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
 };
 
 export default TipListTable;

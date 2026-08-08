@@ -171,7 +171,7 @@ function OrderListTable({openWaste, openUser, openCollector, morePage, handleCan
             columns={orderTableColumns}
             loading={loading}
             pagination={{
-              defaultPageSize: 5,
+              defaultPageSize: 10,
               total: orders.length,
               showTotal: (total, range) =>
                 `${range[0]}-${range[1]} de ${total}`,

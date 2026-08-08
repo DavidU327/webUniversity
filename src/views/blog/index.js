@@ -27,7 +27,7 @@ function Blog(){
     focus: {},
   });
 
-  const showModal = (title, textButton, blog) => {
+  const showModal = (title, textButton, blog = {}) => {
     setState({
       ...state,
       visible: true,

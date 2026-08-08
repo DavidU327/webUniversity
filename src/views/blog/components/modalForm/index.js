@@ -30,19 +30,11 @@ function ModalFormBlog({ visible, onCancel, title, textButton, blog }) {
 
   const handleOk = () => {
     const values = form.getFieldsValue();
-
     if(blog?.id){
       dispatch(updatedBlog({...values, imageUrl}, blog.id))
     }else {
       dispatch(createBlog({...values, imageUrl}));
     }
-    /*
-    *  if(recollector?.user){
-      dispatch(updateRecollector(recollector?.id, {...values, imageUrl, documentIdentification, documentDriving}, defaultUser));
-    }else {
-      dispatch(createRecollector({...values, imageUrl, documentIdentification, documentDriving}));
-    }
-    * */
   };
 
   const handleCancel = () => {

@@ -10,7 +10,7 @@ import { CardToolbox, Main, UserCardTop } from '../styled';
 import { AutoComplete } from '../../components/autoComplete';
 import { Button } from '../../components/buttons';
 import { openNotification } from '../../utility/notification';
-import { cleanTipFormAction, getTips } from '../../redux/tip/actionCreator';
+import { changeStateTip, cleanTipFormAction, getTips } from '../../redux/tip/actionCreator';
 
 
 function Tip(){
@@ -24,15 +24,17 @@ function Tip(){
     visible: false,
     modalDelete: false,
     title: '',
-    textButton: ''
+    textButton: '',
+    focus: {}
   });
 
-  const showModal = (title, textButton) => {
+  const showModal = (title, textButton, tip = {}) => {
     setState({
       ...state,
       visible: true,
       title,
-      textButton
+      textButton,
+      focus: tip,
     });
   };
 
@@ -59,6 +61,9 @@ function Tip(){
     }
   };
 
+ const changeState = (tipId) => {
+    dispatch(changeStateTip(tipId))
+  }
 
   useEffect(() => {
     dispatch(getTips(1));
@@ -106,6 +111,7 @@ function Tip(){
             <TipListTable
               morePage={morePage}
               editTip={showModal}
+              changeState={changeState}
             />
           </Col>
         </Row>
@@ -115,6 +121,7 @@ function Tip(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+        tip={state.focus}
       />
       <ModalDeleteTip
         deleteTip={() => {}}
