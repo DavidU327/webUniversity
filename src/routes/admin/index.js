@@ -27,7 +27,7 @@ function Admin() {
         }
       >
         <Route path={`${path}/dashboard`} component={Dashboard} />
-        <Route path={`${path}/order-assignment`} component={OrderAssignment} />
+        <Route path={`${path}/assignment`} component={OrderAssignment} />
         <Route path={`${path}/collectors`} component={Collectors} />
         <Route path={`${path}/users`} component={Users} />
         <Route path={`${path}/levels`} component={Levels} />

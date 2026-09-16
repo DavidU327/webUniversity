@@ -53,13 +53,13 @@ function MenuItems({ toggleCollapsed }) {
 
       <Menu.Item
         icon={
-          <NavLink className="menuItem-iocn" to={`${path}/dashboard`}>
+          <NavLink className="menuItem-iocn" to={`${path}/assignment`}>
             <FeatherIcon icon="map" />
           </NavLink>
         }
-        key="map"
+        key="assignment"
       >
-        <NavLink onClick={toggleCollapsed} to={`${path}/order-assignment`}>
+        <NavLink onClick={toggleCollapsed} to={`${path}/assignment`}>
           Asignar órdenes
         </NavLink>
       </Menu.Item>
