@@ -3,7 +3,7 @@ export const styles = {
     backgroundColor: 'white',
     borderRadius: '10px',
     padding: '20px',
-    width: 350,
+    width: 500,
   },
 
   containerColumn: {
