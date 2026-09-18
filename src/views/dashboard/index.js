@@ -4,7 +4,15 @@ import Card from './components/cards';
 import Table from './components/tables';
 import { Main } from './style';
 import { PageHeader } from '../../components/page-headers';
-import { getAllUsers } from '../../redux/dashboard/actionCreator';
+import {
+  dateUserOrderDashboard,
+  getAllCollectorsDashboard,
+  getAllOrdersDashboard,
+  getAllUsersDashboard,
+  totalCollectorOrderDashboard,
+  totalUserLevelDashboard,
+  totalUserOrderDashboard,
+} from '../../redux/dashboard/actionCreator';
 
 function Dashboard(){
 
@@ -12,10 +20,23 @@ function Dashboard(){
 
   const {
     totalUsers,
+    totalOrders,
+    totalActivesOrder,
+    totalCollectors,
+    listTotalUser,
+    listTotalCollectors,
+    listDateUser,
+    listTotalUserLevel,
   } = useSelector((state) => state.dashboard);
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllUsersDashboard());
+    dispatch(getAllOrdersDashboard());
+    dispatch(getAllCollectorsDashboard());
+    dispatch(totalUserOrderDashboard());
+    dispatch(totalCollectorOrderDashboard());
+    dispatch(dateUserOrderDashboard());
+    dispatch(totalUserLevelDashboard());
   }, []);
 
   return (
@@ -43,17 +64,23 @@ function Dashboard(){
             background="#20C99710"
             nameIcon="shopping-cart"
             colorIcon="#20C997"
-            quantity={10}
+            quantity={totalActivesOrder}
           />
 
-          <Card title="Total Recolectores" background="#5F63F220" nameIcon="truck" colorIcon="#5F63F2" quantity={10} />
+          <Card
+            title="Total Recolectores"
+            background="#5F63F220"
+            nameIcon="truck"
+            colorIcon="#5F63F2"
+            quantity={totalCollectors}
+          />
 
           <Card
             title="Total Órdenes"
             background="#20C99710"
             nameIcon="shopping-cart"
             colorIcon="#20C997"
-            quantity={10}
+            quantity={totalOrders}
           />
         </div>
         <div
@@ -65,9 +92,9 @@ function Dashboard(){
             width: '100%',
           }}
         >
-          <Table firstLabel="Usuario" secondLabel="Total solicitudes" />
+          <Table firstLabel="Usuario" secondLabel="Total solicitudes" items={listTotalUser} />
 
-          <Table firstLabel="Recolector" secondLabel="Total recogidas" />
+          <Table firstLabel="Recolector" secondLabel="Total recogidas" items={listTotalCollectors} />
         </div>
 
         <div
@@ -79,9 +106,9 @@ function Dashboard(){
             width: '100%',
           }}
         >
-          <Table firstLabel="Usuario" secondLabel="Última solicitud" />
+          <Table firstLabel="Usuario" secondLabel="Última solicitud" items={listDateUser} />
 
-          <Table firstLabel="Niveles" secondLabel="Cantidad de usuarios" />
+          <Table firstLabel="Niveles" secondLabel="Cantidad de usuarios" items={listTotalUserLevel} />
         </div>
       </Main>
     </>
