@@ -69,10 +69,11 @@ const ProviderConfig = () => {
   const NotFound = () => <Redirect to={isAuth ? "/admin/dashboard" : "/"} />;
 
   return (
-    <ConfigProvider direction="ltr">
+    <ConfigProvider
+      direction="ltr"
+    >
       <ThemeProvider theme={theme}>
         <Router basename={process.env.PUBLIC_URL}>
-
           <Switch>
             {/* Auth */}
             <PublicRoute exact path="/" component={Auth} />
@@ -86,7 +87,6 @@ const ProviderConfig = () => {
             {/* fallback */}
             <Route path="*" component={NotFound} />
           </Switch>
-
         </Router>
       </ThemeProvider>
     </ConfigProvider>
