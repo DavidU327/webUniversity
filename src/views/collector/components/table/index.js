@@ -1,26 +1,62 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Empty, Switch, Table } from 'antd';
+import { useSelector } from 'react-redux';
+import { Empty, Select, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { TableStyleWrapper } from './style';
+import { StatusText, TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import Heading from '../../../../components/heading';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 
-function CollectorListTable({ editCollector, deleteCollector }) {
+const { Option } = Select;
 
-  const allCollectors = [{id: 1, name: 'Juan', status: 'active'}];
+function CollectorListTable({
+                              editCollector,
+                              deleteCollector,
+                              modalDocument,
+                              modalChangeState,
+                              changeState,
+                              morePage,
+}) {
 
-  const collectors = allCollectors.map((user) => {
-    const { id, name, status } = user;
+  const {
+    recollectors,
+    loading,
+    states,
+  } = useSelector((state) => state.recollector);
 
+  const infoDocument = (url, type, collector) => {
+    if(url !== null){
+      window.open(url, "_blank");
+    }else{
+      modalDocument(type, collector);
+    }
+  };
+
+  const collectors = recollectors.map((recollector) => {
+    const {
+      collector: {
+        id,
+        user: {
+          name,
+          image,
+          identification,
+          email,
+          phone,
+          type_identification: typeIdentification,
+        },
+        identification_document: identificationDocument,
+        driving_license_document: drivingLicenseDocument,
+        state,
+      },
+    } = recollector;
     return {
       key: id,
       user: (
         <div className="user-info">
           <figure>
-            <img style={{ width: '40px' }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/250px-User_icon_2.svg.png" alt="" />
+            <img style={{ width: '80px', height: '80px', borderRadius: '10px' }} src={image} alt="" />
           </figure>
           <figcaption>
             <Heading className="user-name" as="h6">
@@ -29,25 +65,68 @@ function CollectorListTable({ editCollector, deleteCollector }) {
           </figcaption>
         </div>
       ),
-      phone: '3178874640',
+      phone,
       document: <figcaption>
-        <span>C.C</span>
-        <span>101427321</span>
+        <span>{typeIdentification?.name}</span>
+        <span>{identification}</span>
       </figcaption>,
-      email: 'john@gmail.com',
-      status: <span className={`status-text ${status}`}>Active</span>,
-      change_state: <Switch defaultChecked size="large" />,
+      email,
+      document_identification: (
+        <div>
+          <Button
+                  type="primary"
+                  onClick={() => infoDocument(identificationDocument, 'document_identification', recollector)}
+                  shape="circle">
+            <FeatherIcon icon={identificationDocument !== null ? 'eye' : 'upload'} size={16} />
+          {identificationDocument !== null ? 'Documento de identidad' : 'No cargo el documento'}
+          </Button>
+        </div>
+      ),
+      document_driving:
+        (
+          <div>
+            <Button
+              type="primary"
+              onClick={() => infoDocument(drivingLicenseDocument, 'document_driving_license', recollector)}
+              shape="circle">
+              <FeatherIcon icon={drivingLicenseDocument !== null ? 'eye' : 'upload'} size={16} />
+              {drivingLicenseDocument !== null ? 'Licencia de conducción' : 'No cargo el documento'}
+            </Button>
+          </div>
+        ),
+      status: <StatusText $color={state?.color}>{state?.name}</StatusText>,
+      change_state: (
+        <>
+          {state?.name === 'Pendiente de Validar' &&
+            <Select style={{ width: '100%' }}
+                    onChange={(value) => {
+                      const selectedState = states.find(s => s.id === value);
+                      modalChangeState(recollector, selectedState);
+                    }}
+            >
+              {states.map((state) => (
+                <Option key={state.id} value={state.id}>{state.name}</Option>
+              ))}
+            </Select>
+          }
+          {state?.name !== 'Rechazado' && state?.name !== 'Pendiente de Validar' && (
+            <Switch checked={state?.name === 'Habilitado'} size="large" onChange={() => changeState(id)} />
+          )}
+        </>
+      ),
       action: (
         <div className="table-actions">
           <>
+            {state?.name !== 'Rechazado' && (
+              <Button className="btn-icon"
+                      type="info"
+                      onClick={() => editCollector('Editar recolector', 'Editar', recollector)}
+                      shape="circle">
+                <FeatherIcon icon="edit" size={16} />
+              </Button>
+            )}
             <Button className="btn-icon"
-                    type="info"
-                    onClick={() => editCollector('Editar recolector', 'Editar')}
-                    shape="circle">
-              <FeatherIcon icon="edit" size={16} />
-            </Button>
-            <Button className="btn-icon"
-                    onClick={deleteCollector}
+                    onClick={() => deleteCollector(recollector)}
                     type="danger" to="#"
                     shape="circle">
               <FeatherIcon icon="trash-2" size={16} />
@@ -80,9 +159,22 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       key: 'email',
     },
     {
+      title: 'Documento de identificación',
+      dataIndex: 'document_identification',
+      key: 'document_identification',
+      align: 'center',
+    },
+    {
+      title: 'Documento de conducción',
+      dataIndex: 'document_driving',
+      key: 'document_driving',
+      align: 'center',
+    },
+    {
       title: 'Estado',
       dataIndex: 'status',
       key: 'status',
+      align: 'center',
     },
     {
       title: 'Cambiar estado',
@@ -104,12 +196,18 @@ function CollectorListTable({ editCollector, deleteCollector }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
+            rowKey={(record) => record.key}
             dataSource={collectors}
             columns={collectorTableColumns}
+            loading={loading}
             pagination={{
-              defaultPageSize: 5,
+              defaultPageSize: 10,
               total: collectors.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
+            }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
             }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
@@ -124,6 +222,10 @@ function CollectorListTable({ editCollector, deleteCollector }) {
 CollectorListTable.propTypes = {
   editCollector: propTypes.func.isRequired,
   deleteCollector: propTypes.func.isRequired,
+  modalDocument: propTypes.func.isRequired,
+  modalChangeState: propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
+  morePage: propTypes.func.isRequired,
 };
 
 export default CollectorListTable;

@@ -110,7 +110,7 @@ const ThemeLayout = (WrappedComponent) => {
       const mobile = window.innerWidth <= 991;
 
       return (
-        <Div >
+        <Div>
           <Layout className="layout">
             <Header
               style={{
@@ -121,18 +121,30 @@ const ThemeLayout = (WrappedComponent) => {
               }}
             >
               <Row>
-                <Col lg={4} sm={6} xs={12} className="align-center-v navbar-brand">
+                <Col
+                  lg={4}
+                  sm={6}
+                  xs={12}
+                  className="align-center-v navbar-brand"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <Button type="link" onClick={toggleCollapsed}>
                     <img src={require(`../../assets/svg/${collapsed ? 'right.svg' : 'left.svg'}`)} alt="menu" />
                   </Button>
                   {!mobile && (
-                    <Link
-                      className="striking-logo top-menu"
-                      to="/"
-                    >
+                    <Link className="striking-logo top-menu" to="/">
                       <img
-                        src={require(`../../assets/svg/Logo_Dark.svg`).default}
+                        src={require(`../../assets/image/logo.png`)}
                         alt=""
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          objectFit: 'contain',
+                          display: 'block',
+                        }}
                       />
                     </Link>
                   )}
@@ -156,9 +168,7 @@ const ThemeLayout = (WrappedComponent) => {
                     renderTrackVertical={renderTrackVertical}
                   >
                     <p className="sidebar-nav-title">MENU</p>
-                    <MenuItems
-                      toggleCollapsed={toggleCollapsedMobile}
-                    />
+                    <MenuItems toggleCollapsed={toggleCollapsedMobile} />
                   </Scrollbars>
                 </Sider>
               </ThemeProvider>

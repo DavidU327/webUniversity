@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import FeatherIcon from 'feather-icons-react';
+import { useDispatch, useSelector } from 'react-redux';
 import TipListTable from './components/table';
 import ModalFormTip from './components/modalForm';
 import ModalDeleteTip from './components/modalDelete';
@@ -8,30 +9,32 @@ import { PageHeader } from '../../components/page-headers';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { AutoComplete } from '../../components/autoComplete';
 import { Button } from '../../components/buttons';
+import { openNotification } from '../../utility/notification';
+import { changeStateTip, cleanTipFormAction, getTips } from '../../redux/tip/actionCreator';
+
 
 function Tip(){
+
+  const dispatch = useDispatch();
+
+  const {tips, successForm, message} = useSelector((state) => state.tip);
 
   const [state, setState] = useState({
     notData: [],
     visible: false,
     modalDelete: false,
     title: '',
-    textButton: ''
+    textButton: '',
+    focus: {}
   });
 
-  const showModal = (title, textButton) => {
+  const showModal = (title, textButton, tip = {}) => {
     setState({
       ...state,
       visible: true,
       title,
-      textButton
-    });
-  };
-
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
+      textButton,
+      focus: tip,
     });
   };
 
@@ -52,6 +55,29 @@ function Tip(){
     });
   };
 
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getTips(page));
+    }
+  };
+
+ const changeState = (tipId) => {
+    dispatch(changeStateTip(tipId))
+  }
+
+  useEffect(() => {
+    dispatch(getTips(1));
+  }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', message);
+      dispatch(cleanTipFormAction());
+    }
+  }, [successForm]);
+
+
   return (
     <>
       <CardToolbox>
@@ -61,7 +87,7 @@ function Tip(){
             title="Tips"
             subTitle={
               <>
-                <span className="title-counter">2 Tips</span>
+                <span className="title-counter">{tips.length} Tips</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -82,7 +108,11 @@ function Tip(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <TipListTable editTip={showModal} deleteTip={showModalDelete} />
+            <TipListTable
+              morePage={morePage}
+              editTip={showModal}
+              changeState={changeState}
+            />
           </Col>
         </Row>
       </Main>
@@ -91,6 +121,7 @@ function Tip(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+        tip={state.focus}
       />
       <ModalDeleteTip
         deleteTip={() => {}}

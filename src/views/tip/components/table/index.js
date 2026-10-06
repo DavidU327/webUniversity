@@ -1,44 +1,40 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Empty, Switch, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { ColumnLarge, TableStyleWrapper } from './style';
 import { TableWrapper } from '../../../styled';
 import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
+import { StatusText } from '../../../collector/components/table/style';
 
-function TipListTable({ editTip, deleteTip }) {
+function TipListTable({ editTip, morePage, changeState }) {
 
-  const allTips = [{id: 1, status: 'active'}];
+  const { tips, loading } = useSelector((state) => state.tip);
 
-  const tips = allTips.map((user) => {
-    const { id, status } = user;
+  const tableTips = tips.map((tip) => {
+    const { id, title, description, is_active: active } = tip;
 
     return {
       key: id,
       title: <ColumnLarge >
-        Tip 1
+        {title}
       </ColumnLarge>,
       description:
         <ColumnLarge>
-          lorjkewjdjskalkjdjaksbdjlasdsadhjasdadasdasdsadasdasddasdasdasadldkajsdkasñkdakhldjlasjñkldjhkajsñdhaskljñdahslkjldlasda
+          {description}
         </ColumnLarge>,
-      status: <span className={`status-text ${status}`}>Active</span>,
-      change_state: <Switch defaultChecked size="large" />,
+      status: <StatusText $color={active ? '#28A745' : '#6C757D'}>{active ? 'Habilitado' : 'Inhabilitado'}</StatusText>,
+      change_state: <Switch checked={active} size="large" onChange={() => changeState(id)} />,
       action: (
         <div className="table-actions">
           <>
             <Button className="btn-icon"
                     type="info"
-                    onClick={() => editTip('Editar tip', 'Editar')}
+                    onClick={() => editTip('Editar tip', 'Editar', tip)}
                     shape="circle">
               <FeatherIcon icon="edit" size={16} />
-            </Button>
-            <Button className="btn-icon"
-                    onClick={deleteTip}
-                    type="danger" to="#"
-                    shape="circle">
-              <FeatherIcon icon="trash-2" size={16} />
             </Button>
           </>
         </div>
@@ -88,16 +84,21 @@ function TipListTable({ editTip, deleteTip }) {
       <TableStyleWrapper>
         <TableWrapper className="table-responsive">
           <Table
-            dataSource={tips}
+            dataSource={tableTips}
             columns={collectorTableColumns}
+            loading={loading}
             pagination={{
-              defaultPageSize: 5,
+              defaultPageSize: 10,
               total: tips.length,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
+            onChange={(pagination) => {
+              const { current} = pagination;
+              morePage(current)
+            }}
             locale={{ emptyText: <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay recolectores aún" /> }}
+                description="No hay tips aún" /> }}
           />
         </TableWrapper>
       </TableStyleWrapper>
@@ -107,7 +108,8 @@ function TipListTable({ editTip, deleteTip }) {
 
 TipListTable.propTypes = {
   editTip: propTypes.func.isRequired,
-  deleteTip: propTypes.func.isRequired,
+  morePage: propTypes.func.isRequired,
+  changeState: propTypes.func.isRequired,
 };
 
 export default TipListTable;

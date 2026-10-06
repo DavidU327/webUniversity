@@ -53,6 +53,19 @@ function MenuItems({ toggleCollapsed }) {
 
       <Menu.Item
         icon={
+          <NavLink className="menuItem-iocn" to={`${path}/assignment`}>
+            <FeatherIcon icon="map" />
+          </NavLink>
+        }
+        key="assignment"
+      >
+        <NavLink onClick={toggleCollapsed} to={`${path}/assignment`}>
+          Asignar órdenes
+        </NavLink>
+      </Menu.Item>
+
+      <Menu.Item
+        icon={
           <NavLink className="menuItem-iocn" to={`${path}/collectors`}>
             <FeatherIcon icon="truck" />
           </NavLink>

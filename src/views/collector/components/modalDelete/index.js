@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Modal } from '../../../../components/modal';
 import { Button } from '../../../../components/buttons';
 
-
 function ModalDeleteCollector({ visible, onCancel, deleteCollector }) {
+
+  const {loadingForm} = useSelector((state) => state.recollector);
 
   const handleCancel = () => {
     onCancel();
@@ -35,7 +37,7 @@ function ModalDeleteCollector({ visible, onCancel, deleteCollector }) {
       visible={state.visible}
       footer={[
         <div key="1" >
-          <Button size="default" type="danger" key="submit" onClick={deleteCollector}>
+          <Button size="default" type="danger" key="submit" onClick={deleteCollector} loading={loadingForm}>
             Eliminar recolector
           </Button>
           <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

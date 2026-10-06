@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import UserListTable from './components/table';
 import ModalDeleteUser from './components/modalDelete';
+import {
+  changeStateUser,
+  cleanFormUser,
+  deleteUser,
+  getUsers,
+  searchUser,
+} from '../../redux/user/actionCreator';
 import { CardToolbox, Main, UserCardTop } from '../styled';
 import { PageHeader } from '../../components/page-headers';
 import { AutoComplete } from '../../components/autoComplete';
+import { openNotification } from '../../utility/notification';
 
 function User(){
+
+  const dispatch = useDispatch();
+
+  const {
+    users,
+    successForm,
+    message,
+  } = useSelector((state) => state.user);
 
   const [state, setState] = useState({
     notData: [],
     modalDelete: false,
+    focus: {},
+    search: '',
   });
 
-  const showModalDelete = () => {
+  const showModalDelete = (user) => {
     setState({
       ...state,
       modalDelete: true,
+      focus: user
     });
   };
 
@@ -29,12 +49,47 @@ function User(){
 
 
   const handleSearch = (searchText) => {
-    const data = state.notData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
+   const values = {
+      search: searchText
+    }
     setState({
       ...state,
-      notData: data,
+      search: searchText
     });
+    if(searchText === ''){
+      dispatch(getUsers(1));
+    }else{
+      dispatch(searchUser(values, 1));
+    }
   };
+
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getUsers(page));
+    }else {
+      dispatch(searchUser(state.search, page));
+    }
+  };
+
+  const changeState = (userId) => {
+    dispatch(changeStateUser(userId))
+  }
+
+  const handleDeleteUser = () => {
+    dispatch(deleteUser(state.focus.id));
+  };
+
+  useEffect(() => {
+    dispatch(getUsers(1));
+  }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', message);
+      dispatch(cleanFormUser());
+    }
+  }, [successForm]);
 
   return (
     <>
@@ -45,7 +100,7 @@ function User(){
             title="Usuarios"
             subTitle={
               <>
-                <span className="title-counter">274 Usuarios</span>
+                <span className="title-counter">{users.length} Usuarios</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -61,12 +116,16 @@ function User(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <UserListTable deleteUser={showModalDelete} />
+            <UserListTable
+              deleteUser={showModalDelete}
+              morePage={morePage}
+              changeState={changeState}
+            />
           </Col>
         </Row>
       </Main>
       <ModalDeleteUser
-        deleteUser={() => {}}
+        deleteUser={handleDeleteUser}
         visible={state.modalDelete}
         onCancel={onCancel}
       />

@@ -1,97 +1,93 @@
 import axios from 'axios';
-import { getItem } from '../../utility/localStorageControl';
-
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-
-const authHeader = () => ({
-  Authorization: `Bearer ${getItem('access_token')}`,
-});
-
-const client = axios.create({
-  baseURL: API_ENDPOINT,
-  headers: {
-    Authorization: `Bearer ${getItem('access_token')}`,
-    'Content-Type': 'application/json',
-  },
-});
+import Cookies from 'js-cookie';
+import { getItem, removeItem } from '../../utility/localStorageControl';
+import { COOKIE_WEB, TOKEN_WEB } from '../variable/variable';
 
 class DataService {
-  static get(path = '') {
-    return client({
-      method: 'GET',
-      url: path,
-      headers: { ...authHeader() },
+
+  static get(path = '', baseURL) {
+    return axios.get(path, {
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
     });
   }
 
-  static post(path = '', data = {}, optionalHeader = {}) {
-    return client({
-      method: 'POST',
-      url: path,
+  static postAuth(path = '', data = {}, baseURL) {
+    return axios.post(path, data, {
+      baseURL,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+  }
+
+  static post(path = '', data = {}, baseURL) {
+    return axios.post(path, data, {
+      baseURL,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
+    });
+  }
+
+  static postFormData(path = '', formData, baseURL) {
+    return axios.post(path, formData, {
+      baseURL,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
+    });
+  }
+
+  static patch(path = '', data = {}, baseURL) {
+    return axios.patch(path, data, {
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
+    });
+  }
+
+  static delete(path = '', data = {}, baseURL) {
+    return axios.delete(path, {
+      baseURL,
       data,
-      headers: { ...authHeader(), ...optionalHeader },
+      headers: {
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
     });
   }
 
-  static patch(path = '', data = {}) {
-    return client({
-      method: 'PATCH',
-      url: path,
-      data: JSON.stringify(data),
-      headers: { ...authHeader() },
-    });
-  }
-
-  static delete(path = '', data = {}) {
-    return client({
-      method: 'DELETE',
-      url: path,
-      data: JSON.stringify(data),
-      headers: { ...authHeader() },
-    });
-  }
-
-  static put(path = '', data = {}) {
-    return client({
-      method: 'PUT',
-      url: path,
-      data: JSON.stringify(data),
-      headers: { ...authHeader() },
+  static put(path = '', data = {}, baseURL) {
+    return axios.put(path, data, {
+      baseURL,
+      headers: {
+        Authorization: `Bearer ${getItem(TOKEN_WEB)}`,
+      },
     });
   }
 }
 
-/**
- * axios interceptors runs before and after a request, letting the developer modify req,req more
- * For more details on axios interceptor see https://github.com/axios/axios#interceptors
- */
-client.interceptors.request.use(config => {
-  // do something before executing the request
-  // For example tag along the bearer access token to request header or set a cookie
-  const requestConfig = config;
-  const { headers } = config;
-  requestConfig.headers = { ...headers, Authorization: `Bearer ${getItem('access_token')}` };
-
-  return requestConfig;
-});
-
-client.interceptors.response.use(
+axios.interceptors.response.use(
   response => response,
   error => {
-    /**
-     * Do something in case the response returns an error code [3**, 4**, 5**] etc
-     * For example, on token expiration retrieve a new access token, retry a failed request etc
-     */
     const { response } = error;
-    const originalRequest = error.config;
     if (response) {
+      if (response.status === 401) {
+        removeItem(TOKEN_WEB);
+        Cookies.remove(COOKIE_WEB);
+        window.location.href = '/';
+      }
       if (response.status === 500) {
-        // do something here
-      } else {
-        return originalRequest;
+        console.error('Error 500 en el servidor');
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
+
 export { DataService };

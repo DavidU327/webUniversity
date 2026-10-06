@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import FeatherIcon from 'feather-icons-react';
 import BlogListTable from './components/table';
 import ModalFormBlog from './components/modalForm';
@@ -8,30 +9,31 @@ import { CardToolbox, Main, UserCardTop } from '../styled';
 import { Button } from '../../components/buttons';
 import { AutoComplete } from '../../components/autoComplete';
 import { PageHeader } from '../../components/page-headers';
+import { changeStateBlog, cleanBlogFormAction, getBlogs } from '../../redux/blog/actionCreator';
+import { openNotification } from '../../utility/notification';
 
 function Blog(){
+
+  const dispatch = useDispatch();
+
+  const {blogs, successForm, message} = useSelector((state) => state.blog);
 
   const [state, setState] = useState({
     notData: [],
     visible: false,
     modalDelete: false,
     title: '',
-    textButton: ''
+    textButton: '',
+    focus: {},
   });
 
-  const showModal = (title, textButton) => {
+  const showModal = (title, textButton, blog = {}) => {
     setState({
       ...state,
       visible: true,
       title,
-      textButton
-    });
-  };
-
-  const showModalDelete = () => {
-    setState({
-      ...state,
-      modalDelete: true,
+      textButton,
+      focus: blog
     });
   };
 
@@ -43,7 +45,6 @@ function Blog(){
     });
   };
 
-
   const handleSearch = (searchText) => {
     const data = state.notData.filter((item) => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
     setState({
@@ -51,6 +52,29 @@ function Blog(){
       notData: data,
     });
   };
+
+  const morePage = (page) => {
+    if(state.search === ''){
+      dispatch(getBlogs(page));
+    }
+  };
+
+  const changeState = (blogId) => {
+    dispatch(changeStateBlog(blogId))
+  }
+
+  useEffect(() => {
+    dispatch(getBlogs(1));
+  }, []);
+
+  useEffect(() => {
+    if(successForm) {
+      onCancel();
+      openNotification('success', 'Enhorabuena', message);
+      dispatch(cleanBlogFormAction());
+    }
+  }, [successForm]);
+
 
   return (
     <>
@@ -61,7 +85,7 @@ function Blog(){
             title="Blogs"
             subTitle={
               <>
-                <span className="title-counter">2 Blogs</span>
+                <span className="title-counter">{blogs.length} Blogs</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -82,7 +106,11 @@ function Blog(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <BlogListTable editBlog={showModal} deleteBlog={showModalDelete} />
+            <BlogListTable
+              editBlog={showModal}
+              morePage={morePage}
+              changeState={changeState}
+            />
           </Col>
         </Row>
       </Main>
@@ -91,6 +119,7 @@ function Blog(){
         onCancel={onCancel}
         title={state.title}
         textButton={state.textButton}
+        blog={state.focus}
       />
       <ModalDeleteBlog
         deleteBlog={() => {}}
