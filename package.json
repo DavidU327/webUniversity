@@ -67,7 +67,6 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.17.4"
   },
-  "homepage": "/university-project",
   "scripts": {
     "start": "craco start",
     "build": "cross-env GENERATE_SOURCEMAP=false craco --max-old-space-size=4096 build",
