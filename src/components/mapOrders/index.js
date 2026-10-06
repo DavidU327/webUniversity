@@ -69,7 +69,7 @@ export default function MapOrders({
       const buttonId = `assign-btn-${order.id}`;
       const selectId = `select-${order.id}`;
 
-      const canAssign = order.state.id === 1;
+      const canAssign = order.state.id === 1 || order.state.id === 7;
 
       const popup = new maplibregl.Popup({
         closeOnClick: false,
