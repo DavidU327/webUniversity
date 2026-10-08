@@ -1,0 +1,16 @@
+{
+  "frontendStories": [
+    {
+      "id": "login-admin-ui",
+      "title": "Login Administrador - UI",
+      "testPathPattern": "src/views/login/__tests__/index.test.js",
+      "enabled": true
+    },
+    {
+      "id": "login-admin-action",
+      "title": "Login Administrador - Action",
+      "testPathPattern": "src/redux/authentication/__tests__/actionCreator.test.js",
+      "enabled": true
+    }
+  ]
+}
