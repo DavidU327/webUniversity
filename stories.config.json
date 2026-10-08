@@ -1,14 +1,20 @@
 {
   "frontendStories": [
     {
-      "id": "login-admin-ui",
-      "title": "Login Administrador - UI",
+      "id": "hu1-login-admin-ui",
+      "title": "HU-1 Login Administrador - UI",
       "testPathPattern": "src/views/login/__tests__/index.test.js",
       "enabled": true
     },
     {
-      "id": "login-admin-action",
-      "title": "Login Administrador - Action",
+      "id": "hu1-login-admin-action",
+      "title": "HU-1 Login Administrador - Action",
+      "testPathPattern": "src/redux/authentication/__tests__/actionCreator.test.js",
+      "enabled": true
+    },
+    {
+      "id": "hu7-hu8-admin-ops",
+      "title": "HU-7/HU-8 Operaciones Admin en Web",
       "testPathPattern": "src/redux/authentication/__tests__/actionCreator.test.js",
       "enabled": true
     }
