@@ -4,18 +4,35 @@
       "id": "hu1-login-admin-ui",
       "title": "HU-1 Login Administrador - UI",
       "testPathPattern": "src/views/login/__tests__/index.test.js",
+      "sprint": 1,
       "enabled": true
     },
     {
       "id": "hu1-login-admin-action",
       "title": "HU-1 Login Administrador - Action",
       "testPathPattern": "src/redux/authentication/__tests__/actionCreator.test.js",
+      "sprint": 1,
       "enabled": true
     },
     {
-      "id": "hu7-hu8-admin-ops",
-      "title": "HU-7/HU-8 Operaciones Admin en Web",
+      "id": "hu12-recuperar-contrasena-admin-web",
+      "title": "HU-12 Recuperar contraseña administrador",
       "testPathPattern": "src/redux/authentication/__tests__/actionCreator.test.js",
+      "sprint": 2,
+      "enabled": true
+    },
+    {
+      "id": "hu15-creacion-tipos-residuo-web",
+      "title": "HU-15 Creación de tipos de residuo",
+      "testPathPattern": "src/redux/waste/__tests__/actionCreator.test.js",
+      "sprint": 2,
+      "enabled": true
+    },
+    {
+      "id": "hu16-creacion-niveles-web",
+      "title": "HU-16 Creación de niveles",
+      "testPathPattern": "src/redux/level/__tests__/actionCreator.test.js",
+      "sprint": 2,
       "enabled": true
     }
   ]
