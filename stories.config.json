@@ -62,6 +62,34 @@
       "testPathPattern": "src/redux/order/__tests__/orderHistory.test.js",
       "sprint": 4,
       "enabled": true
+    },
+    {
+      "id": "hu29-creacion-blogs-web",
+      "title": "HU-29 Creación de blogs",
+      "testPathPattern": "src/redux/blog/__tests__/actionCreator.test.js",
+      "sprint": 5,
+      "enabled": true
+    },
+    {
+      "id": "hu30-creacion-tips-web",
+      "title": "HU-30 Creación de tips",
+      "testPathPattern": "src/redux/tip/__tests__/actionCreator.test.js",
+      "sprint": 5,
+      "enabled": true
+    },
+    {
+      "id": "hu31-edicion-cambio-estado-blogs-web",
+      "title": "HU-31 Edición o cambios de estados de blogs",
+      "testPathPattern": "src/redux/blog/__tests__/actionCreator.test.js",
+      "sprint": 5,
+      "enabled": true
+    },
+    {
+      "id": "hu32-edicion-cambio-estado-tips-web",
+      "title": "HU-32 Edición o cambios de estados de tips",
+      "testPathPattern": "src/redux/tip/__tests__/actionCreator.test.js",
+      "sprint": 5,
+      "enabled": true
     }
   ]
 }
