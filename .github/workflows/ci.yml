@@ -37,7 +37,7 @@ jobs:
         run: npm run build
 
   pages:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: test-and-build
     runs-on: ubuntu-latest
 

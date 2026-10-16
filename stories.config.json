@@ -34,6 +34,27 @@
       "testPathPattern": "src/redux/level/__tests__/actionCreator.test.js",
       "sprint": 2,
       "enabled": true
+    },
+    {
+      "id": "hu19-asignacion-recolector-web",
+      "title": "HU-19 Asignación de recolector",
+      "testPathPattern": "src/redux/order/__tests__/actionCreator.test.js",
+      "sprint": 3,
+      "enabled": true
+    },
+    {
+      "id": "hu20-empezar-servicio-web",
+      "title": "HU-20 Empezar servicio",
+      "testPathPattern": "src/redux/order/__tests__/actionCreator.test.js",
+      "sprint": 3,
+      "enabled": true
+    },
+    {
+      "id": "hu25-cancelacion-orden-web",
+      "title": "HU-25 Cancelación de orden",
+      "testPathPattern": "src/redux/order/__tests__/actionCreator.test.js",
+      "sprint": 3,
+      "enabled": true
     }
   ]
 }
