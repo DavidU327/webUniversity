@@ -55,6 +55,13 @@
       "testPathPattern": "src/redux/order/__tests__/actionCreator.test.js",
       "sprint": 3,
       "enabled": true
+    },
+    {
+      "id": "hu28-historial-ordenes-administrador-web",
+      "title": "HU-28 Historial de ordenes administrador",
+      "testPathPattern": "src/redux/order/__tests__/orderHistory.test.js",
+      "sprint": 4,
+      "enabled": true
     }
   ]
 }
