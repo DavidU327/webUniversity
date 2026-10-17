@@ -1,5 +1,13 @@
 import actions from '../actions';
-import { getOrders, getOrderDays } from '../actionCreator';
+import {
+  getOrders,
+  getOrderDays,
+  assignedCollector,
+  initOrder,
+  cancelOrder,
+  finishOrder,
+  clearOrder,
+} from '../actionCreator';
 import { DataService } from '../../../config/dataService/dataService';
 
 jest.mock('../../../config/dataService/dataService', () => ({
@@ -44,7 +52,7 @@ describe('order history actionCreator (Sprint 4 - HU-28)', () => {
       },
     };
 
-    DataService.get.mockResolvedValue(response);
+    DataService.get.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await getOrders(1)(dispatch);
@@ -55,10 +63,16 @@ describe('order history actionCreator (Sprint 4 - HU-28)', () => {
       '/orders?page=1&limit=10',
       process.env.REACT_APP_API_ORDER
     );
+
+    DataService.get.mockResolvedValueOnce({});
+    await getOrders(1)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrdersError('Error al obtener las ordenes')
+    );
   });
 
   it('HU-28: dispatches error when fetching administrator orders fails', async () => {
-    DataService.get.mockRejectedValue({
+    DataService.get.mockRejectedValueOnce({
       response: {
         data: {
           message: 'Error al consultar el historial de órdenes',
@@ -74,16 +88,22 @@ describe('order history actionCreator (Sprint 4 - HU-28)', () => {
       2,
       actions.getOrdersError('Error al consultar el historial de órdenes')
     );
+
+    DataService.get.mockRejectedValueOnce({});
+    await getOrders(1)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrdersError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-28: fetches orders filtered by day for administrator dashboard', async () => {
+  it('HU-28: fetches orders filtered by day and exercises order lifecycle actions', async () => {
     const response = {
       data: {
         data: [{ id: 40, date: '2026-10-26' }],
       },
     };
 
-    DataService.get.mockResolvedValue(response);
+    DataService.get.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await getOrderDays('2026-10-26')(dispatch);
@@ -94,6 +114,45 @@ describe('order history actionCreator (Sprint 4 - HU-28)', () => {
       '/orders/dashboard?date=2026-10-26',
       process.env.REACT_APP_API_ORDER
     );
+
+    DataService.get.mockResolvedValueOnce({});
+    await getOrderDays('2026-10-26')(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrderDaysError('Error al obtener las ordenes')
+    );
+
+    DataService.get.mockRejectedValueOnce({});
+    await getOrderDays('2026-10-26')(dispatch);
+
+    DataService.post.mockResolvedValueOnce({ data: { id: 40 } });
+    await assignedCollector(40, 5)(dispatch);
+    DataService.post.mockResolvedValueOnce({});
+    await assignedCollector(40, 5)(dispatch);
+    DataService.post.mockRejectedValueOnce({});
+    await assignedCollector(40, 5)(dispatch);
+
+    DataService.post.mockResolvedValueOnce({ data: [{ id: 40 }] });
+    await initOrder({ order_ids: [40] })(dispatch);
+    DataService.post.mockResolvedValueOnce({});
+    await initOrder({ order_ids: [40] })(dispatch);
+    DataService.post.mockRejectedValueOnce({});
+    await initOrder({ order_ids: [40] })(dispatch);
+
+    DataService.post.mockResolvedValueOnce({ data: { id: 40 } });
+    await cancelOrder(40)(dispatch);
+    DataService.post.mockResolvedValueOnce({});
+    await cancelOrder(40)(dispatch);
+    DataService.post.mockRejectedValueOnce({});
+    await cancelOrder(40)(dispatch);
+
+    DataService.post.mockResolvedValueOnce({ data: { id: 40 } });
+    await finishOrder({ order_id: 40 })(dispatch);
+    DataService.post.mockResolvedValueOnce({});
+    await finishOrder({ order_id: 40 })(dispatch);
+    DataService.post.mockRejectedValueOnce({});
+    await finishOrder({ order_id: 40 })(dispatch);
+
+    await clearOrder()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.cleanOrder());
   });
 });
-

@@ -1,5 +1,11 @@
 import actions from '../actions';
-import { getTips, createTip, updateTip, changeStateTip } from '../actionCreator';
+import {
+  getTips,
+  createTip,
+  updateTip,
+  changeStateTip,
+  cleanTipFormAction,
+} from '../actionCreator';
 import { DataService } from '../../../config/dataService/dataService';
 
 jest.mock('../../../config/dataService/dataService', () => ({
@@ -15,7 +21,7 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
     jest.clearAllMocks();
   });
 
-  it('HU-30: dispatches begin and success when administrator creates a tip', async () => {
+  it('HU-30: dispatches begin and success when administrator creates a tip and handles errors', async () => {
     const payload = {
       title: 'Separa los envases plásticos',
       description: 'Enjuaga y seca las botellas PET antes de entregarlas.',
@@ -33,7 +39,7 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       message: 'Se ha creado el tip correctamente',
     };
 
-    DataService.post.mockResolvedValue(response);
+    DataService.post.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await createTip(payload)(dispatch);
@@ -51,9 +57,19 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       payload,
       process.env.REACT_APP_API_TIP
     );
+
+    DataService.post.mockResolvedValueOnce({ data: {} });
+    await createTip(payload)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.createTipError('Error al crear tip'));
+
+    DataService.post.mockRejectedValueOnce({});
+    await createTip(payload)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.createTipError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-32: dispatches begin and success when administrator updates a tip', async () => {
+  it('HU-32: dispatches begin and success when administrator updates a tip and handles errors', async () => {
     const values = {
       title: 'Tip actualizado',
       description: 'Nueva descripción del tip ecológico.',
@@ -71,7 +87,7 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       message: 'Se ha actualizado el tip correctamente',
     };
 
-    DataService.patch.mockResolvedValue(response);
+    DataService.patch.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await updateTip(3, values)(dispatch);
@@ -90,9 +106,21 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       values,
       process.env.REACT_APP_API_TIP
     );
+
+    DataService.patch.mockResolvedValueOnce({ data: {} });
+    await updateTip(3, values)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.updateTipError('Error al actualizar un tip')
+    );
+
+    DataService.patch.mockRejectedValueOnce({});
+    await updateTip(3, values)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.updateTipError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-32: dispatches begin and success when administrator changes tip state', async () => {
+  it('HU-32: dispatches begin and success when administrator changes tip state and handles errors', async () => {
     const response = {
       data: {
         tip: {
@@ -104,7 +132,7 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       },
     };
 
-    DataService.patch.mockResolvedValue(response);
+    DataService.patch.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await changeStateTip(3)(dispatch);
@@ -123,16 +151,28 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
       {},
       process.env.REACT_APP_API_TIP
     );
+
+    DataService.patch.mockResolvedValueOnce({ data: {} });
+    await changeStateTip(3)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.changeStateTipError('Error al cambiar estado tip')
+    );
+
+    DataService.patch.mockRejectedValueOnce({});
+    await changeStateTip(3)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.changeStateTipError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('fetches all tips for backoffice management', async () => {
+  it('fetches all tips for backoffice management, handles errors, and cleans form', async () => {
     const response = {
       data: {
         data: [{ id: 3, title: 'Separa los envases plásticos' }],
       },
     };
 
-    DataService.get.mockResolvedValue(response);
+    DataService.get.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await getTips()(dispatch);
@@ -140,6 +180,18 @@ describe('tip actionCreator (Sprint 5 - HU-30, HU-32)', () => {
     expect(dispatch).toHaveBeenNthCalledWith(1, actions.getTipsBegin());
     expect(dispatch).toHaveBeenNthCalledWith(2, actions.getTipsSuccess(response.data));
     expect(DataService.get).toHaveBeenCalledWith('/tips_web', process.env.REACT_APP_API_TIP);
+
+    DataService.get.mockResolvedValueOnce({});
+    await getTips()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.getTipsError('Error al obtener los tips'));
+
+    DataService.get.mockRejectedValueOnce({});
+    await getTips()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getTipsError('Error de servidor. Intenta de nuevo.')
+    );
+
+    cleanTipFormAction()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.cleanTipForm());
   });
 });
-

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import Login from '../index';
 
@@ -26,7 +26,14 @@ jest.mock('../../../components/heading', () => ({
 }));
 
 jest.mock('../../../components/checkbox', () => ({
-  Checkbox: ({ children }) => children,
+  Checkbox: ({ children, onChange, checked }) => (
+    <input
+      type="checkbox"
+      data-testid="remember-checkbox"
+      checked={checked}
+      onChange={onChange}
+    />
+  ),
 }));
 
 jest.mock('../../../utility/notification', () => ({
@@ -42,12 +49,15 @@ jest.mock('antd', () => {
   const React = require('react');
 
   const Form = ({ children, onFinish }) => (
-    <form onSubmit={e => {
-      e.preventDefault();
-      if (onFinish) {
-        onFinish({ email: 'admin@example.com', password: 'secret123' });
-      }
-    }}>
+    <form
+      data-testid="login-form"
+      onSubmit={e => {
+        e.preventDefault();
+        if (onFinish) {
+          onFinish({ email: 'admin@example.com', password: 'secret123' });
+        }
+      }}
+    >
       {children}
     </form>
   );
@@ -71,11 +81,15 @@ describe('Login view', () => {
 
   it('redirects to the admin dashboard when login is successful', () => {
     const { useSelector } = require('react-redux');
-    useSelector.mockImplementation(() => ({
-      loading: false,
-      login: true,
-      error: null,
-    }));
+    useSelector.mockImplementation(selector =>
+      selector({
+        auth: {
+          loading: false,
+          login: true,
+          error: null,
+        },
+      })
+    );
 
     render(<Login />);
 
@@ -89,17 +103,51 @@ describe('Login view', () => {
     const { openNotification } = require('../../../utility/notification');
     const { cleanLogin } = require('../../../redux/authentication/actionCreator');
 
-    useSelector.mockImplementation(() => ({
-      loading: false,
-      login: false,
-      error: 'Credenciales inválidas',
-    }));
+    useSelector.mockImplementation(selector =>
+      selector({
+        auth: {
+          loading: false,
+          login: false,
+          error: 'Credenciales inválidas',
+        },
+      })
+    );
 
     render(<Login />);
 
     return waitFor(() => {
-      expect(openNotification).toHaveBeenCalledWith('error', 'Ocurrio un error', 'Credenciales inválidas');
+      expect(openNotification).toHaveBeenCalledWith(
+        'error',
+        'Ocurrio un error',
+        'Credenciales inválidas'
+      );
       expect(mockDispatch).toHaveBeenCalledWith(cleanLogin());
     });
+  });
+
+  it('toggles remember checkbox and submits login credentials', () => {
+    const { useSelector } = require('react-redux');
+    const { loginUser } = require('../../../redux/authentication/actionCreator');
+
+    useSelector.mockImplementation(selector =>
+      selector({
+        auth: {
+          loading: false,
+          login: false,
+          error: null,
+        },
+      })
+    );
+
+    const { getByTestId } = render(<Login />);
+
+    fireEvent.click(getByTestId('remember-checkbox'));
+    fireEvent.submit(getByTestId('login-form'));
+
+    expect(loginUser).toHaveBeenCalledWith(
+      { email: 'admin@example.com', password: 'secret123' },
+      true
+    );
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });

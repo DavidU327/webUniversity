@@ -1,5 +1,11 @@
 import actions from '../actions';
-import { getBlogs, createBlog, updatedBlog, changeStateBlog } from '../actionCreator';
+import {
+  getBlogs,
+  createBlog,
+  updatedBlog,
+  changeStateBlog,
+  cleanBlogFormAction,
+} from '../actionCreator';
 import { DataService } from '../../../config/dataService/dataService';
 
 jest.mock('../../../config/dataService/dataService', () => ({
@@ -15,7 +21,7 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
     jest.clearAllMocks();
   });
 
-  it('HU-29: dispatches begin and success when administrator creates a blog', async () => {
+  it('HU-29: dispatches begin and success when administrator creates a blog and handles errors', async () => {
     const blogParams = {
       title: 'Guía de reciclaje en casa',
       description: 'Cómo clasificar residuos en el hogar.',
@@ -36,7 +42,7 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       message: 'Se ha creado el blog correctamente',
     };
 
-    DataService.postFormData.mockResolvedValue(response);
+    DataService.postFormData.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await createBlog(blogParams)(dispatch);
@@ -54,9 +60,19 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       expect.any(FormData),
       process.env.REACT_APP_API_BLOG
     );
+
+    DataService.postFormData.mockResolvedValueOnce({ data: {} });
+    await createBlog(blogParams)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.createBlogError('Error al crear blog'));
+
+    DataService.postFormData.mockRejectedValueOnce({});
+    await createBlog(blogParams)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.createBlogError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-31: dispatches begin and success when administrator updates a blog', async () => {
+  it('HU-31: dispatches begin and success when administrator updates a blog with or without image and handles errors', async () => {
     const updateParams = {
       title: 'Guía actualizada de reciclaje',
       description: 'Descripción actualizada del blog.',
@@ -77,7 +93,7 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       },
     };
 
-    DataService.postFormData.mockResolvedValue(response);
+    DataService.postFormData.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await updatedBlog(updateParams, 4)(dispatch);
@@ -96,9 +112,25 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       expect.any(FormData),
       process.env.REACT_APP_API_BLOG
     );
+
+    // With image
+    DataService.postFormData.mockResolvedValueOnce({ data: {} });
+    await updatedBlog(
+      { ...updateParams, imageUrl: { file: new Blob(['img']) } },
+      4
+    )(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.updateBlogError('Error al actualizar blog')
+    );
+
+    DataService.postFormData.mockRejectedValueOnce({});
+    await updatedBlog(updateParams, 4)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.updateBlogError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-31: dispatches begin and success when administrator changes blog state', async () => {
+  it('HU-31: dispatches begin and success when administrator changes blog state and handles errors', async () => {
     const response = {
       data: {
         blog: {
@@ -110,7 +142,7 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       },
     };
 
-    DataService.patch.mockResolvedValue(response);
+    DataService.patch.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await changeStateBlog(4)(dispatch);
@@ -129,16 +161,28 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
       {},
       process.env.REACT_APP_API_BLOG
     );
+
+    DataService.patch.mockResolvedValueOnce({ data: {} });
+    await changeStateBlog(4)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.changeStateBlogError('Error al cambiar estado blog')
+    );
+
+    DataService.patch.mockRejectedValueOnce({});
+    await changeStateBlog(4)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.changeStateBlogError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('fetches all blogs for backoffice table', async () => {
+  it('fetches all blogs for backoffice table, handles errors, and cleans form', async () => {
     const response = {
       data: {
         data: [{ id: 1, title: 'Guía de reciclaje en casa' }],
       },
     };
 
-    DataService.get.mockResolvedValue(response);
+    DataService.get.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await getBlogs()(dispatch);
@@ -146,6 +190,18 @@ describe('blog actionCreator (Sprint 5 - HU-29, HU-31)', () => {
     expect(dispatch).toHaveBeenNthCalledWith(1, actions.getBlogsBegin());
     expect(dispatch).toHaveBeenNthCalledWith(2, actions.getBlogsSuccess(response.data));
     expect(DataService.get).toHaveBeenCalledWith('/blogs_web', process.env.REACT_APP_API_BLOG);
+
+    DataService.get.mockResolvedValueOnce({});
+    await getBlogs()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.getBlogsError('Error al obtener los blogs'));
+
+    DataService.get.mockRejectedValueOnce({});
+    await getBlogs()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getBlogsError('Error de servidor. Intenta de nuevo.')
+    );
+
+    cleanBlogFormAction()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.cleanBlogForm());
   });
 });
-

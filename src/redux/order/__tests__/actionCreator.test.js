@@ -1,5 +1,13 @@
 import actions from '../actions';
-import { assignedCollector, initOrder, cancelOrder, getOrderDays } from '../actionCreator';
+import {
+  assignedCollector,
+  initOrder,
+  cancelOrder,
+  getOrderDays,
+  getOrders,
+  finishOrder,
+  clearOrder,
+} from '../actionCreator';
 import { DataService } from '../../../config/dataService/dataService';
 import { openNotification } from '../../../utility/notification';
 
@@ -19,7 +27,7 @@ describe('order actionCreator (Sprint 3)', () => {
     jest.clearAllMocks();
   });
 
-  it('HU-19: dispatches begin and success when assigning a collector to an order', async () => {
+  it('HU-19: dispatches begin and success when assigning a collector to an order and handles errors', async () => {
     const response = {
       data: {
         success: true,
@@ -28,7 +36,7 @@ describe('order actionCreator (Sprint 3)', () => {
       },
     };
 
-    DataService.post.mockResolvedValue(response);
+    DataService.post.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await assignedCollector(10, 5)(dispatch);
@@ -41,9 +49,21 @@ describe('order actionCreator (Sprint 3)', () => {
       process.env.REACT_APP_API_ORDER
     );
     expect(openNotification).toHaveBeenCalledWith('success', 'Listo', 'Recolector asignado');
+
+    DataService.post.mockResolvedValueOnce({});
+    await assignedCollector(10, 5)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.assignedOrderError('Error al asignar recolector')
+    );
+
+    DataService.post.mockRejectedValueOnce({});
+    await assignedCollector(10, 5)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.assignedOrderError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-20: dispatches begin and success when starting service for assigned orders', async () => {
+  it('HU-20: dispatches begin and success when starting service for assigned orders and handles errors', async () => {
     const payload = { order_ids: [10, 11] };
     const response = {
       data: {
@@ -53,7 +73,7 @@ describe('order actionCreator (Sprint 3)', () => {
       },
     };
 
-    DataService.post.mockResolvedValue(response);
+    DataService.post.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await initOrder(payload)(dispatch);
@@ -65,9 +85,19 @@ describe('order actionCreator (Sprint 3)', () => {
       payload,
       process.env.REACT_APP_API_ORDER
     );
+
+    DataService.post.mockResolvedValueOnce({});
+    await initOrder(payload)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.initOrderError('Error al iniciar ordenes'));
+
+    DataService.post.mockRejectedValueOnce({});
+    await initOrder(payload)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.initOrderError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('HU-25: dispatches begin and success when canceling an order', async () => {
+  it('HU-25: dispatches begin and success when canceling an order and handles errors', async () => {
     const response = {
       data: {
         success: true,
@@ -76,7 +106,7 @@ describe('order actionCreator (Sprint 3)', () => {
       },
     };
 
-    DataService.post.mockResolvedValue(response);
+    DataService.post.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await cancelOrder(10)(dispatch);
@@ -89,16 +119,26 @@ describe('order actionCreator (Sprint 3)', () => {
       process.env.REACT_APP_API_ORDER
     );
     expect(openNotification).toHaveBeenCalledWith('success', 'Listo', 'Órden cancelada');
+
+    DataService.post.mockResolvedValueOnce({});
+    await cancelOrder(10)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.cancelOrderError('Error al cancelar órden'));
+
+    DataService.post.mockRejectedValueOnce({});
+    await cancelOrder(10)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.cancelOrderError('Error de servidor. Intenta de nuevo.')
+    );
   });
 
-  it('fetches orders of the day for dashboard management', async () => {
+  it('fetches orders of the day, paginated orders, finishes order, and clears order state', async () => {
     const response = {
       data: {
         data: [{ id: 10, date: '2026-10-26' }],
       },
     };
 
-    DataService.get.mockResolvedValue(response);
+    DataService.get.mockResolvedValueOnce(response);
     const dispatch = jest.fn();
 
     await getOrderDays('2026-10-26')(dispatch);
@@ -109,6 +149,54 @@ describe('order actionCreator (Sprint 3)', () => {
       '/orders/dashboard?date=2026-10-26',
       process.env.REACT_APP_API_ORDER
     );
+
+    DataService.get.mockResolvedValueOnce({});
+    await getOrderDays('2026-10-26')(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrderDaysError('Error al obtener las ordenes')
+    );
+
+    DataService.get.mockRejectedValueOnce({});
+    await getOrderDays('2026-10-26')(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrderDaysError('Error de servidor. Intenta de nuevo.')
+    );
+
+    DataService.get.mockResolvedValueOnce(response);
+    await getOrders(1)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.getOrdersSuccess(response.data));
+
+    DataService.get.mockResolvedValueOnce({});
+    await getOrders(1)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrdersError('Error al obtener las ordenes')
+    );
+
+    DataService.get.mockRejectedValueOnce({});
+    await getOrders(1)(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.getOrdersError('Error de servidor. Intenta de nuevo.')
+    );
+
+    DataService.post.mockResolvedValueOnce({ data: { id: 10, state: 'Finalizada' } });
+    await finishOrder({ order_id: 10 })(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.finishOrderSuccess({ id: 10, state: 'Finalizada' })
+    );
+
+    DataService.post.mockResolvedValueOnce({});
+    await finishOrder({ order_id: 10 })(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.finishOrderError('Error al finalizar órden')
+    );
+
+    DataService.post.mockRejectedValueOnce({});
+    await finishOrder({ order_id: 10 })(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(
+      actions.finishOrderError('Error de servidor. Intenta de nuevo.')
+    );
+
+    await clearOrder()(dispatch);
+    expect(dispatch).toHaveBeenLastCalledWith(actions.cleanOrder());
   });
 });
-

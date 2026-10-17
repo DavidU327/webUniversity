@@ -17,6 +17,12 @@ module.exports = {
     exclude: /node_modules\/@firebase\/auth/,
     ignoreWarnings: [/Failed to parse source map/],
   },
+  jest: {
+    configure: (jestConfig) => {
+      delete jestConfig.collectCoverageFrom;
+      return jestConfig;
+    },
+  },
   plugins: [
     {
       plugin: CracoLessPlugin,
