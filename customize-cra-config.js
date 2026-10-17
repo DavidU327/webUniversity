@@ -20,6 +20,14 @@ module.exports = {
   jest: {
     configure: (jestConfig) => {
       delete jestConfig.collectCoverageFrom;
+      jestConfig.coverageThreshold = {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80,
+        },
+      };
       return jestConfig;
     },
   },
