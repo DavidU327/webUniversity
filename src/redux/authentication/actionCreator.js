@@ -25,6 +25,7 @@ const loginUser = (credentials, remember) => {
   return async (dispatch) => {
     try {
       dispatch(loginBegin());
+      console.log('url', process.env.REACT_APP_API_AUTH);
       const response = await DataService.postAuth('/login', credentials, process.env.REACT_APP_API_AUTH);
       if (response.data?.success) {
         if(response.data.data.rol === ADMIN){
