@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Input } from 'antd';
 import { AuthWrapper } from './style';
 import Heading from '../../components/heading';
-import { Checkbox } from '../../components/checkbox';
 import { loginUser, cleanLogin } from '../../redux/authentication/actionCreator';
 import { openNotification } from '../../utility/notification';
 
@@ -14,17 +13,11 @@ function Login(){
   const dispatch = useDispatch();
   const { loading, login, error } = useSelector((state) => state.auth);
 
-  const [check, setCheck] = useState(false);
-
   const [form] = Form.useForm();
 
   const handleSubmit = useCallback((values) => {
-    dispatch(loginUser(values, check));
-  }, [dispatch, check]);
-
-  const onChange = () => {
-    setCheck(!check);
-  };
+    dispatch(loginUser(values));
+  }, [dispatch]);
 
   useEffect(() => {
     if(login){

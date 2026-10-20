@@ -1,15 +1,13 @@
-import Cookies from 'js-cookie';
 import actions from './actions';
 import { setItem } from '../../utility/localStorageControl';
 import { DataService } from '../../config/dataService/dataService';
-import { ADMIN, COOKIE_WEB, TOKEN_WEB } from '../../config/variable/variable';
+import { ADMIN, TOKEN_WEB } from '../../config/variable/variable';
 
 const {
   loginBegin,
   loginSuccess,
   loginError,
   clearLoginForm,
-  changeScreen,
   sendEmailBegin,
   sendEmailSuccess,
   sendEmailError,
@@ -21,7 +19,7 @@ const {
   changePasswordError
 } = actions;
 
-const loginUser = (credentials, remember) => {
+const loginUser = (credentials) => {
   return async (dispatch) => {
     try {
       dispatch(loginBegin());
@@ -30,9 +28,6 @@ const loginUser = (credentials, remember) => {
         if(response.data.data.rol === ADMIN){
           const token = response.data.data.access_token;
           setItem(TOKEN_WEB, token);
-          if(remember){
-            Cookies.set(COOKIE_WEB, true);
-          }
           dispatch(loginSuccess(true));
         } else {
           dispatch(loginError('No tiene permisos para seguir'));
@@ -51,12 +46,6 @@ const loginUser = (credentials, remember) => {
 const cleanLogin = () => {
   return async (dispatch) => {
     dispatch(clearLoginForm());
-  };
-};
-
-const handleChangeScreen = (value) => {
-  return async (dispatch) => {
-    dispatch(changeScreen(value));
   };
 };
 
@@ -122,4 +111,4 @@ const changePassword = (values) => {
   };
 };
 
-export { loginUser, cleanLogin, handleChangeScreen, sendEmail, validateCode, changePassword };
+export { loginUser, cleanLogin, sendEmail, validateCode, changePassword };
