@@ -71,9 +71,6 @@ function Login(){
             <Input.Password placeholder="Contraseña" />
           </Form.Item>
           <div className="auth-form-action">
-            <Checkbox onChange={onChange} checked={check}>
-              Mantenerme conectado
-            </Checkbox>
             <NavLink className="forgot-pass-link" to="/forgot/forgotPassword">
               ¿Recuperar contraseña?
             </NavLink>
