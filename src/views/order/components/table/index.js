@@ -19,7 +19,7 @@ const getAddress = async (lat, lon) => {
 };
 
 function OrderListTable({openWaste, openUser, openCollector, morePage, handleCancelOrder, handleFinishOrder}) {
-  const { allOrders, loading } = useSelector((state) => state.order);
+  const { allOrders, currentPage, loading, totalOrders } = useSelector((state) => state.order);
 
   const [orders, setOrders] = useState([]);
 
@@ -171,22 +171,18 @@ function OrderListTable({openWaste, openUser, openCollector, morePage, handleCan
             columns={orderTableColumns}
             loading={loading}
             pagination={{
+              current: currentPage,
               defaultPageSize: 10,
-              total: orders.length,
-              showTotal: (total, range) =>
-                `${range[0]}-${range[1]} de ${total}`,
+              total: totalOrders,
+              showSizeChanger: false,
+              showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
             onChange={(pagination) => {
-              const { current} = pagination;
-              morePage(current)
+              const { current } = pagination;
+              morePage(current);
             }}
             locale={{
-              emptyText: (
-                <Empty
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  description="No hay órdenes aún"
-                />
-              ),
+              emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No hay órdenes aún" />,
             }}
           />
         </TableWrapper>

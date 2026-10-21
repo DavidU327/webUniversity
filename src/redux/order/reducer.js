@@ -5,6 +5,7 @@ const initialState = {
   prev: false,
   next: false,
   currentPage: 1,
+  totalOrders: 0,
   loading: false,
   error: null,
   loadingForm: false,
@@ -29,7 +30,8 @@ export default function orderReducer(state = initialState, action) {
         allOrders: action.data.data,
         prev: action.data.links.prev !== null,
         next: action.data.links.next !== null,
-        currentPage: action.data.meta.current_page
+        currentPage: action.data.meta.current_page,
+        totalOrders: action.data.meta.total,
       };
     case 'GET_ORDERS_ERROR':
       return { ...state, loading: false, error: action.error };

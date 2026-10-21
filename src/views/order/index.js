@@ -18,9 +18,9 @@ function Order(){
   const dispatch = useDispatch();
 
   const {
-    allOrders,
     loadingForm,
     successForm,
+    totalOrders,
   } = useSelector((state) => state.order);
 
   const [state, setState] = useState({
@@ -31,6 +31,7 @@ function Order(){
     modalCancel: false,
     modalFinish: false,
     focus: null,
+    search: ""
   });
 
   const handleSearch = (searchText) => {
@@ -50,6 +51,7 @@ function Order(){
       modalCancel: false,
       modalFinish: false,
       focus: null,
+      search: ""
     });
   }
 
@@ -118,7 +120,7 @@ function Order(){
             title="Órdenes"
             subTitle={
               <>
-                <span className="title-counter">{allOrders.length} Órdenes</span>
+                <span className="title-counter">{totalOrders} Órdenes</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -140,7 +142,7 @@ function Order(){
                   ...state,
                   modalFinish: false,
                   modalWaste: true,
-                  focus: item
+                  focus: item,
                 });
               }}
               openUser={(item) => {
@@ -148,7 +150,7 @@ function Order(){
                   ...state,
                   modalFinish: false,
                   modalUser: true,
-                  focus: item
+                  focus: item,
                 });
               }}
               openCollector={(item) => {
@@ -156,7 +158,7 @@ function Order(){
                   ...state,
                   modalFinish: false,
                   modalCollector: true,
-                  focus: item
+                  focus: item,
                 });
               }}
               morePage={morePage}
@@ -167,25 +169,11 @@ function Order(){
         </Row>
       </Main>
       {state.focus && (
-        <ModalInfoWaste
-          visible={state.modalWaste}
-          wastes={state.focus?.type_waste}
-          onCancel={cleanModals}
-        />
+        <ModalInfoWaste visible={state.modalWaste} wastes={state.focus?.type_waste} onCancel={cleanModals} />
       )}
+      {state.focus && <ModalInfoUser visible={state.modalUser} user={state.focus?.user} onCancel={cleanModals} />}
       {state.focus && (
-        <ModalInfoUser
-          visible={state.modalUser}
-          user={state.focus?.user}
-          onCancel={cleanModals}
-        />
-      )}
-      {state.focus && (
-        <ModalInfoCollector
-          visible={state.modalCollector}
-          collector={state.focus?.collector}
-          onCancel={cleanModals}
-        />
+        <ModalInfoCollector visible={state.modalCollector} collector={state.focus?.collector} onCancel={cleanModals} />
       )}
       {state.focus && (
         <ModalCancelOrder
@@ -206,7 +194,7 @@ function Order(){
         />
       )}
     </>
-  )
+  );
 }
 
 export default Order;
