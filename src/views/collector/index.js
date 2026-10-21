@@ -28,12 +28,9 @@ function Collector(){
 
   const dispatch = useDispatch();
 
-  const {
-    recollectors,
-    successForm,
-    message,
-    loadingState,
-  } = useSelector((state) => state.recollector);
+  const { successForm, message, loadingState, totalCollector } = useSelector(
+    (state) => state.recollector,
+  );
 
   const [state, setState] = useState({
     notData: [],
@@ -153,7 +150,7 @@ function Collector(){
             title="Recolectores"
             subTitle={
               <>
-                <span className="title-counter">{recollectors.length} Recolectores</span>
+                <span className="title-counter">{totalCollector} Recolectores</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -164,7 +161,13 @@ function Collector(){
               </>
             }
             buttons={[
-              <Button onClick={() => showModal('Formulario nuevo recolector', 'Crear', {})} className="btn-add_new" size="default" type="primary" key="1">
+              <Button
+                onClick={() => showModal('Formulario nuevo recolector', 'Crear', {})}
+                className="btn-add_new"
+                size="default"
+                type="primary"
+                key="1"
+              >
                 <FeatherIcon icon="plus" size={14} /> Nuevo recolector
               </Button>,
             ]}
@@ -192,17 +195,9 @@ function Collector(){
         textButton={state.textButton}
         recollector={state.focus.collector}
       />
-      <ModalDeleteCollector
-        deleteCollector={handleDeleteRecollector}
-        visible={state.modalDelete}
-        onCancel={onCancel}
-      />
+      <ModalDeleteCollector deleteCollector={handleDeleteRecollector} visible={state.modalDelete} onCancel={onCancel} />
       {state.modalDocument !== '' && (
-        <ModalUploadCollector
-          visible={state.modalDocument}
-          onCancel={onCancel}
-          id={state.focus.collector.id}
-        />
+        <ModalUploadCollector visible={state.modalDocument} onCancel={onCancel} id={state.focus.collector.id} />
       )}
       {state.modalChangeState && (
         <ModalChangeStateCollector
@@ -213,11 +208,9 @@ function Collector(){
           recollectorName={state.focus.collector.user.name}
         />
       )}
-      {loadingState && (
-        <ModalLoad />
-      )}
+      {loadingState && <ModalLoad />}
     </>
-  )
+  );
 }
 
 export default Collector;

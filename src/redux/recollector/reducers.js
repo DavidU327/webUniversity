@@ -42,6 +42,7 @@ const initState = {
   prev: false,
   next: false,
   currentPage: 1,
+  totalCollector: 0,
   loadingForm: false,
   successForm: false,
   message: '',
@@ -66,7 +67,8 @@ const RecollectorReducer = (state = initState, action) => {
         recollectors: data.data,
         prev: data.links.prev !== null,
         next: data.links.next !== null,
-        currentPage: data.meta.current_page
+        currentPage: data.meta.current_page,
+        totalCollector: data.meta.total,
       };
     case GET_RECOLLECTOR_ERROR:
       return {

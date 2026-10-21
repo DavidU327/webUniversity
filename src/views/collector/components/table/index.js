@@ -20,11 +20,7 @@ function CollectorListTable({
                               morePage,
 }) {
 
-  const {
-    recollectors,
-    loading,
-    states,
-  } = useSelector((state) => state.recollector);
+  const { recollectors, loading, states, currentPage, totalCollector } = useSelector((state) => state.recollector);
 
   const infoDocument = (url, type, collector) => {
     if(url !== null){
@@ -201,17 +197,17 @@ function CollectorListTable({
             columns={collectorTableColumns}
             loading={loading}
             pagination={{
+              current: currentPage,
               defaultPageSize: 10,
-              total: collectors.length,
+              total: totalCollector,
+              showSizeChanger: false,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
             onChange={(pagination) => {
-              const { current} = pagination;
-              morePage(current)
+              const { current } = pagination;
+              morePage(current);
             }}
-            locale={{ emptyText: <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay recolectores aún" /> }}
+            locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No hay recolectores aún" /> }}
           />
         </TableWrapper>
       </TableStyleWrapper>
