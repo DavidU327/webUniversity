@@ -41,11 +41,6 @@ function Waste() {
     setState({ ...state, visible: true, title, textButton });
   };
 
-  const showModalDelete = (waste) => {
-    dispatch(selectWaste(waste));
-    setState({ ...state, modalDelete: true });
-  };
-
   const onCancel = () => {
     dispatch(cleanWasteFormAction());
     setState({ ...state, visible: false, modalDelete: false });
@@ -107,7 +102,6 @@ function Waste() {
               wastes={filteredWastes}
               loading={loading}
               editWaste={showModal}
-              deleteWaste={showModalDelete}
             />
           </Col>
         </Row>

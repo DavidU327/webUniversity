@@ -9,7 +9,7 @@ import { Cards } from '../../../../components/cards';
 import { Button } from '../../../../components/buttons';
 import { toggleStatusWaste } from '../../../../redux/waste/actionCreator';
 
-function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
+function WasteListTable({ wastes, loading, editWaste }) {
   const dispatch = useDispatch();
   const { loadingToggle } = useSelector((state) => state.waste);
 
@@ -47,14 +47,6 @@ function WasteListTable({ wastes, loading, editWaste, deleteWaste }) {
             shape="circle"
           >
             <FeatherIcon icon="edit" size={16} />
-          </Button>
-          <Button
-            className="btn-icon"
-            type="danger"
-            onClick={() => deleteWaste(item)}
-            shape="circle"
-          >
-            <FeatherIcon icon="trash-2" size={16} />
           </Button>
         </div>
       ),
@@ -129,7 +121,6 @@ WasteListTable.propTypes = {
   wastes: propTypes.array.isRequired,
   loading: propTypes.bool.isRequired,
   editWaste: propTypes.func.isRequired,
-  deleteWaste: propTypes.func.isRequired,
 };
 
 export default WasteListTable;
