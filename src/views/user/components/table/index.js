@@ -18,7 +18,10 @@ function UserListTable({
 }) {
 
   const {
-    users
+    users,
+    loading,
+    currentPage,
+    totalUsers,
   } = useSelector((state) => state.user);
 
   const usersTable = users.map((user) => {
@@ -125,19 +128,20 @@ function UserListTable({
         <TableWrapper className="table-responsive">
           <Table
             dataSource={usersTable}
+            loading={loading}
             columns={userTableColumns}
             pagination={{
+              current: currentPage,
               defaultPageSize: 10,
-              total: usersTable.length,
+              total: totalUsers,
+              showSizeChanger: false,
               showTotal: (total, range) => `${range[0]}-${range[1]} de ${total}`,
             }}
             onChange={(pagination) => {
-              const { current} = pagination;
-              morePage(current)
+              const { current } = pagination;
+              morePage(current);
             }}
-            locale={{ emptyText: <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="No hay usuarios aún" /> }}
+            locale={{ emptyText: <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No hay usuarios aún" /> }}
           />
         </TableWrapper>
       </TableStyleWrapper>

@@ -19,11 +19,7 @@ function User(){
 
   const dispatch = useDispatch();
 
-  const {
-    users,
-    successForm,
-    message,
-  } = useSelector((state) => state.user);
+  const { successForm, message, totalUsers } = useSelector((state) => state.user);
 
   const [state, setState] = useState({
     notData: [],
@@ -100,7 +96,7 @@ function User(){
             title="Usuarios"
             subTitle={
               <>
-                <span className="title-counter">{users.length} Usuarios</span>
+                <span className="title-counter">{totalUsers} Usuarios</span>
                 <AutoComplete
                   onSearch={handleSearch}
                   dataSource={state.notData}
@@ -116,21 +112,13 @@ function User(){
       <Main>
         <Row gutter={15}>
           <Col md={24}>
-            <UserListTable
-              deleteUser={showModalDelete}
-              morePage={morePage}
-              changeState={changeState}
-            />
+            <UserListTable deleteUser={showModalDelete} morePage={morePage} changeState={changeState} />
           </Col>
         </Row>
       </Main>
-      <ModalDeleteUser
-        deleteUser={handleDeleteUser}
-        visible={state.modalDelete}
-        onCancel={onCancel}
-      />
+      <ModalDeleteUser deleteUser={handleDeleteUser} visible={state.modalDelete} onCancel={onCancel} />
     </>
-  )
+  );
 }
 
 export default User;

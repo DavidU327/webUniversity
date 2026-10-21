@@ -23,6 +23,7 @@ const initState = {
   prev: false,
   next: false,
   currentPage: 1,
+  totalUsers: 0,
   loadingForm: false,
   loadingState: false,
   successForm: false,
@@ -45,7 +46,8 @@ const UserReducer = (state = initState, action) => {
         users: data.data,
         prev: data.links.prev !== null,
         next: data.links.next !== null,
-        currentPage: data.meta.current_page
+        currentPage: data.meta.current_page,
+        totalUsers: data.meta.total,
       };
     case GET_USERS_ERROR:
       return {
